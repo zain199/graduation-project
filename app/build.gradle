@@ -28,13 +28,13 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    //TODO card view library
+
     implementation 'com.android.support:cardview-v7:28.0.0'
 
-    // TODO image copper library
+
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
-    // TODO image to text library
+
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
 
 
