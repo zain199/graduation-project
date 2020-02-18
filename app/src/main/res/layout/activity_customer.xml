@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customerActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Overview"
+        android:textSize="30dp"
+        android:id="@+id/overview"
+
+        ></Button>
+
+    <Button
+        android:layout_below="@+id/overview"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add"
+        android:textSize="30dp"
+        android:id="@+id/add"
+        ></Button>
+
+
+    <Button
+        android:layout_below="@+id/add"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="edit"
+        android:textSize="30dp"
+        android:id="@+id/edit"
+        ></Button>
+
+    <Button
+        android:layout_below="@+id/edit"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="generate qr"
+        android:textSize="30dp"
+        android:id="@+id/generate_qr"
+        ></Button>
+
+</RelativeLayout>
