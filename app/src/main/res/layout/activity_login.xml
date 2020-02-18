@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="8dp"
+    >
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Login"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        >
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+
+        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+                <TextView
+                    android:id="@+id/txt_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ُEmail : "
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    >
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ed_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Email"
+                    android:layout_marginTop="70dp"
+                    android:layout_toRightOf="@+id/txt_username"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    >
+
+                </EditText>
+
+                <TextView
+                    android:id="@+id/txt_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password : "
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="8dp"
+                    android:layout_below="@id/ed_username"
+                    android:layout_marginTop="35dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    >
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ed_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Password"
+                    android:layout_toRightOf="@+id/txt_pass"
+                    android:textSize="20dp"
+                    android:layout_below="@id/ed_username"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="30dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    >
+
+                </EditText>
+
+                <Button
+                    android:id="@+id/loginBtn"
+                    android:layout_width="170dp"
+                    android:layout_height="55dp"
+                    android:text="Login"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/ed_pass"
+                    android:layout_marginTop="35dp"
+                    android:layout_centerInParent="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    >
+
+                </Button>
+
+                <View
+                    android:id="@+id/v1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/loginBtn"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:id="@+id/forget"
+                    android:text="Forget Password"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textSize="18dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_below="@+id/v1"
+                    android:layout_marginLeft="8dp"
+                    >
+
+                </Button>
+
+
+                <Button
+                    android:layout_width="170dp"
+                    android:layout_height="55dp"
+                    android:id="@+id/Register"
+                    android:text="Register"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textSize="18dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toRightOf="@id/forget"
+                    android:layout_below="@+id/v1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    >
+
+
+                </Button>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
