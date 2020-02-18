@@ -66,8 +66,7 @@ public class detect_text extends AppCompatActivity {
     String [] STORAGE_PERMISSSION;
 
 
-    // TODO aliaa
-    // رجعي الداتا تدخل من الصورة و كدا زى الاول
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

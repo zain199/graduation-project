@@ -30,8 +30,7 @@ public class Login extends AppCompatActivity {
         ed_username = findViewById(R.id.ed_username);
         ed_pass = findViewById(R.id.ed_pass);
         loginbtn = findViewById(R.id.loginBtn);
-        forgetbtn = findViewById(R.id.forget);
-        registerbtn = findViewById(R.id.Register);
+
     }
 
     private void login()
@@ -39,7 +38,7 @@ public class Login extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Login.this , detect_text.class);
+                Intent intent = new Intent(Login.this , customerActivity.class);
                 startActivity(intent);
 
             }
