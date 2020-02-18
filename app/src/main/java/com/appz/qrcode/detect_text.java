@@ -80,9 +80,9 @@ public class detect_text extends AppCompatActivity {
 
         findByid();
 
-        //SetPermisssions();
+        SetPermisssions();
 
-        //uploadAction();
+        uploadAction();
 
         generateQR();
 
