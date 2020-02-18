@@ -118,39 +118,42 @@
                     android:layout_marginTop="20dp"
                     />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:id="@+id/forget"
-                    android:text="Forget Password"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="18dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_below="@+id/v1"
-                    android:layout_marginLeft="8dp"
-                    >
-
-                </Button>
 
 
-                <Button
-                    android:layout_width="170dp"
-                    android:layout_height="55dp"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/Register"
-                    android:text="Register"
+                    android:text="Don't have any account ? Register"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
                     android:textSize="18dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_toRightOf="@id/forget"
+                    android:layout_marginTop="250dp"
                     android:layout_below="@+id/v1"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="5dp"
+                    android:textAlignment="center"
                     >
 
+                </TextView>
 
-                </Button>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/forget"
+                    android:text=" forget password ? Reset"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textSize="18dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/v1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    android:textAlignment="center"
+
+                    >
+
+                </TextView>
 
             </RelativeLayout>
 
