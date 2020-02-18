@@ -50,6 +50,7 @@ public class detect_text extends AppCompatActivity {
     EditText ed_id,ed_name , ed_address , ed_phone , ed_email , ed_password;
     Button add;
 
+
     // variables
     private static final int CAMERA_CODE=200;
     private static final int STORAGE_CODE=400;
@@ -65,7 +66,8 @@ public class detect_text extends AppCompatActivity {
     String [] STORAGE_PERMISSSION;
 
 
-
+    // TODO aliaa
+    // رجعي الداتا تدخل من الصورة و كدا زى الاول
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
