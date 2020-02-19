@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.appz.qrcode.R;
-import com.appz.qrcode.delperUi.AllFinal;
+import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.pojo.ClientModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +37,7 @@ public class RegisterionActivity extends AppCompatActivity {
 
     // var
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference reference = database.getReference("login");
+    private DatabaseReference reference = database.getReference(AllFinal.ROOT_LOGIN_FIRE);
     private FirebaseAuth mAuth;
     private String email;
     private String password;

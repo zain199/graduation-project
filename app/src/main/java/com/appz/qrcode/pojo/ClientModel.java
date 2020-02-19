@@ -14,6 +14,7 @@ public class ClientModel  {
     private String image_client_url;
     private List<ChildModel> childModels;
 
+
     public ClientModel(String id, String name, String email, String gender, String phone) {
         this.id = id;
         this.name = name;

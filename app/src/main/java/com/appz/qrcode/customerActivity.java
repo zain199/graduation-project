@@ -5,12 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.appz.qrcode.delperUi.AllFinal;
+import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.login_tasks.LoginActivity;
 import com.appz.qrcode.review_tasks.activities.rationServiceReviewActivity;
 import com.google.firebase.auth.FirebaseAuth;
