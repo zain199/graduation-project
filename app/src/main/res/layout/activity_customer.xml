@@ -7,6 +7,17 @@
     tools:context=".customerActivity"
     android:orientation="vertical">
 
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SignOut"
+        android:textSize="30dp"
+      android:onClick="signout"
+
+        ></Button>
+
     <Button
         android:layout_marginTop="150dp"
         android:layout_width="match_parent"
