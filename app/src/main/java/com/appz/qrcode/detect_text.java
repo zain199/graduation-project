@@ -49,7 +49,7 @@ public class detect_text extends AppCompatActivity {
     ImageView imageView;
     EditText ed_id,ed_name , ed_address , ed_phone , ed_email , ed_password;
     Button add;
-
+    //new
 
     // variables
     private static final int CAMERA_CODE=200;
