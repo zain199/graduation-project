@@ -24,7 +24,8 @@ public class customerActivity extends AppCompatActivity {
     //ui
     Button overview , edit,add, generateQr;
 
-    //
+    // var
+    private String test;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference reference=database.getReference(AllFinal.ROOT_LOGIN_FIRE);
