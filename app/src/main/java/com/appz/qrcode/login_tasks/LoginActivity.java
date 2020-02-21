@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     // var
+    private String test;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference = database.getReference(AllFinal.ROOT_LOGIN_FIRE);
     private FirebaseAuth mAuth;
