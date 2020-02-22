@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
-import com.appz.qrcode.pojo.ClientModel;
+import com.appz.qrcode.login_tasks.models.LoginModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -138,7 +138,7 @@ public class RegisterionActivity extends AppCompatActivity {
     }
 
     private void setDataOfUserToFireBaseSeller(String uid) {
-        ClientModel clientModel = new ClientModel(
+        LoginModel clientModel = new LoginModel(
                 uid, name, email, gender, phone
         );
         reference.child(AllFinal.SELLER).child(uid)
@@ -155,7 +155,7 @@ public class RegisterionActivity extends AppCompatActivity {
 
     private void setDataOfUserToFireBase(String id) {
 
-        ClientModel clientModel = new ClientModel(
+        LoginModel clientModel = new LoginModel(
                 id, name, email, gender, phone
         );
         reference.child(AllFinal.CLIENT).child(id)

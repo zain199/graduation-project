@@ -8,17 +8,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-
         android:allowBackup="true"
         android:icon="@drawable/main_ic2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login_tasks.RegisterionActivity"></activity>
-        <activity android:name=".customerActivity" />
-        <activity android:name=".updateActivity" />
-        <activity android:name=".review_tasks.activities.rationServiceReviewActivity" />
+        <activity android:name=".seller_tasks.SellActivity"></activity>
+        <activity android:name=".seller_tasks.EditedStoreActivity" />
+        <activity android:name=".client_tasks.ProfileActivity" />
+        <activity android:name=".client_tasks.GenerateQrCodeActivity" />
+        <activity android:name=".seller_tasks.SellerActivity" />
+        <activity android:name=".client_tasks.ClientActivity" />
+        <activity android:name=".login_tasks.RegisterionActivity" />
         <activity android:name=".login_tasks.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
