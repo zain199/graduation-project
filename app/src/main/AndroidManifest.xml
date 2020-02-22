@@ -29,11 +29,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".detect_text"
+            android:name=".helperUi.detect_text"
             android:parentActivityName=".login_tasks.LoginActivity" />
         <activity
-            android:name=".MainActivity"
-            android:parentActivityName=".detect_text" />
+            android:name=".helperUi.MainActivity"
+            android:parentActivityName=".helperUi.detect_text" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/AppTheme" />

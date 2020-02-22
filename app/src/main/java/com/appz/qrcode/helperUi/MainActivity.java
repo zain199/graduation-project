@@ -1,4 +1,4 @@
-package com.appz.qrcode;
+package com.appz.qrcode.helperUi;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.appz.qrcode.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
