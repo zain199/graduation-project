@@ -200,133 +200,15 @@
                             android:layout_marginTop="4dp"
                             />
 
-                        <TextView
-                            android:id="@+id/txt_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v10"
-                            android:layout_marginTop="16dp"
-                            android:text="phone : "
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:id="@+id/ed_phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v10"
-                            android:layout_marginLeft="15dp"
-                            android:layout_toRightOf="@+id/txt_phone"
-                            android:inputType="phone"
-                            android:singleLine="true" />
-
-                        <View
-                            android:id="@+id/v11"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/ed_phone"
-                            android:layout_marginTop="4dp"
-
-                            />
-
-                        <TextView
-                            android:id="@+id/txt_city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v11"
-                            android:layout_marginTop="16dp"
-                            android:text="Address : "
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:id="@+id/ed_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v11"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_toRightOf="@+id/txt_city"
-                            android:singleLine="true"
-                            android:editable="false"
-
-                            />
-
-                        <View
-                            android:id="@+id/v12"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/txt_city"
-                            android:layout_marginTop="4dp"
-
-                            />
 
 
-
-                        <TextView
-                            android:id="@+id/txt_email"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v12"
-                            android:layout_marginTop="16dp"
-                            android:text="Email : "
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:id="@+id/ed_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v12"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_toRightOf="@+id/txt_email"
-                            android:inputType="textWebEmailAddress"
-                            android:singleLine="true"
-                            />
-
-                        <View
-                            android:id="@+id/v15"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/txt_email"
-                            android:layout_marginTop="4dp"
-                            />
-
-                        <TextView
-                            android:id="@+id/txt_password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v15"
-                            android:layout_marginTop="16dp"
-                            android:text="Password : "
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="20sp" />
-
-                        <EditText
-                            android:id="@+id/ed_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v15"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_toRightOf="@+id/txt_password"
-                            android:singleLine="true" />
-
-                        <View
-                            android:id="@+id/v16"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_below="@id/txt_password"
-                            android:layout_marginTop="4dp"
-                            />
 
 
                         <Button
                             android:id="@+id/btn_add_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/v16"
+                            android:layout_below="@id/v10"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="16dp"
                             android:text="add client"

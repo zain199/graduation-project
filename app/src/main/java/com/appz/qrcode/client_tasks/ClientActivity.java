@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appz.qrcode.R;
+import com.appz.qrcode.helperUi.detect_text;
 import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,7 +26,7 @@ public class ClientActivity extends AppCompatActivity {
     }
 
     public void genetrateQrCode(View view) {
-        startActivity(new Intent(getApplicationContext(),GenerateQrCodeActivity.class));
+        startActivity(new Intent(getApplicationContext(), detect_text.class));
 
     }
 

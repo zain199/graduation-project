@@ -32,7 +32,7 @@
             android:name=".helperUi.detect_text"
             android:parentActivityName=".login_tasks.LoginActivity" />
         <activity
-            android:name=".helperUi.MainActivity"
+            android:name=".helperUi.QrActivity"
             android:parentActivityName=".helperUi.detect_text" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

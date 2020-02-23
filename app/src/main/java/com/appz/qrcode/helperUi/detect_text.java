@@ -29,6 +29,8 @@ import com.appz.qrcode.R;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +56,8 @@ public class detect_text extends AppCompatActivity {
     private static final int PICK_STORAGE_CODE=1000;
     Uri image_uri;
     DatabaseReference ref,ref1;
+    private FirebaseUser CurrentUser;
+    private boolean ok = false;
 
     String id ,name , phone , address , email , password;
 
@@ -81,14 +85,13 @@ public class detect_text extends AppCompatActivity {
 
         generateQR();
 
-        getData(ref1);
 
     }
 
     private void connectDB()
     {
-        ref = FirebaseDatabase.getInstance().getReference().child("login data");
-        ref1 = FirebaseDatabase.getInstance().getReference().child("login data").child("49768648710").child("password");
+        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     }
 
     private void SetPermisssions()
@@ -104,11 +107,6 @@ public class detect_text extends AppCompatActivity {
         add= findViewById(R.id.btn_add_all);
         ed_id = findViewById(R.id.ed_id);
         ed_name = findViewById(R.id.ed_name);
-        ed_address = findViewById(R.id.ed_city);
-        ed_phone = findViewById(R.id.ed_phone);
-        ed_email =findViewById(R.id.ed_email);
-        ed_password = findViewById(R.id.ed_password);
-
     }
 
     private void showDialog()
@@ -360,27 +358,25 @@ public class detect_text extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 id = ed_id.getText().toString().trim();
                 name = ed_name.getText().toString().trim();
-                phone = ed_phone.getText().toString().trim();
-                address = ed_address.getText().toString().trim();
-                email = ed_email.getText().toString().trim();
-                password = ed_password.getText().toString().trim();
+                if(isAlreadyExist(ref))
+                {
+                    Toast.makeText(getBaseContext(),"This QR is Already Generated Before",Toast.LENGTH_LONG).show();
+                    ok = false ;
+                }else
+                {
 
 
-                ref.child(id).child("name").setValue(name);
-                ref.child(id).child("phone").setValue(phone);
-                ref.child(id).child("address").setValue(address);
-                ref.child(id).child("email").setValue(email);
-                ref.child(id).child("password").setValue(password);
+                    ref.child(id).child("name").setValue(name);
+                    ref.child(id).child("uid").setValue(CurrentUser.getUid());
+                    ref.child(id).child("points").setValue(50);
 
 
-
-
-                // Intent intent = new Intent(detect_text.this,MainActivity.class);
-               //  intent.putExtra("idCard",ed_id.getText().toString());
-                // startActivity(intent);
+                    Intent intent = new Intent(detect_text.this,QrActivity.class);
+                    intent.putExtra("idCard",id);
+                    startActivity(intent);
+                }
 
             }
         });
@@ -400,14 +396,21 @@ public class detect_text extends AppCompatActivity {
     }
 
 
-    private void getData (DatabaseReference ref)
+    private boolean isAlreadyExist (DatabaseReference ref)
     {
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Toast.makeText(getBaseContext(),dataSnapshot.getValue(String.class),Toast.LENGTH_LONG).show();
+              for(DataSnapshot data : dataSnapshot.getChildren())
+              {
+                  ok = data.getKey().equals(id);
+              }
+
             }
 
             @Override
@@ -416,6 +419,9 @@ public class detect_text extends AppCompatActivity {
 
             }
         });
+
+        return ok ;
+
     }
 
 }
