@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Ration Service</string>
     <string name="title_activity_detect_text">detectText</string>
+    <array name="gender">
+        <item>Client</item>
+        <item>Seller</item>
+    </array>
 </resources>
