@@ -19,12 +19,6 @@ public class ClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_client);
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        finish();
-    }
-
     public void genetrateQrCode(View view) {
         startActivity(new Intent(getApplicationContext(), detect_text.class));
 
