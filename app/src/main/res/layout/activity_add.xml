@@ -1,33 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".helperUi.detect_text"
-    android:layout_centerHorizontal="true">
-
+    tools:context=".client_tasks.profileTaps.addActivity">
 
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="Registration"
+        app:title="Add Children"
         android:padding="8dp"
         >
-
-
     </androidx.appcompat.widget.Toolbar>
 
 
         <LinearLayout
+            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="5dp"
-            android:layout_below="@id/toolbar"
             >
 
 
@@ -48,7 +43,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload Your ID Card : "
+                        android:text="Upload Child ID Card : "
                         android:textSize="25dp"
                         android:textStyle="bold|italic"
                         android:padding="5dp"
@@ -75,35 +70,9 @@
 
 
             <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:orientation="vertical"
-                    android:padding="5dp"
-                    >
-
-                    <ImageView
-                        android:id="@+id/OutImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        >
-                    </ImageView>
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
-
 
                     <RelativeLayout
                         android:padding="10dp"
@@ -117,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:text="Inforamtion of Parent"
+                            android:text="Inforamtion of Child"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textStyle="bold|italic"
                             android:textSize="20dp"
@@ -150,7 +119,7 @@
                             android:layout_toRightOf="@+id/txt_id"
                             android:layout_marginLeft="40dp"
                             android:editable="false"
-android:inputType="number"
+
                             />
 
                         <View
@@ -198,17 +167,17 @@ android:inputType="number"
                             android:layout_below="@id/v10"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="16dp"
-                            android:text="add client"
+                            android:text="add child"
                             android:textStyle="bold"
                             android:textSize="20dp"
                             />
-
-
 
                     </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
+
 
 </RelativeLayout>

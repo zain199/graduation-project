@@ -6,12 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".client_tasks.ProfileActivity">
 
-    <TextView
-        android:id="@+id/txt_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="profile"
-        android:textSize="30sp" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Profile"
+        android:padding="8dp"
+        >
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_below="@id/toolbar"
+        >
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                >
+
+                <Button
+                    android:id="@+id/addchild"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add children"
+                    android:textSize="20dp"
+                    android:layout_marginTop="8dp"
+                    >
+
+                </Button>
+
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="delete children"
+                    android:textSize="20dp"
+                    android:layout_below="@+id/addchild"
+                    android:layout_marginTop="8dp"
+                    >
+
+                </Button>
+
+                <Button
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="overview"
+                    android:textSize="20dp"
+                    android:layout_below="@+id/delete"
+                    android:layout_marginTop="8dp"
+                    >
+
+                </Button>
+
+                <Button
+                    android:id="@+id/restoreQR"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Restore QR code"
+                    android:textSize="20dp"
+                    android:layout_below="@id/view"
+                    android:layout_marginTop="8dp"
+                    >
+
+                </Button>
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="logout"
+                    android:textSize="20dp"
+                    android:layout_below="@id/restoreQR"
+                    android:layout_marginTop="8dp"
+                    >
+
+                </Button>
+
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
 </RelativeLayout>
