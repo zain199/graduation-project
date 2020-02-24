@@ -8,5 +8,6 @@ public class AllFinal {
     public static final String FAKE_DATA = "fake_data";
     public static final String CHILDS = "childs";
     public static final String  Ration_Data = "Ration_Data";
+    public static final String  Generated = "Generated";
 
 }
