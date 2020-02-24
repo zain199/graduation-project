@@ -47,19 +47,18 @@ public class detect_text extends AppCompatActivity {
     ImageView imageView;
     EditText ed_id,ed_name , ed_address , ed_phone , ed_email , ed_password;
     Button add;
-    //new
+
 
     // variables
     private static final int CAMERA_CODE=200;
     private static final int STORAGE_CODE=400;
     private static final int PICK_CAMERA_CODE=1001;
     private static final int PICK_STORAGE_CODE=1000;
-    Uri image_uri;
-    DatabaseReference ref,ref1;
+    private Uri image_uri;
+    private DatabaseReference ref,ref1;
     private FirebaseUser CurrentUser;
     private boolean ok = false;
-
-    String id ,name , phone , address , email , password;
+    private String id ,name , phone , address , email , password;
 
     // arrays
     String [] CAMERA_PERMISSION;
@@ -76,13 +75,9 @@ public class detect_text extends AppCompatActivity {
         setContentView(R.layout.activity_detect_text);
 
         connectDB();
-
         findByid();
-
         SetPermisssions();
-
         uploadAction();
-
         generateQR();
 
 
@@ -322,24 +317,6 @@ public class detect_text extends AppCompatActivity {
                         }
                         ed_name.setText(temp);
 
-                        // address text
-                        temp ="";
-                        for(int i = 0 ; i < text.length()-3;++i)
-                        {
-
-                            if(text.charAt(i)=='A'&&text.charAt(i+1)=='d'&&text.charAt(i+2)=='d'&&
-                                    text.charAt(i+3)=='r'&&text.charAt(i+4)=='e'&&text.charAt(i+5)=='s'&& text.charAt(i+6)=='s')
-                            {
-
-                                for (int b = i+7;text.charAt(b)!=',';b++) {
-
-                                    temp+=text.charAt(b);
-                                }
-
-                                break;
-                            }
-                        }
-                        ed_address.setText(temp);
 
                     }
 

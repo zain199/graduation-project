@@ -156,7 +156,6 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/v8"
                             android:layout_toRightOf="@+id/txt_id"
-                            android:inputType="number"
                             android:layout_marginLeft="40dp"
                             android:editable="false"
 

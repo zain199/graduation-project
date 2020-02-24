@@ -30,13 +30,13 @@
         </activity>
         <activity
             android:name=".helperUi.detect_text"
-            android:parentActivityName=".login_tasks.LoginActivity" />
+            android:parentActivityName=".client_tasks.ClientActivity" />
         <activity
             android:name=".helperUi.QrActivity"
             android:parentActivityName=".helperUi.detect_text" />
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/AppTheme" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"
+            android:parentActivityName=".helperUi.detect_text"/>
     </application>
 
 </manifest>
