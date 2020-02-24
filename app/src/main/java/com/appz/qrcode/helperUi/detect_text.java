@@ -57,8 +57,8 @@ public class detect_text extends AppCompatActivity {
     private Uri image_uri;
     private DatabaseReference ref,ref1;
     private FirebaseUser CurrentUser;
-    private boolean ok = false;
-    private String id ,name , phone , address , email , password;
+    private boolean exist = false,generated = false;
+    private String id ,name ;
 
     // arrays
     String [] CAMERA_PERMISSION;
@@ -87,6 +87,8 @@ public class detect_text extends AppCompatActivity {
     {
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
+        ref1 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
+
     }
 
     private void SetPermisssions()
@@ -337,22 +339,31 @@ public class detect_text extends AppCompatActivity {
             public void onClick(View view) {
                 id = ed_id.getText().toString().trim();
                 name = ed_name.getText().toString().trim();
-                if(isAlreadyExist(ref))
+
+                if(isGenerated(ref1))
                 {
-                    Toast.makeText(getBaseContext(),"This QR is Already Generated Before",Toast.LENGTH_LONG).show();
-                    ok = false ;
+                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code",Toast.LENGTH_LONG).show();
+                    generated=false;
+
                 }else
                 {
 
+                    if(isAlreadyExist(ref))
+                    {
+                        Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
+                        exist = false ;
+                    }else
+                    {
+                        ref.child(id).child("name").setValue(name);
+                        ref.child(id).child("uid").setValue(CurrentUser.getUid());
+                        ref.child(id).child("points").setValue(50);
+                        ref1.child(CurrentUser.getUid()).child("Active").setValue(1);
 
-                    ref.child(id).child("name").setValue(name);
-                    ref.child(id).child("uid").setValue(CurrentUser.getUid());
-                    ref.child(id).child("points").setValue(50);
+                        Intent intent = new Intent(detect_text.this,QrActivity.class);
+                        intent.putExtra("idCard",id);
+                        startActivity(intent);
+                    }
 
-
-                    Intent intent = new Intent(detect_text.this,QrActivity.class);
-                    intent.putExtra("idCard",id);
-                    startActivity(intent);
                 }
 
             }
@@ -385,7 +396,9 @@ public class detect_text extends AppCompatActivity {
 
               for(DataSnapshot data : dataSnapshot.getChildren())
               {
-                  ok = data.getKey().equals(id);
+                  exist = data.getKey().equals(id);
+                  if(exist)break;
+
               }
 
             }
@@ -397,7 +410,36 @@ public class detect_text extends AppCompatActivity {
             }
         });
 
-        return ok ;
+        return exist ;
+
+    }
+
+    private boolean isGenerated (DatabaseReference ref)
+    {
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren())
+                {
+                    generated = data.getKey().equals(CurrentUser.getUid());
+                    if(generated)break;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        return generated ;
 
     }
 
