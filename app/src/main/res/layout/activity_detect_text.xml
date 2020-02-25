@@ -149,8 +149,8 @@
                             android:layout_below="@id/v8"
                             android:layout_toRightOf="@+id/txt_id"
                             android:layout_marginLeft="40dp"
-                            android:editable="false"
-android:inputType="number"
+                            android:editable="true"
+
                             />
 
                         <View
