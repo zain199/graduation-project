@@ -8,6 +8,7 @@ import com.appz.qrcode.R;
 
 public class EditedStoreActivity extends AppCompatActivity {
 
+        // TODO omar sameh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
