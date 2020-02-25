@@ -15,7 +15,6 @@
         <activity android:name=".seller_tasks.SellActivity" />
         <activity android:name=".seller_tasks.EditedStoreActivity" />
         <activity android:name=".client_tasks.ProfileActivity" />
-        <activity android:name=".client_tasks.GenerateQrCodeActivity" />
         <activity android:name=".seller_tasks.SellerActivity" />
         <activity android:name=".client_tasks.ClientActivity" />
         <activity android:name=".login_tasks.RegisterionActivity" />

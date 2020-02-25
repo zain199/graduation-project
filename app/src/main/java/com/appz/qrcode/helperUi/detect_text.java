@@ -39,6 +39,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class detect_text extends AppCompatActivity {
 
@@ -55,16 +58,21 @@ public class detect_text extends AppCompatActivity {
     private static final int PICK_CAMERA_CODE=1001;
     private static final int PICK_STORAGE_CODE=1000;
     private Uri image_uri;
-    private DatabaseReference ref,ref1;
-    private FirebaseUser CurrentUser;
-    private boolean exist = false,generated = false;
+    boolean exist= false ,generated = false;
     private String id ,name ;
+    List ids = new ArrayList();
+    List correctIds = new ArrayList();
 
     // arrays
     String [] CAMERA_PERMISSION;
     String [] STORAGE_PERMISSSION;
 
+    //database var
+    private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
+    private final DatabaseReference generatedTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
+    private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
 
+    private FirebaseUser CurrentUser;
 
 
     @Override
@@ -74,7 +82,6 @@ public class detect_text extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_text);
 
-        connectDB();
         findByid();
         SetPermisssions();
         uploadAction();
@@ -87,15 +94,12 @@ public class detect_text extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        generated = isGenerated(generatedTable);
+        getIDs(rationTable);
+        getCorrectIDs(fakeTable);
     }
 
-    private void connectDB()
-    {
 
-        ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
-        ref1 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
-
-    }
 
     private void SetPermisssions()
     {
@@ -116,7 +120,6 @@ public class detect_text extends AppCompatActivity {
     {
         String [] options = {"CAMERA" , "GALLERY"};
         AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
-
 
         builder.setTitle("upload image")
                 .setItems(options, new DialogInterface.OnClickListener() {
@@ -346,29 +349,34 @@ public class detect_text extends AppCompatActivity {
                 id = ed_id.getText().toString().trim();
                 name = ed_name.getText().toString().trim();
 
-                if(isGenerated(ref1))
+                if(generated)
                 {
                     Toast.makeText(getBaseContext(),"You Can Generate one Qr Code",Toast.LENGTH_LONG).show();
-                    generated=false;
 
                 }else
                 {
-
-                    if(isAlreadyExist(ref))
+                    if(isCorrect(id))
                     {
-                        Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
-                        exist = false ;
+
+                        if(isAlreadyExist(id))
+                        {
+                            Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            rationTable.child(id).child("name").setValue(name);
+                            rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
+                            rationTable.child(id).child("points").setValue(50);
+                            generatedTable.child(CurrentUser.getUid()).child("Active").setValue(1);
+
+                            Intent intent = new Intent(detect_text.this,QrActivity.class);
+                            intent.putExtra("idCard",id);
+                            startActivity(intent);
+                        }
+
                     }else
-                    {
-                        ref.child(id).child("name").setValue(name);
-                        ref.child(id).child("uid").setValue(CurrentUser.getUid());
-                        ref.child(id).child("points").setValue(50);
-                        ref1.child(CurrentUser.getUid()).child("Active").setValue(1);
+                        Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(detect_text.this,QrActivity.class);
-                        intent.putExtra("idCard",id);
-                        startActivity(intent);
-                    }
+
 
                 }
 
@@ -390,22 +398,23 @@ public class detect_text extends AppCompatActivity {
     }
 
 
-    private boolean isAlreadyExist (DatabaseReference ref)
+    private void getIDs (DatabaseReference ref)
     {
 
-
+        ids.clear();
         ref.addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+
               for(DataSnapshot data : dataSnapshot.getChildren())
               {
-                  exist = data.getKey().equals(id);
-                  if(exist)break;
-
+                     ids.add(data.getKey());
               }
+
+
 
             }
 
@@ -416,8 +425,51 @@ public class detect_text extends AppCompatActivity {
             }
         });
 
-        return exist ;
 
+
+    }
+
+    private void getCorrectIDs (DatabaseReference ref)
+    {
+
+        correctIds.clear();
+        ref.addValueEventListener(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                for(DataSnapshot data : dataSnapshot.getChildren())
+                {
+                    correctIds.add(data.getKey());
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
+    }
+
+    private boolean isAlreadyExist(String id)
+    {
+
+
+        for ( int i = 0 ; i <ids.size();++i)
+        {
+            if(ids.get(i).equals(id))
+                return true;
+        }
+        return false ;
     }
 
     private boolean isGenerated (DatabaseReference ref)
@@ -447,6 +499,16 @@ public class detect_text extends AppCompatActivity {
 
         return generated ;
 
+    }
+
+    private boolean isCorrect(String id)
+    {
+        for ( int i = 0 ; i <correctIds.size();++i)
+        {
+            if(correctIds.get(i).equals(id))
+                return true;
+        }
+        return false ;
     }
 
 }
