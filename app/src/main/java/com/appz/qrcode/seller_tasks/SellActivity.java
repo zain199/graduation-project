@@ -8,6 +8,7 @@ import com.appz.qrcode.R;
 
 public class SellActivity extends AppCompatActivity {
 
+    // TODO EZZAT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

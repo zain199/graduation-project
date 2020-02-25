@@ -83,9 +83,15 @@ public class detect_text extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
     private void connectDB()
     {
-        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
         ref1 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
 
