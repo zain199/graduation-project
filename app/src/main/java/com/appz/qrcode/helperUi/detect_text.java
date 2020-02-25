@@ -121,7 +121,6 @@ public class detect_text extends AppCompatActivity {
         String [] options = {"CAMERA" , "GALLERY"};
         AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
 
-
         builder.setTitle("upload image")
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override

@@ -1,12 +1,11 @@
 package com.appz.qrcode.client_tasks;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.appz.qrcode.R;
 import com.appz.qrcode.client_tasks.profileTaps.addActivity;
@@ -17,7 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Button add , delete , overview , restore , logout;
+    Button add, delete, overview, restore, logout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void findByID()
-    {
+    private void findByID() {
         add = findViewById(R.id.addchild);
         delete = findViewById(R.id.delete);
         overview = findViewById(R.id.view);
@@ -40,46 +39,49 @@ public class ProfileActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
     }
 
-    private void add()
-    {
+    private void add() {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this , addActivity.class));
+                startActivity(new Intent(ProfileActivity.this, addActivity.class));
             }
         });
 
     }
 
-    private void delete()
-    {
+    private void delete() {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this , deleteActivity.class));
+                startActivity(new Intent(ProfileActivity.this, deleteActivity.class));
             }
         });
 
     }
 
-    private void overview()
-    {
+    private void overview() {
         overview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this , overviewActivity.class));
+                startActivity(new Intent(ProfileActivity.this, overviewActivity.class));
             }
         });
 
     }
 
-    private void logout()
-    {
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), ClientActivity.class));
+        finish();
+    }
+
+    private void logout() {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
                 finish();
             }
         });
