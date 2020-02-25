@@ -26,8 +26,6 @@ public class ClientActivity extends AppCompatActivity {
     }
 
     public void gotoProfile(View view) {
-
-
         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         finish();
     }
