@@ -20,7 +20,7 @@ public class ClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_client);
     }
 
-    public void genetrateQrCode(View view) {
+    public void generateQrCode(View view) {
         startActivity(new Intent(getApplicationContext(), detect_text.class));
 
     }

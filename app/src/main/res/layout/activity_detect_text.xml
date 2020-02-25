@@ -179,7 +179,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@+id/txt_name"
                             android:singleLine="true"
-                            android:editable="false"
+
 
                             />
 

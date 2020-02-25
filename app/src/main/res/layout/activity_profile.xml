@@ -85,17 +85,6 @@
 
                 </Button>
 
-                <Button
-                    android:id="@+id/logout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="logout"
-                    android:textSize="20dp"
-                    android:layout_below="@id/restoreQR"
-                    android:layout_marginTop="8dp"
-                    >
-
-                </Button>
 
 
             </RelativeLayout>

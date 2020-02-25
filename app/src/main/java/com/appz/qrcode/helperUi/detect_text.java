@@ -11,11 +11,13 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.View;
@@ -120,6 +122,7 @@ public class detect_text extends AppCompatActivity {
     {
         String [] options = {"CAMERA" , "GALLERY"};
         AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
+
 
         builder.setTitle("upload image")
                 .setItems(options, new DialogInterface.OnClickListener() {
@@ -367,6 +370,9 @@ public class detect_text extends AppCompatActivity {
                             rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
                             rationTable.child(id).child("points").setValue(50);
                             generatedTable.child(CurrentUser.getUid()).child("Active").setValue(1);
+
+                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            sharedPreferences.edit().putString("parent1",id).apply();
 
                             Intent intent = new Intent(detect_text.this,QrActivity.class);
                             intent.putExtra("idCard",id);
