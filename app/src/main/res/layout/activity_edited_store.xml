@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffff"
     tools:context=".seller_tasks.EditedStoreActivity">
-    <TextView
-        android:id="@+id/txt_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <Button
+        android:id="@+id/btn_add_item"
+        android:layout_width="match_parent"
         android:layout_centerInParent="true"
-        android:text="Store"
-        android:textSize="30sp" />
+        android:onClick="addItem"
+        android:layout_height="wrap_content"
+        android:text="add new item" />
+
+    <Button
+        android:id="@+id/btn_ubdate_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_add_item"
+        android:layout_marginTop="8dp"
+        android:onClick="showStore"
+        android:text="show Store" />
+
 
 </RelativeLayout>

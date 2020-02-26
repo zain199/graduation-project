@@ -6,14 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.appz.qrcode.R;
 
-public class SellActivity extends AppCompatActivity {
+public class ConfirmActivity extends AppCompatActivity {
 
-    // TODO omar sameh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);
-
-
+        setContentView(R.layout.activity_confirm);
     }
 }

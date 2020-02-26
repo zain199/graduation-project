@@ -7,6 +7,24 @@ public class ItemModel {
     private double point;
     private int number_units;
 
+    public ItemModel(String name, String img_url, double point, int number_units) {
+        this.name = name;
+        this.img_url = img_url;
+        this.point = point;
+        this.number_units = number_units;
+    }
+
+    public ItemModel(String id, String name, String img_url, double point, int number_units) {
+        this.id = id;
+        this.name = name;
+        this.img_url = img_url;
+        this.point = point;
+        this.number_units = number_units;
+    }
+
+    public ItemModel() {
+    }
+
     public String getId() {
         return id;
     }
@@ -45,16 +63,5 @@ public class ItemModel {
 
     public void setNumber_units(int number_units) {
         this.number_units = number_units;
-    }
-
-    public ItemModel(String id, String name, String img_url, double point, int number_units) {
-        this.id = id;
-        this.name = name;
-        this.img_url = img_url;
-        this.point = point;
-        this.number_units = number_units;
-    }
-
-    public ItemModel() {
     }
 }

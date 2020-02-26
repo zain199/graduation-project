@@ -9,6 +9,9 @@ public class AllFinal {
     public static final String CHILDS = "childs";
     public static final String  Ration_Data = "Ration_Data";
     public static final String  Generated = "Generated";
+    public static final String UINTS_STORGE="units";
+    public static final String STORE_ITEMS="StoreItems";
+    public static final String ITEMS="items";
 
 
 

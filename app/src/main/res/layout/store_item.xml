@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="12dp"
+    android:background="#ffff"
+    android:elevation="16dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_store"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_no" />
+
+        <TextView
+            android:id="@+id/txt_name_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_store"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Item Name 550g"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/txt_all_number_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_store"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toLeftOf="@id/txt_all_number_store_test"
+            android:text="30 "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_all_number_store_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_store"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:text="Unit"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_point_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_name_store"
+            android:layout_marginTop="16dp"
+            android:layout_toLeftOf="@id/txt_point_store_test"
+            android:text="3 "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_point_store_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_name_store"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="Point"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:id="@+id/img_test"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/btn_minus"
+            android:scaleType="fitXY"
+            android:layout_below="@id/txt_name_store"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/buy"
+            android:layout_height="50dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_minus"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/minus"
+            android:layout_marginTop="22dp"
+            android:scaleType="fitXY"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_below="@id/txt_name_store"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+        <ImageButton
+            android:id="@+id/btn_plus"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/img_test"
+            android:background="@drawable/plus"
+            android:layout_marginTop="22dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:layout_below="@id/txt_name_store"
+            android:layout_width="22sp"
+            android:layout_height="22sp"/>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -417,6 +417,7 @@ public class detect_text extends AppCompatActivity {
 
               for(DataSnapshot data : dataSnapshot.getChildren())
               {
+
                      ids.add(data.getKey());
               }
 

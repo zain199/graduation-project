@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".seller_tasks.AddItemActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="#ffff"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#ffff"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.Toolbar
+                android:scrollbars="none"
+                android:id="@+id/toolbar_add"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:paddingLeft="42dp"
+                app:title="Add Item Store"
+                app:titleTextColor="@color/colorAccent" />
+            <TextView
+                android:id="@+id/txt_name_unit_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar_add"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="name : " />
+
+            <EditText
+                android:id="@+id/ed_name_unit_store"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_marginLeft="8dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/txt_name_unit_store"
+                android:layout_below="@id/toolbar_add"
+                android:ems="10"
+                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:inputType="textPersonName"
+                android:hint="Item name" />
+            <TextView
+                android:id="@+id/txt_point_unit_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_name_unit_store"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="22dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Points : " />
+
+            <EditText
+                android:id="@+id/ed_point_unit_store"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/txt_point_unit_store"
+                android:layout_below="@id/ed_name_unit_store"
+                android:ems="10"
+                android:textColorHint="@color/colorAccent"
+                android:layout_marginLeft="8dp"
+
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:inputType="numberDecimal"
+                android:hint="points" />
+
+
+            <TextView
+                android:id="@+id/txt_all_unit_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_point_unit_store"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="30dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="number os items : " />
+
+            <EditText
+                android:id="@+id/ed_all_unit_store"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/txt_all_unit_store"
+                android:layout_below="@id/ed_point_unit_store"
+                android:ems="10"
+                android:layout_marginLeft="8dp"
+
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:textColorHint="@color/colorAccent"
+                android:inputType="numberDecimal"
+                android:hint="number " />
+
+            <View
+                android:id="@+id/v1"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_below="@id/ed_all_unit_store"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <Button
+                android:id="@+id/btn_select_img_unit"
+                android:layout_width="wrap_content"
+                android:text="select photo of item "
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/v1"
+                android:onClick="select"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/img_unit_store"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_no"
+                android:layout_below="@id/btn_select_img_unit"
+                android:layout_marginTop="22dp"
+                android:layout_height="300dp"/>
+
+
+            <Button
+                android:layout_below="@id/img_unit_store"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="add item"
+                android:onClick="addNewItem"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
