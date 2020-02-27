@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/childID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="12345678912345678"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            >
+
+        </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

@@ -59,7 +59,6 @@ public class addActivity extends AppCompatActivity {
     }
 
 
-
     private void init()
     {
         database = FirebaseDatabase.getInstance();
@@ -93,7 +92,6 @@ public class addActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void addChild()
@@ -106,8 +104,6 @@ public class addActivity extends AppCompatActivity {
 
                 if (isCorrect(ID))
                 {
-
-
                     if(isAlreadyExist(ID))
                     {
                         Toast.makeText(getBaseContext(),"This ID is Already Exist",Toast.LENGTH_LONG).show();
@@ -126,32 +122,21 @@ public class addActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
                 }
 
-
-
             }
         });
-
-
     }
 
     private void getIDs (DatabaseReference ref)
     {
-
         ids.clear();
         ref.addValueEventListener(new ValueEventListener() {
-
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 for(DataSnapshot data : dataSnapshot.getChildren())
                 {
                     ids.add(data.getKey());
                 }
-
-
-
             }
 
             @Override
@@ -160,14 +145,10 @@ public class addActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     private boolean isAlreadyExist(String id)
     {
-
 
         for ( int i = 0 ; i <ids.size();++i)
         {
@@ -183,7 +164,6 @@ public class addActivity extends AppCompatActivity {
         correctIds.clear();
         ref.addValueEventListener(new ValueEventListener() {
 
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -192,15 +172,11 @@ public class addActivity extends AppCompatActivity {
                 {
                     correctIds.add(data.getKey());
                 }
-
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
             }
         });
 
