@@ -149,8 +149,6 @@ public class deleteActivity extends AppCompatActivity {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
-
-
                     }
 
 
