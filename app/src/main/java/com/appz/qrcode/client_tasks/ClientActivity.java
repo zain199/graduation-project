@@ -11,6 +11,7 @@ import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.detect_text;
 import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ClientActivity extends AppCompatActivity {
 
@@ -31,6 +32,12 @@ public class ClientActivity extends AppCompatActivity {
     }
 
 
+    public void logout(View view)
+    {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
+    }
 
 
 }
