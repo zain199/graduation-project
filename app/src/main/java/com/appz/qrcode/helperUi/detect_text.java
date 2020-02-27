@@ -50,7 +50,7 @@ public class detect_text extends AppCompatActivity {
     //UI
     ImageButton imageButton;
     ImageView imageView;
-    EditText ed_id,ed_name , ed_address , ed_phone , ed_email , ed_password;
+    EditText ed_id,ed_name ;
     Button add;
 
 
@@ -60,7 +60,7 @@ public class detect_text extends AppCompatActivity {
     private static final int PICK_CAMERA_CODE=1001;
     private static final int PICK_STORAGE_CODE=1000;
     private Uri image_uri;
-    boolean exist= false ,generated = false;
+    boolean generated = false;
     private String id ,name ;
     List ids = new ArrayList();
     List correctIds = new ArrayList();
@@ -369,10 +369,9 @@ public class detect_text extends AppCompatActivity {
                             rationTable.child(id).child("name").setValue(name);
                             rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
                             rationTable.child(id).child("points").setValue(50);
-                            generatedTable.child(CurrentUser.getUid()).child("Active").setValue(1);
+                            generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
 
-                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            sharedPreferences.edit().putString("parent1",id).apply();
+
 
                             Intent intent = new Intent(detect_text.this,QrActivity.class);
                             intent.putExtra("idCard",id);

@@ -35,14 +35,16 @@ public class addActivity extends AppCompatActivity {
     FirebaseDatabase database ;
     DatabaseReference ref ;
     FirebaseAuth auth;
+    FirebaseUser CurrentUser;
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
+    private  DatabaseReference ownerId ;
 
 
     //vars
     int points ;
     SharedPreferences sharedPreferences ;
-    String parent ;
+    String parent , ParentID;
     List ids = new ArrayList();
     List correctIds = new ArrayList();
 
@@ -61,14 +63,17 @@ public class addActivity extends AppCompatActivity {
 
     private void init()
     {
+        parent= getIntent().getStringExtra("id");
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
         auth = FirebaseAuth.getInstance();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        parent = sharedPreferences.getString("parent1","");
+
+        CurrentUser= auth.getCurrentUser();
+        ownerId = rationTable.child(parent).child("uid");
         getdata(ref.child(parent).child("points"));
         getIDs(rationTable.child(parent));
         getCorrectIDs(fakeTable.child(parent).child(AllFinal.CHILDS));
+        getOnwerUid(ownerId);
     }
 
     private void findByID()
@@ -102,28 +107,51 @@ public class addActivity extends AppCompatActivity {
                 String ID = id.getText().toString().trim();
                 String Name = name.getText().toString().trim();
 
-                if (isCorrect(ID))
+                if(CurrentUser.getUid().equals(ParentID))
                 {
-                    if(isAlreadyExist(ID))
+
+                    if (isCorrect(ID))
                     {
-                        Toast.makeText(getBaseContext(),"This ID is Already Exist",Toast.LENGTH_LONG).show();
+                        if(isAlreadyExist(ID))
+                        {
+                            Toast.makeText(getBaseContext(),"This ID is Already Exist",Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            points+=50;
+                            ref.child(parent).child(ID);
+                            ref.child(parent).child(ID).child("Name").setValue(Name);
+                            ref.child(parent).child("points").setValue(points);
+                            Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_LONG).show();
+                        }
+
+
                     }else
                     {
-                        points+=50;
-                        ref.child(parent).child(ID);
-                        ref.child(parent).child(ID).child("Name").setValue(Name);
-                        ref.child(parent).child("points").setValue(points);
-                        Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
                     }
-
 
                 }else
                 {
-                    Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Operation Faild",Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    private void getOnwerUid(DatabaseReference ref) {
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ParentID = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
     }
 
     private void getIDs (DatabaseReference ref)
