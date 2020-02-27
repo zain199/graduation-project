@@ -12,6 +12,7 @@ public class AllFinal {
     public static final String UINTS_STORGE="units";
     public static final String STORE_ITEMS="StoreItems";
     public static final String ITEMS="items";
+    public static final String ALL_POINT="all_point";
 
 
 

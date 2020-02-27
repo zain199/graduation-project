@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".seller_tasks.StoreActivity"></activity>
         <activity android:name=".seller_tasks.AddItemActivity" />
-        <activity android:name=".seller_tasks.ConfirmActivity" />
+        <activity android:name=".seller_tasks.ConfirmActivity"  android:parentActivityName=".seller_tasks.EditedStoreActivity"/>
         <activity android:name=".seller_tasks.MakeOrderActivity" />
         <activity android:name=".client_tasks.profileTaps.overviewActivity" />
         <activity android:name=".client_tasks.profileTaps.deleteActivity" />
