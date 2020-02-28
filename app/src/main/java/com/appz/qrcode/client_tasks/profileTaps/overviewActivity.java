@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 public class overviewActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView ;
-    ArrayList<Map<String,String>> childData ;
+    ListView childid , childname;
     List id = new ArrayList();
     List name = new ArrayList();
-    adapter adapter ;
     TextView name_parent ;
     EditText parent_id , parent_points;
 
@@ -53,45 +52,62 @@ public class overviewActivity extends AppCompatActivity {
 
         findbyid();
         init();
-       // getchildData();
-       // adapter.notifyDataSetChanged();
 
     }
 
     private void init()
     {
-       /* childData = new ArrayList<>();
-        adapter = new adapter(getApplicationContext(),childData);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));*/
 
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
 
         parentID = getIntent().getStringExtra("id");
-        Toast.makeText(getApplicationContext(),""+parentID , Toast.LENGTH_LONG).show();
+
+
+        getPoints(ref.child(parentID).child("points"));
+
+
+        getParentName(ref.child(parentID).child("name"));
+
+
+        getIDs(rationTable.child(parentID));
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                getPoints(ref.child(parentID).child("points"));
-                Toast.makeText(getApplicationContext(),""+points , Toast.LENGTH_LONG).show();
-                getParentName(ref.child(parentID).child("name"));
-                Toast.makeText(getApplicationContext(),""+parentName , Toast.LENGTH_LONG).show();
-
-                //getIDs(rationTable.child(parentID));
-
-                //getNames(id);
+                getNames(id);
+            }
+        },1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setParent();
+            }
+        },1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getchildID();
+            }
+        },1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getchildname();
             }
         },1000);
 
-       // setParent();
+
+
+
+
+
     }
 
     private void findbyid()
     {
-        recyclerView = findViewById(R.id.recyclerView);
+        childid = findViewById(R.id.listID);
+        childname = findViewById(R.id.listName);
         name_parent = findViewById(R.id.parentName);
         parent_id = findViewById(R.id.parentIDet);
         parent_points = findViewById(R.id.parentPointset);
@@ -178,22 +194,35 @@ public class overviewActivity extends AppCompatActivity {
         });
     }
 
-    private void getchildData()
+    private void getchildID()
     {
-        for (int i=0 ; i<id.size() ; i++)
-        {
-            Map<String , String> temp = new HashMap<>();
-            temp.put("childID", (String) id.get(i));
-            temp.put("childName", (String) name.get(i));
-            childData.add(temp);
-        }
+        ArrayAdapter Adapter = new ArrayAdapter(getApplicationContext() ,android.R.layout.simple_list_item_1 ,id);
+        childid.setAdapter(Adapter);
+        Adapter.notifyDataSetChanged();
+    }
+    private void getchildname()
+    {
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext() ,android.R.layout.simple_list_item_1 ,name);
+        childname.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
     }
 
     private void setParent()
     {
-        name_parent.setText(parentName);
-        parent_id.setText(parentID);
-        parent_points.setText(points);
-    }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                name_parent.setText(parentName);
+            }
+        },1000);
 
+        parent_id.setText(parentID);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                parent_points.setText(String.valueOf(points));
+            }
+        },1000);
+    }
 }
