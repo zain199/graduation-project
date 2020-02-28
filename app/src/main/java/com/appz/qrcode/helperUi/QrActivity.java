@@ -14,14 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.appz.qrcode.R;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import androidx.appcompat.app.AppCompatActivity;
@@ -109,7 +106,7 @@ public class QrActivity extends AppCompatActivity {
                     img = bitmapDrawable.getBitmap();
 
                     File filepath = Environment.getExternalStorageDirectory();
-                    File dir = new File(filepath.getAbsolutePath()+"/Ration Service/");
+                    File dir = new File(filepath.getAbsolutePath()+"/ration service/");
                     dir.mkdir();
 
                     File imdge = new File(dir,System.currentTimeMillis()+".jpg");
@@ -134,7 +131,6 @@ public class QrActivity extends AppCompatActivity {
 
                 }else
                 {
-                    Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
                     edtTxt.setError("Required");
                     ok=false;
                 }

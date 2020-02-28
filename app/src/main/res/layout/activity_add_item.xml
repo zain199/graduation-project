@@ -128,11 +128,10 @@
             <ImageView
                 android:id="@+id/img_unit_store"
                 android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/img_no"
+                android:layout_height="300dp"
                 android:layout_below="@id/btn_select_img_unit"
                 android:layout_marginTop="22dp"
-                android:layout_height="300dp"/>
+                android:src="@drawable/img_no" />
 
 
             <Button

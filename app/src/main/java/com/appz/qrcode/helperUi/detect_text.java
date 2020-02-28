@@ -6,18 +6,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.View;
@@ -26,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.appz.qrcode.R;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
@@ -40,7 +38,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +49,7 @@ public class detect_text extends AppCompatActivity {
     ImageView imageView;
     EditText ed_id,ed_name ;
     Button add;
+    ProgressDialog progressDialog ;
 
 
     // variables
@@ -75,6 +73,8 @@ public class detect_text extends AppCompatActivity {
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
 
     private FirebaseUser CurrentUser;
+    private boolean Correct;
+    private Boolean AlreadyExist;
 
 
     @Override
@@ -96,9 +96,7 @@ public class detect_text extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        generated = isGenerated(generatedTable);
-        getIDs(rationTable);
-        getCorrectIDs(fakeTable);
+         isGenerated(generatedTable);
     }
 
 
@@ -116,6 +114,7 @@ public class detect_text extends AppCompatActivity {
         add= findViewById(R.id.btn_add_all);
         ed_id = findViewById(R.id.ed_id);
         ed_name = findViewById(R.id.ed_name);
+        progressDialog = new ProgressDialog(detect_text.this);
     }
 
     private void showDialog()
@@ -150,6 +149,12 @@ public class detect_text extends AppCompatActivity {
                 .create().show();
     }
 
+    private void msgDialog(String s)
+    {
+        AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
+        builder.setMessage(s);
+        builder.create();
+    }
 
     private void pickGallery()
     {
@@ -340,35 +345,70 @@ public class detect_text extends AppCompatActivity {
             public void onClick(View view) {
                 id = ed_id.getText().toString().trim();
                 name = ed_name.getText().toString().trim();
+                Correct = false;
+                AlreadyExist = false;
+
+                progressDialog.setMessage("Please Wait ...");
+                progressDialog.show();
+
 
                 if(generated)
                 {
-                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code Only",Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code",Toast.LENGTH_LONG).show();
 
                 }else
                 {
-                    if(isCorrect(id))
-                    {
 
-                        if(isAlreadyExist(id))
-                        {
-                            Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
-                        }else
-                        {
-                            rationTable.child(id).child("name").setValue(name);
-                            rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
-                            rationTable.child(id).child("points").setValue(50);
-                            generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
+                    isCorrect(fakeTable);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(Correct)
+                            {
+                                isAlreadyExist(rationTable);
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if(AlreadyExist)
+                                        {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
+                                        }else
+                                        {
+                                            rationTable.child(id).child("name").setValue(name);
+                                            rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
+                                            rationTable.child(id).child("points").setValue(50);
+                                            generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
 
 
 
-                            Intent intent = new Intent(detect_text.this,QrActivity.class);
-                            intent.putExtra("idCard",id);
-                            startActivity(intent);
+                                            Intent intent = new Intent(detect_text.this,QrActivity.class);
+                                            intent.putExtra("idCard",id);
+                                            progressDialog.dismiss();
+                                            startActivity(intent);
+                                        }
+
+
+                                    }
+                                },1000);
+
+                            }else
+                            {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
+                            }
+
                         }
+                    },1000);
 
-                    }else
-                        Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
+
+
+
+
                 }
 
             }
@@ -382,32 +422,39 @@ public class detect_text extends AppCompatActivity {
             public void onClick(View view) {
 
                 imageView.setImageURI(null);
-
                 showDialog();
             }
         });
     }
 
-
-    private void getIDs (DatabaseReference ref)
+    private void isAlreadyExist(DatabaseReference ref)
     {
 
-        ids.clear();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                AlreadyExist = dataSnapshot.hasChild(id);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private void isGenerated (DatabaseReference ref)
+    {
+
+
         ref.addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-              for(DataSnapshot data : dataSnapshot.getChildren())
-              {
-
-                     ids.add(data.getKey());
-              }
-
-
-
+                generated = dataSnapshot.hasChild(CurrentUser.getUid());
             }
 
             @Override
@@ -421,24 +468,14 @@ public class detect_text extends AppCompatActivity {
 
     }
 
-    private void getCorrectIDs (DatabaseReference ref)
+    private void isCorrect(DatabaseReference ref)
     {
-
-        correctIds.clear();
         ref.addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                for(DataSnapshot data : dataSnapshot.getChildren())
-                {
-                    correctIds.add(data.getKey());
-                }
-
-
-
+                Correct = dataSnapshot.hasChild(id);
             }
 
             @Override
@@ -448,59 +485,6 @@ public class detect_text extends AppCompatActivity {
             }
         });
 
-
-
-    }
-
-    private boolean isAlreadyExist(String id)
-    {
-
-
-        for ( int i = 0 ; i <ids.size();++i)
-        {
-            if(ids.get(i).equals(id))
-                return true;
-        }
-        return false ;
-    }
-
-    private boolean isGenerated (DatabaseReference ref)
-    {
-
-
-        ref.addValueEventListener(new ValueEventListener() {
-
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot data : dataSnapshot.getChildren())
-                {
-                    generated = data.getKey().equals(CurrentUser.getUid());
-                    if(generated)break;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-        return generated ;
-
-    }
-
-    private boolean isCorrect(String id)
-    {
-        for ( int i = 0 ; i <correctIds.size();++i)
-        {
-            if(correctIds.get(i).equals(id))
-                return true;
-        }
-        return false ;
     }
 
 }

@@ -2,24 +2,19 @@ package com.appz.qrcode.client_tasks;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.appz.qrcode.R;
 import com.appz.qrcode.client_tasks.profileTaps.addActivity;
 import com.appz.qrcode.client_tasks.profileTaps.deleteActivity;
 import com.appz.qrcode.client_tasks.profileTaps.overviewActivity;
 import com.appz.qrcode.helperUi.AllFinal;
-import com.appz.qrcode.login_tasks.LoginActivity;
+import com.appz.qrcode.helperUi.QrActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     Boolean ok = false;
     List ids = new ArrayList();
     String id ;
+    ProgressDialog progressDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         add();
         delete();
         overview();
+        restoreQR();
 
 
 
@@ -59,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void init()
     {
+        progressDialog = new ProgressDialog(ProfileActivity.this);
         getids(reference);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -133,22 +130,18 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(ok)
                 {
-
+                    progressDialog.setMessage("Please Wait ...");
+                    progressDialog.show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     Intent intent =  new Intent(ProfileActivity.this , addActivity.class);
                                     intent.putExtra("id",id);
+                                    progressDialog.dismiss();
                                     startActivity(intent);
                                 }
                             },1000);
-
-
-
-
-
                 }
-
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
 
@@ -179,16 +172,18 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if(ok)
                 {
+                    progressDialog.setMessage("Please Wait ...");
+                    progressDialog.show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Intent intent =  new Intent(ProfileActivity.this , deleteActivity.class);
                             intent.putExtra("id",id);
+                            progressDialog.dismiss();
                             startActivity(intent);
                         }
                     },1000);
                 }
-
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
             }
@@ -204,23 +199,49 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if(ok)
                 {
-
+                    progressDialog.setMessage("Please Wait ...");
+                    progressDialog.show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Intent intent =  new Intent(ProfileActivity.this , overviewActivity.class);
                             intent.putExtra("id",id);
+                            progressDialog.dismiss();
                             startActivity(intent);
                         }
                     },1000);
-
-
                 }
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    private void restoreQR()
+    {
+        restore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ok)
+                {
+                    progressDialog.setMessage("Please Wait ...");
+                    progressDialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent =  new Intent(ProfileActivity.this , QrActivity.class);
+                            intent.putExtra("idCard",id);
+                            progressDialog.dismiss();
+                            startActivity(intent);
+                        }
+                    },500);
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
 
