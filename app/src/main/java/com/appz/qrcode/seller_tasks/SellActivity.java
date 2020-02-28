@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appz.qrcode.helperUi.AllFinal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +30,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     private ZXingScannerView scannerView;
     private TextView txtResult;
     private String id;
-    private int points;
+    private Integer points;
     private Button goButton;
     private TextView Pointtext;
     // TODO
@@ -87,8 +86,8 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void getpoints(){
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data)
-                .child("11234568797054661").child("points");
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Ration_Data")
+                .child("id").child("points");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
