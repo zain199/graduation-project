@@ -151,7 +151,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     }
 
-    private void uploadFile(Bitmap bitmap) {
+    private void uploadFile(Bitmap bitmap, final Uri uri2) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://graduation-project-12577.appspot.com");
         StorageReference mountainImagesRef = storageRef.child("images/" + mAuth.getCurrentUser().getUid() + SystemClock.currentThreadTimeMillis() + ".jpg");
@@ -162,6 +162,8 @@ public class AddItemActivity extends AppCompatActivity {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
+                showProgress(false);
+                Toast.makeText(AddItemActivity.this, exception.getCause()+"", Toast.LENGTH_SHORT).show();
                 // Handle unsuccessful uploads
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -171,12 +173,18 @@ public class AddItemActivity extends AppCompatActivity {
                 Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                      showProgress(false);
+                        Glide.with(getApplicationContext())
+                                .load(uri2)
+                                .placeholder(R.drawable.img_no)
+                                .into(img);
                         Toast.makeText(AddItemActivity.this, "succesc upload image", Toast.LENGTH_SHORT).show();
                         img_url = uri.toString();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        showProgress(false);
                         Toast.makeText(AddItemActivity.this, e.getCause() + "", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -227,10 +235,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Uri uri = data.getData();
 
 
-                Glide.with(getApplicationContext())
-                        .load(uri)
-                        .placeholder(R.drawable.img_no)
-                        .into(img);
+              showProgress(true);
 
 //                Uri builder = new Uri.Builder().appendPath(mAuth.getCurrentUser()
 //                        .getUid()).appendPath(uri.toString()).appendPath(SystemClock.currentThreadTimeMillis() + "").build();
@@ -241,7 +246,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                    uploadFile(bitmap);
+                    uploadFile(bitmap,imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

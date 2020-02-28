@@ -1,9 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".seller_tasks.StoreActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel5"
+        android:layout_width="match_parent"
+        android:layout_height="202dp"
+        android:layout_marginTop="-100dp"
+        android:background="@drawable/search_shape">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="16dp" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_store"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rel5"
+        android:layout_marginBottom="?actionBarSize"
+        android:background="@color/colorAccent" />
+
+    <RelativeLayout
+        android:id="@+id/show_rel"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_blue_light">
+
+        <TextView
+            android:id="@+id/txt_item_num"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/oval_shape"
+            android:paddingTop="7dp"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_item_price"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/oval_shape"
+            android:paddingTop="7dp"
+            android:text="0.0 point"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="23sp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:onClick="gotoChart"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="@color/colorAccent"
+            android:layout_centerInParent="true"
+            android:text="Show Cart" />
+    </RelativeLayout>
+</RelativeLayout>
