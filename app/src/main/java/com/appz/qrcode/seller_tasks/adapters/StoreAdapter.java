@@ -3,7 +3,8 @@ package com.appz.qrcode.seller_tasks.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,18 +16,23 @@ import com.appz.qrcode.R;
 import com.appz.qrcode.seller_tasks.models.ItemModel;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> {
-    private List<ItemModel> itemModels;
+public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implements Filterable {
+    public static List<ItemModel> itemModels;
+    private List<ItemModel> itemModels2;
     private StoreOnClickItem clickItem;
+    private List<ItemModel> listClincFilter;
 
 
-    public void setModel(List<ItemModel>itemModels)
-    {
-        this.itemModels=itemModels;
+    public void setModel(List<ItemModel> itemModels) {
+        StoreAdapter.itemModels = itemModels;
+        this.itemModels2 = itemModels;
+        this.listClincFilter = new ArrayList<>();
         notifyDataSetChanged();
     }
+
 
     @NonNull
     @Override
@@ -51,12 +57,52 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> {
         return itemModels.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                CharSequence charString = charSequence.toString();
+
+
+                if (charString.equals(" ") || charString.equals("#")) {
+
+                    listClincFilter = itemModels;
+                    charString = "";
+                } else {
+
+                    List<ItemModel> filteredList = new ArrayList<>();
+                    for (ItemModel model : itemModels2) {
+
+                        if (model.getName().toLowerCase().contains(charString)) {
+
+                            filteredList.add(model);
+                        }
+                    }
+                    listClincFilter = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+
+
+                filterResults.values = listClincFilter;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                itemModels = (List<ItemModel>) filterResults.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
     class VH extends RecyclerView.ViewHolder {
         private ImageView img_store_item;
-        private TextView name_store, all_num_units, point_store,num;
+        private TextView name_store, all_num_units, point_store, num;
         private ImageButton btn_minis, btn_plus;
         private View view;
-
 
 
         public VH(@NonNull View itemView) {
@@ -88,7 +134,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> {
             name_store = v.findViewById(R.id.txt_name_store);
             all_num_units = v.findViewById(R.id.txt_all_number_store);
             point_store = v.findViewById(R.id.txt_point_store);
-            num=v.findViewById(R.id.txt_store_n);
+            num = v.findViewById(R.id.txt_store_n);
 
 
             btn_minis = v.findViewById(R.id.btn_minus);
@@ -98,7 +144,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> {
                 @Override
                 public void onClick(View view) {
                     if (clickItem != null) {
-                        clickItem.onClickPlus(getAdapterPosition(), num,all_num_units);
+                        clickItem.onClickPlus(getAdapterPosition(), num, all_num_units);
                     }
 
                 }
@@ -107,7 +153,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> {
                 @Override
                 public void onClick(View view) {
                     if (clickItem != null) {
-                        clickItem.onClickMinus(getAdapterPosition(), num,all_num_units);
+                        clickItem.onClickMinus(getAdapterPosition(), num, all_num_units);
                     }
                 }
             });

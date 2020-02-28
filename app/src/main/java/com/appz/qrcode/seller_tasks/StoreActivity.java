@@ -3,13 +3,13 @@ package com.appz.qrcode.seller_tasks;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,25 +26,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StoreActivity extends AppCompatActivity implements StoreOnClickItem {
+    // var
+    public static List<ItemModel> itemModelList;
+    public static Map<String, ChartItem> chartItemList;
     // ui
     private RecyclerView recyclerView_store;
     private TextView txt_num_item, txt_all_points;
     private ProgressDialog progressDialog;
-
-
-    // var
-    public static List<ItemModel> itemModelList;
+    private SearchView searchView;
     private StoreAdapter adapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference;
-    public static Map<String, ChartItem> chartItemList;
     private double point = 0;
     private int item = 0;
 
@@ -95,7 +95,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
         txt_all_points = findViewById(R.id.txt_item_price);
         txt_num_item = findViewById(R.id.txt_item_num);
-
+//        searchView = findViewById(R.id.search_store);
         recyclerView_store = findViewById(R.id.rec_store);
         recyclerView_store.setHasFixedSize(true);
         recyclerView_store.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
@@ -106,12 +106,49 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         chartItemList = new HashMap<>();
 
         getDataOfRecycle();
+
+        //searchViewListerers();
+    }
+
+    private void searchViewListerers() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.getFilter().filter("#");
+
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adapter.getFilter().filter("#");
+                return false;
+            }
+        });
     }
 
     public void gotoChart(View view) {
+        if (point <= 0) {
+            Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
-        intent.putExtra(AllFinal.ALL_POINT,point );
+        intent.putExtra(AllFinal.ALL_POINT, point);
         startActivity(intent);
+        finish();
 
 
     }
@@ -128,7 +165,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     public void onClickPlus(final int pos, TextView view, TextView v2) {
         int it = Integer.parseInt(v2.getText().toString());
         if (it <= 0) {
-            Toast.makeText(this, "sorry " + itemModelList.get(pos).getName() + " not avaliable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "sorry " + StoreAdapter.itemModels.get(pos).getName() + " not avaliable", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,13 +175,13 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         view.setText(a + "");
         item++;
         txt_num_item.setText(item + "");
-        double d = itemModelList.get(pos).getPoint();
+        double d = StoreAdapter.itemModels.get(pos).getPoint();
         point += d;
-        txt_all_points.setText(point + " point");
+        txt_all_points.setText(new DecimalFormat("##.##").format(point) + " point");
         it--;
         v2.setText(it + "");
-        ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
-                itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
+        ChartItem chartItem = new ChartItem(StoreAdapter.itemModels.get(pos).getImg_url(),
+                StoreAdapter.itemModels.get(pos).getId(), StoreAdapter.itemModels.get(pos).getName(), a, d);
 
 
         chartItemList.put(chartItem.getId(), chartItem);
@@ -154,15 +191,13 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
     @Override
     public void onClickMinus(final int pos, TextView view, TextView v2) {
-        final int y = itemModelList.get(pos).getNumber_units();
+        final int y = StoreAdapter.itemModels.get(pos).getNumber_units();
         int it = Integer.parseInt(v2.getText().toString());
         int a = Integer.parseInt(view.getText().toString());
         a--;
         if (a < 0) {
             a = 0;
-            if (chartItemList.containsKey(itemModelList.get(pos).getId())) {
-                chartItemList.remove(itemModelList.get(pos).getId());
-            }
+            chartItemList.remove(StoreAdapter.itemModels.get(pos).getId());
             return;
 
         }
@@ -173,19 +208,19 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         if (item < 0)
             item = 0;
         txt_num_item.setText(item + "");
-        double d = itemModelList.get(pos).getPoint();
+        double d = StoreAdapter.itemModels.get(pos).getPoint();
         point -= d;
         if (point < 0)
             point = 0.0;
-        txt_all_points.setText(point + " point");
+        txt_all_points.setText(new DecimalFormat("##.##").format(point) + " point");
         it++;
         if (it > y) {
             it = y;
         }
         v2.setText(it + "");
 
-        ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
-                itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
+        ChartItem chartItem = new ChartItem(StoreAdapter.itemModels.get(pos).getImg_url(),
+                StoreAdapter.itemModels.get(pos).getId(), StoreAdapter.itemModels.get(pos).getName(), a, d);
         chartItemList.put(chartItem.getId(), chartItem);
 
     }

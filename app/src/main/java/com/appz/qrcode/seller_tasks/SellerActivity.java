@@ -12,17 +12,18 @@ import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SellerActivity extends AppCompatActivity {
-private Button button;
+    private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-        button=findViewById(R.id.btn_show_qr);
+        button = findViewById(R.id.btn_show_qr);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gotoSell(v);
-               // Intent intent=new Intent(this,SellActivity.class);
+                // Intent intent=new Intent(this,SellActivity.class);
             }
         });
 

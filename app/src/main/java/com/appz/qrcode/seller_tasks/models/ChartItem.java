@@ -4,17 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ChartItem implements Parcelable {
-    @Override
-    public String toString() {
-        return "ChartItem{" +
-                "img_url='" + img_url + '\'' +
-                ", id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", num_selected=" + num_selected +
-                ", point=" + point +
-                '}';
-    }
+    public static final Parcelable.Creator<ChartItem> CREATOR = new Parcelable.Creator<ChartItem>() {
+        @Override
+        public ChartItem createFromParcel(Parcel source) {
+            return new ChartItem(source);
+        }
 
+        @Override
+        public ChartItem[] newArray(int size) {
+            return new ChartItem[size];
+        }
+    };
     private String img_url;
     private String id;
     private String name;
@@ -29,6 +29,25 @@ public class ChartItem implements Parcelable {
         this.point = point;
     }
 
+
+    protected ChartItem(Parcel in) {
+        this.img_url = in.readString();
+        this.id = in.readString();
+        this.name = in.readString();
+        this.num_selected = in.readInt();
+        this.point = in.readDouble();
+    }
+
+    @Override
+    public String toString() {
+        return "ChartItem{" +
+                "img_url='" + img_url + '\'' +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", num_selected=" + num_selected +
+                ", point=" + point +
+                '}';
+    }
 
     public String getImg_url() {
         return img_url;
@@ -83,24 +102,4 @@ public class ChartItem implements Parcelable {
         dest.writeInt(this.num_selected);
         dest.writeDouble(this.point);
     }
-
-    protected ChartItem(Parcel in) {
-        this.img_url = in.readString();
-        this.id = in.readString();
-        this.name = in.readString();
-        this.num_selected = in.readInt();
-        this.point = in.readDouble();
-    }
-
-    public static final Parcelable.Creator<ChartItem> CREATOR = new Parcelable.Creator<ChartItem>() {
-        @Override
-        public ChartItem createFromParcel(Parcel source) {
-            return new ChartItem(source);
-        }
-
-        @Override
-        public ChartItem[] newArray(int size) {
-            return new ChartItem[size];
-        }
-    };
 }

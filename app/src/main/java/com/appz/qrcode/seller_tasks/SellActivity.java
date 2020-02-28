@@ -1,6 +1,4 @@
 package com.appz.qrcode.seller_tasks;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -9,6 +7,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.appz.qrcode.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +26,6 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import com.appz.qrcode.R;
-
 public class SellActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView scannerView;
     private TextView txtResult;
@@ -33,15 +33,16 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     private Integer points;
     private Button goButton;
     private TextView Pointtext;
+
     // TODO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-        scannerView=(ZXingScannerView)findViewById(R.id.zxscan);
-        txtResult=(TextView)findViewById(R.id.txt_result);
-        goButton=(Button)findViewById(R.id.goButton);
-        Pointtext=(TextView)findViewById(R.id.pointtext);
+        scannerView = findViewById(R.id.zxscan);
+        txtResult = findViewById(R.id.txt_result);
+        goButton = findViewById(R.id.goButton);
+        Pointtext = findViewById(R.id.pointtext);
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +63,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(SellActivity.this,"you must accept this permission",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SellActivity.this, "you must accept this permission", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -73,6 +74,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
                 .check();
 
     }
+
     @Override
     protected void onDestroy() {
         scannerView.stopCamera();
@@ -82,17 +84,17 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
-        id= txtResult.toString();
+        id = txtResult.toString();
     }
 
-    private void getpoints(){
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Ration_Data")
+    private void getpoints() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Ration_Data")
                 .child("id").child("points");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              points = dataSnapshot.getValue(Integer.class);
-              Pointtext.setText(points);
+                points = dataSnapshot.getValue(Integer.class);
+                Pointtext.setText(points);
             }
 
             @Override
