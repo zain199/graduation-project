@@ -110,7 +110,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
     public void gotoChart(View view) {
         Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
-        intent.putExtra("all_point", AllFinal.ALL_POINT);
+        intent.putExtra(AllFinal.ALL_POINT,point );
         startActivity(intent);
 
 
