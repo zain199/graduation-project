@@ -22,7 +22,7 @@ private Button button;
             @Override
             public void onClick(View v) {
                 gotoSell(v);
-
+               // Intent intent=new Intent(this,SellActivity.class);
             }
         });
 
