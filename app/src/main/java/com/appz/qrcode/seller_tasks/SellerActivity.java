@@ -17,7 +17,7 @@ private Button button;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-        button=findViewById(R.id.button);
+        button=findViewById(R.id.btn_show_qr);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,14 +13,23 @@
         android:text="Seller"
         android:textSize="30sp"/>
     <Button
-        android:id="@+id/button"
+
+        android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+      android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
         android:onClick="logout"
         android:text="logout" />
+    <Button
+        android:id="@+id/btn_show_qr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+     android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_logout"
+        android:text="get qrcode" />
+
 
     <Button
         android:id="@+id/button2"

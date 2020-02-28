@@ -163,7 +163,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 showProgress(false);
-                Toast.makeText(AddItemActivity.this, exception.getCause()+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddItemActivity.this, exception.getCause() + "", Toast.LENGTH_SHORT).show();
                 // Handle unsuccessful uploads
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -173,7 +173,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                      showProgress(false);
+                        showProgress(false);
                         Glide.with(getApplicationContext())
                                 .load(uri2)
                                 .placeholder(R.drawable.img_no)
@@ -235,7 +235,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Uri uri = data.getData();
 
 
-              showProgress(true);
+                showProgress(true);
 
 //                Uri builder = new Uri.Builder().appendPath(mAuth.getCurrentUser()
 //                        .getUid()).appendPath(uri.toString()).appendPath(SystemClock.currentThreadTimeMillis() + "").build();
@@ -246,7 +246,7 @@ public class AddItemActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                    uploadFile(bitmap,imageUri);
+                    uploadFile(bitmap, imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

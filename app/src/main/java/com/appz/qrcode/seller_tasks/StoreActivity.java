@@ -27,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StoreActivity extends AppCompatActivity implements StoreOnClickItem {
     // ui
@@ -42,7 +44,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference;
-    public static List<ChartItem> chartItemList;
+    public static Map<String, ChartItem> chartItemList;
     private double point = 0;
     private int item = 0;
 
@@ -63,6 +65,11 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
                 .child(AllFinal.ITEMS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChildren()) {
+                    showProgress(false);
+                    Toast.makeText(StoreActivity.this, "no item in a store try again later", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+                }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ItemModel itemModel = snapshot.getValue(ItemModel.class);
                     itemModel.setId(snapshot.getKey());
@@ -70,7 +77,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
                 }
                 adapter.setModel(itemModelList);
                 recyclerView_store.setAdapter(adapter);
-                chartItemList = new ArrayList<>(itemModelList.size());
+
                 showProgress(false);
 
             }
@@ -89,22 +96,23 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         txt_all_points = findViewById(R.id.txt_item_price);
         txt_num_item = findViewById(R.id.txt_item_num);
 
-
         recyclerView_store = findViewById(R.id.rec_store);
-
         recyclerView_store.setHasFixedSize(true);
         recyclerView_store.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         itemModelList = new ArrayList<>();
         adapter = new StoreAdapter();
         adapter.onClickItem(this);
 
+        chartItemList = new HashMap<>();
+
         getDataOfRecycle();
     }
 
     public void gotoChart(View view) {
-        Intent intent=new Intent(getApplicationContext(),ConfirmActivity.class);
-        intent.putExtra("all_point",AllFinal.ALL_POINT);
+        Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
+        intent.putExtra("all_point", AllFinal.ALL_POINT);
         startActivity(intent);
+
 
     }
 
@@ -115,6 +123,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             progressDialog.dismiss();
         }
     }
+
     @Override
     public void onClickPlus(final int pos, TextView view, TextView v2) {
         int it = Integer.parseInt(v2.getText().toString());
@@ -136,19 +145,9 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         v2.setText(it + "");
         ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
                 itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
-        Log.d("wwwwww",pos+"");
-        if (chartItemList.isEmpty()||pos>=chartItemList.size())
-        {
-            chartItemList.add(pos,chartItem);
-        }
-        else
-        {
-            Log.e("wwwww",pos+" "+chartItemList.size());
-           chartItemList.remove(pos);
-            chartItemList.add(pos,chartItem);
 
-        }
-        Toast.makeText(this, chartItem.getPoint() + "  "+itemModelList.size(), Toast.LENGTH_SHORT).show();
+
+        chartItemList.put(chartItem.getId(), chartItem);
 
 
     }
@@ -159,8 +158,15 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         int it = Integer.parseInt(v2.getText().toString());
         int a = Integer.parseInt(view.getText().toString());
         a--;
-        if (a < 0)
+        if (a < 0) {
             a = 0;
+            if (chartItemList.containsKey(itemModelList.get(pos).getId())) {
+                chartItemList.remove(itemModelList.get(pos).getId());
+            }
+            return;
+
+        }
+
 
         view.setText(a + "");
         item--;
@@ -177,19 +183,10 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             it = y;
         }
         v2.setText(it + "");
-        Log.d("wwwwww",pos+"");
+
         ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
                 itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
-        if (chartItemList.isEmpty()||pos>=chartItemList.size())
-        {
-            chartItemList.add(pos,chartItem);
-        }
-        else
-        {Log.e("wwwww",pos+" "+chartItemList.size());
-            chartItemList.remove(pos);
-            chartItemList.add(pos,chartItem);
+        chartItemList.put(chartItem.getId(), chartItem);
 
-        }
-        Toast.makeText(this, chartItem.getPoint()+ "  "+itemModelList.size(), Toast.LENGTH_SHORT).show();
     }
 }
