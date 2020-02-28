@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appz.qrcode">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/main_ic2"
@@ -14,14 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".seller_tasks.StoreActivity"></activity>
+        <activity android:name=".seller_tasks.SellActivity"/>
+        <activity android:name=".seller_tasks.StoreActivity" />
         <activity android:name=".seller_tasks.AddItemActivity" />
         <activity android:name=".seller_tasks.ConfirmActivity" />
         <activity android:name=".seller_tasks.MakeOrderActivity" />
         <activity android:name=".client_tasks.profileTaps.overviewActivity" />
         <activity android:name=".client_tasks.profileTaps.deleteActivity" />
         <activity android:name=".client_tasks.profileTaps.addActivity" />
-        <activity android:name=".seller_tasks.SellActivity" />
+        <activity android:name=".seller_tasks.ScanQR" />
         <activity android:name=".seller_tasks.EditedStoreActivity" />
         <activity android:name=".client_tasks.ProfileActivity" />
         <activity android:name=".seller_tasks.SellerActivity" />
@@ -45,5 +41,10 @@
             android:parentActivityName=".helperUi.detect_text"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -30,6 +30,6 @@ public class SellerActivity extends AppCompatActivity {
     }
 
     public void gotoSell(View view) {
-        startActivity(new Intent(getApplicationContext(), SellActivity.class));
+        startActivity(new Intent(getApplicationContext(), ScanQR.class));
     }
 }

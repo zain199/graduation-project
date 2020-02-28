@@ -2,28 +2,19 @@ package com.appz.qrcode.client_tasks;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.appz.qrcode.R;
 import com.appz.qrcode.client_tasks.profileTaps.addActivity;
 import com.appz.qrcode.client_tasks.profileTaps.deleteActivity;
 import com.appz.qrcode.client_tasks.profileTaps.overviewActivity;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.helperUi.QrActivity;
-import com.appz.qrcode.helperUi.detect_text;
-import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,7 +130,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(ok)
                 {
-
                     progressDialog.setMessage("Please Wait ...");
                     progressDialog.show();
                             new Handler().postDelayed(new Runnable() {
@@ -152,13 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             },1000);
-
-
-
-
-
                 }
-
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
 
@@ -201,7 +184,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     },1000);
                 }
-
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
             }
@@ -228,8 +210,6 @@ public class ProfileActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     },1000);
-
-
                 }
                 else
                     Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
