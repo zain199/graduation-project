@@ -22,6 +22,7 @@ private Button button;
             @Override
             public void onClick(View v) {
                 gotoSell(v);
+
             }
         });
 
@@ -39,6 +40,6 @@ private Button button;
     }
 
     public void gotoSell(View view) {
-        startActivity(new Intent(getApplicationContext(), ScanQR.class));
+        startActivity(new Intent(this, SellActivity.class));
     }
 }
