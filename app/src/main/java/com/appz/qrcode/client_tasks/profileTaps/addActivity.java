@@ -121,18 +121,16 @@ public class addActivity extends AppCompatActivity {
                             ref.child(parent).child(ID);
                             ref.child(parent).child(ID).child("Name").setValue(Name);
                             ref.child(parent).child("points").setValue(points);
-                            Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),"Added Successfully",Toast.LENGTH_LONG).show();
                         }
-
 
                     }else
                     {
                         Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
                     }
-
                 }else
                 {
-                        Toast.makeText(getApplicationContext(),"Operation Faild",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Operation Failed",Toast.LENGTH_LONG).show();
                 }
             }
         });

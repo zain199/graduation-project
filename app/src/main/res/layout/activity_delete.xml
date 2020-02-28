@@ -38,6 +38,7 @@
                 android:textSize="20sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textStyle="bold|italic"
+                android:visibility="invisible"
                 >
 
             </TextView>

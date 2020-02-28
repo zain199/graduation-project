@@ -150,17 +150,6 @@ public class detect_text extends AppCompatActivity {
                 .create().show();
     }
 
-    private void msgDialog(String s)
-    {
-        AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
-
-
-        builder.setMessage(s);
-
-        builder.create();
-
-
-    }
 
     private void pickGallery()
     {
@@ -354,7 +343,7 @@ public class detect_text extends AppCompatActivity {
 
                 if(generated)
                 {
-                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code Only",Toast.LENGTH_LONG).show();
 
                 }else
                 {
@@ -380,9 +369,6 @@ public class detect_text extends AppCompatActivity {
 
                     }else
                         Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
-
-
-
                 }
 
             }

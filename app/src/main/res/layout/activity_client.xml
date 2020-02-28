@@ -35,7 +35,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:onClick="gotoProfile"
-        android:text="goto profile"
+        android:text="Profile"
         android:textSize="20dp"/>
 
     <Button

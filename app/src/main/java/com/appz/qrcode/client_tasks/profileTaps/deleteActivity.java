@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,13 +41,13 @@ public class deleteActivity extends AppCompatActivity {
 
     //ui
     ListView listView ;
-    private SharedPreferences sharedPreferences ;
     ProgressDialog progressDialog ;
+    TextView textView;
 
     //var
     List ids = new ArrayList() ;
     List name = new ArrayList();
-    String parent ;
+    String parentID ;
     int points  ;
 
 
@@ -53,13 +56,13 @@ public class deleteActivity extends AppCompatActivity {
     private DatabaseReference ref ;
 
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
-    private String ParentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
 
+        textView=findViewById(R.id.txt);
         init();
     }
 
@@ -75,10 +78,10 @@ public class deleteActivity extends AppCompatActivity {
         ref = database.getReference().child(AllFinal.Ration_Data);
 
 
-        parent = getIntent().getStringExtra("id");
+        parentID = getIntent().getStringExtra("id");
 
-        getIDs(rationTable.child(parent));
-        getdata(ref.child(parent).child("points"));
+        getIDs(rationTable.child(parentID));
+        getdata(ref.child(parentID).child("points"));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -92,8 +95,20 @@ public class deleteActivity extends AppCompatActivity {
                 Log.d("omar","done");
                 progressDialog.dismiss();
                 listView = findViewById(R.id.listView);
-                ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
-                listView.setAdapter(arrayAdapter);
+                if(ids.size()>0)
+                {
+                    textView.setVisibility(View.VISIBLE);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
+                    listView.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
+                    onitemclick();
+                }
+                else
+                {
+                    textView.setText("There Are No Children To Delete");
+                    textView.setVisibility(View.VISIBLE);
+                }
+
             }
         },1000);
 
@@ -111,8 +126,6 @@ public class deleteActivity extends AppCompatActivity {
 
                 for(final DataSnapshot data : dataSnapshot.getChildren())
                 {
-
-
                         if(Character.isDigit(data.getKey().charAt(0)))
                         {
                             ids.add(data.getKey());
@@ -140,7 +153,7 @@ public class deleteActivity extends AppCompatActivity {
             for (int i=0 ; i<ids.size();i++)
             {
 
-                final DatabaseReference reference = rationTable.child(parent).child(String.valueOf(ids.get(i)));
+                final DatabaseReference reference = rationTable.child(parentID).child(String.valueOf(ids.get(i)));
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -149,11 +162,7 @@ public class deleteActivity extends AppCompatActivity {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
-
-
                     }
-
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -179,5 +188,18 @@ public class deleteActivity extends AppCompatActivity {
         });
     }
 
-
+    private void onitemclick()
+    {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),dialogActivity.class);
+                intent.putExtra("name",String.valueOf(name.get(position)));
+                intent.putExtra("childid",String.valueOf(ids.get(position)));
+                intent.putExtra("parentID",parentID);
+                intent.putExtra("parentPoints",points);
+                startActivity(intent);
+            }
+        });
+    }
 }
