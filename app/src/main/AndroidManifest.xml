@@ -46,6 +46,10 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:parentActivityName=".helperUi.detect_text"
             android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".client_tasks.profileTaps.dialogActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            >
+        </activity>
     </application>
 
 </manifest>

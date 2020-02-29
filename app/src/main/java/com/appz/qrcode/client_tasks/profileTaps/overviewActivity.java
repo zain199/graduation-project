@@ -96,12 +96,6 @@ public class overviewActivity extends AppCompatActivity {
                 getchildname();
             }
         },1000);
-
-
-
-
-
-
     }
 
     private void findbyid()
@@ -200,6 +194,7 @@ public class overviewActivity extends AppCompatActivity {
         childid.setAdapter(Adapter);
         Adapter.notifyDataSetChanged();
     }
+
     private void getchildname()
     {
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext() ,android.R.layout.simple_list_item_1 ,name);
