@@ -26,7 +26,6 @@
                     android:id="@+id/parentName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name Of Parent"
                     android:textSize="25dp"
                     android:textAlignment="center"
                     android:textStyle="bold|italic"
@@ -113,32 +112,15 @@
                     >
                 </TextView>
 
-                <RelativeLayout
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:id="@+id/recyclerView"
                     android:layout_below="@id/children"
-                    android:padding="8dp"
-                    android:layout_marginTop="10dp"
                     >
 
-                    <ListView
-                        android:id="@+id/listID"
-                        android:layout_width="190dp"
-                        android:layout_height="match_parent"
-                        >
-
-                    </ListView>
-
-                    <ListView
-                        android:id="@+id/listName"
-                        android:layout_width="160dp"
-                        android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/listID"
-                        >
-
-                    </ListView>
-
-                </RelativeLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
 
             </RelativeLayout>

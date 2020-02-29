@@ -19,12 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class adapter extends RecyclerView.Adapter<adapter.dataViewHolder> {
 
     private Context context;
-    private List<Map<String , String>> data;
+    private List childid , childname;
     LayoutInflater inflater ;
 
-    public adapter(Context context, ArrayList data) {
+    public adapter(Context context, List childid , List childname) {
         this.context = context;
-        this.data = data;
+        this.childid = childid;
+        this.childname = childname;
         inflater = LayoutInflater.from(context);
     }
 
@@ -38,14 +39,15 @@ public class adapter extends RecyclerView.Adapter<adapter.dataViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull dataViewHolder holder, int position) {
-        Map<String, String> current = data.get(position);
-        holder.childID.setText(current.get("childID"));
-        holder.childName.setText(current.get("childName"));
+       String currentid = String.valueOf(childid.get(position));
+       String currentname = String.valueOf(childname.get(position));
+        holder.childID.setText(currentid);
+        holder.childName.setText(currentname);
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return childid.size();
     }
 
     public class dataViewHolder extends RecyclerView.ViewHolder

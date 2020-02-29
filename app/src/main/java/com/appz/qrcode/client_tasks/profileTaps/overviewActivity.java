@@ -2,6 +2,7 @@ package com.appz.qrcode.client_tasks.profileTaps;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appz.qrcode.R;
+import com.appz.qrcode.client_tasks.profileTaps.adapter.adapter;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,13 +23,17 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class overviewActivity extends AppCompatActivity {
-    ListView childid , childname;
+
     List id = new ArrayList();
     List name = new ArrayList();
     TextView name_parent ;
     EditText parent_id , parent_points;
+    RecyclerView recyclerView;
+    adapter adapter ;
 
     //database
     private FirebaseDatabase database ;
@@ -51,7 +57,6 @@ public class overviewActivity extends AppCompatActivity {
 
     private void init()
     {
-
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
 
@@ -78,24 +83,26 @@ public class overviewActivity extends AppCompatActivity {
                 setParent();
             }
         },1000);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getchildID();
+                adapter = new adapter(getApplicationContext() , id , name);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                adapter.notifyDataSetChanged();
+
             }
-        },1000);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getchildname();
-            }
-        },1000);
+        },5000);
+
     }
 
     private void findbyid()
     {
-        childid = findViewById(R.id.listID);
-        childname = findViewById(R.id.listName);
+        recyclerView=findViewById(R.id.recyclerView);
+        //childid = findViewById(R.id.listID);
+        //childname = findViewById(R.id.listName);
         name_parent = findViewById(R.id.parentName);
         parent_id = findViewById(R.id.parentIDet);
         parent_points = findViewById(R.id.parentPointset);
@@ -180,20 +187,6 @@ public class overviewActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void getchildID()
-    {
-        ArrayAdapter Adapter = new ArrayAdapter(getApplicationContext() ,android.R.layout.simple_list_item_1 ,id);
-        childid.setAdapter(Adapter);
-        Adapter.notifyDataSetChanged();
-    }
-
-    private void getchildname()
-    {
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext() ,android.R.layout.simple_list_item_1 ,name);
-        childname.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
     }
 
     private void setParent()

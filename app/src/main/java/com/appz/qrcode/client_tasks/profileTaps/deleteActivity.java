@@ -66,6 +66,7 @@ public class deleteActivity extends AppCompatActivity {
         progressDialog.show();
 
 
+
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
 
@@ -100,7 +101,6 @@ public class deleteActivity extends AppCompatActivity {
                     textView.setText("There Are No Children To Delete");
                     textView.setVisibility(View.VISIBLE);
                 }
-
             }
         },1000);
 
@@ -124,9 +124,6 @@ public class deleteActivity extends AppCompatActivity {
 
                         }
                 }
-
-
-
 
             }
 
@@ -165,6 +162,7 @@ public class deleteActivity extends AppCompatActivity {
         }
 
     }
+
     private void getdata(DatabaseReference reff)
     {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -188,8 +186,6 @@ public class deleteActivity extends AppCompatActivity {
 
                 if(checkInternetConnection())
                 {
-
-
                     Intent intent = new Intent(getApplicationContext(),dialogActivity.class);
                     intent.putExtra("name",String.valueOf(name.get(position)));
                     intent.putExtra("childid",String.valueOf(ids.get(position)));

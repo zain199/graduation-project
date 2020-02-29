@@ -124,6 +124,7 @@ public class addActivity extends AppCompatActivity {
                                 getAndSetNameAndID(fakeTable,rationTable,ID);
                                 ref.child(parent).child("points").setValue(points);
                                 Toast.makeText(getBaseContext(),"Added Successfully",Toast.LENGTH_LONG).show();
+                                id.setText("");
                             }
                         }else
                         {
