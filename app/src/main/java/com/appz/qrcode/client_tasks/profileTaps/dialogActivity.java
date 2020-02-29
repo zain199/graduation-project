@@ -3,6 +3,7 @@ package com.appz.qrcode.client_tasks.profileTaps;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class dialogActivity extends AppCompatActivity {
 
     //ui
+    ListView listView;
     TextView message ;
     Button yes , no;
 
@@ -23,6 +25,7 @@ public class dialogActivity extends AppCompatActivity {
     //var
     String name , id , parentID;
     int points;
+    int viewIndex;
 
     //database
     DatabaseReference ref , ref2;
@@ -59,10 +62,12 @@ public class dialogActivity extends AppCompatActivity {
 
     private void init()
     {
+        listView = findViewById(R.id.listView);
         name = getIntent().getStringExtra("name");
         id = getIntent().getStringExtra("childid");
         parentID = getIntent().getStringExtra("parentID");
         points = getIntent().getIntExtra("parentPoints",0);
+        viewIndex = getIntent().getIntExtra("viewIndex",-1);
         ref2 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child("points");
         ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child(id);
     }
@@ -77,6 +82,8 @@ public class dialogActivity extends AppCompatActivity {
                 ref.removeValue();
                 Toast.makeText(getApplicationContext(),"Deleted Successfully",Toast.LENGTH_LONG).show();
                 finish();
+
+
             }
         });
     }

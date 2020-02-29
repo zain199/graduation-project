@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class deleteActivity extends AppCompatActivity {
 
     //ui
-    ListView listView ;
+    ListView  listView ;
     ProgressDialog progressDialog ;
     TextView textView;
 
@@ -56,55 +54,25 @@ public class deleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete);
         textView=findViewById(R.id.txt);
         init();
+        //refresh();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     private void init()
     {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait ...");
         progressDialog.show();
-
-
-
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
-
-
         parentID = getIntent().getStringExtra("id");
-
         getIDs(rationTable.child(parentID));
         getdata(ref.child(parentID).child("points"));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getNames(ids);
-            }
-        },1000);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("omar","done");
-                progressDialog.dismiss();
-                listView = findViewById(R.id.listView);
-                if(ids.size()>0)
-                {
-                    textView.setVisibility(View.VISIBLE);
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
-                    listView.setAdapter(arrayAdapter);
-                    arrayAdapter.notifyDataSetChanged();
-                    onitemclick();
-                }
-                else
-                {
-                    textView.setText("There Are No Children To Delete");
-                    textView.setVisibility(View.VISIBLE);
-                }
-            }
-        },1000);
-
-
     }
 
 
@@ -125,6 +93,7 @@ public class deleteActivity extends AppCompatActivity {
                         }
                 }
 
+                getNames(ids);
             }
 
             @Override
@@ -135,7 +104,7 @@ public class deleteActivity extends AppCompatActivity {
 
     }
 
-    private void getNames(List ids)
+    private void getNames(final List ids)
     {
         if(ids.size()>0)
         {
@@ -151,6 +120,17 @@ public class deleteActivity extends AppCompatActivity {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
+
+                        progressDialog.dismiss();
+                        listView = findViewById(R.id.listView);
+
+                            textView.setVisibility(View.VISIBLE);
+                            ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
+                            listView.setAdapter(arrayAdapter);
+                            arrayAdapter.notifyDataSetChanged();
+                            onitemclick();
+
+
                     }
 
                     @Override
@@ -159,6 +139,11 @@ public class deleteActivity extends AppCompatActivity {
                     }
                 });
             }
+        } else
+        {
+            progressDialog.dismiss();
+            textView.setText("There Are No Children To Delete");
+            textView.setVisibility(View.VISIBLE);
         }
 
     }

@@ -1,11 +1,8 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +31,7 @@ public class overviewActivity extends AppCompatActivity {
     EditText parent_id , parent_points;
     RecyclerView recyclerView;
     adapter adapter ;
+    ProgressDialog progressDialog;
 
     //database
     private FirebaseDatabase database ;
@@ -57,44 +55,15 @@ public class overviewActivity extends AppCompatActivity {
 
     private void init()
     {
+        progressDialog = new ProgressDialog(overviewActivity.this);
+        progressDialog.setMessage("Please Wait....");
+        progressDialog.show();
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
-
         parentID = getIntent().getStringExtra("id");
-
-
-        getPoints(ref.child(parentID).child("points"));
-
-
-        getParentName(ref.child(parentID).child("name"));
-
-
         getIDs(rationTable.child(parentID));
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getNames(id);
-            }
-        },1000);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setParent();
-            }
-        },1000);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new adapter(getApplicationContext() , id , name);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                adapter.notifyDataSetChanged();
-
-            }
-        },5000);
 
     }
 
@@ -109,7 +78,7 @@ public class overviewActivity extends AppCompatActivity {
 
     }
 
-    private void getIDs (DatabaseReference ref)
+    private void getIDs (final DatabaseReference ref)
     {
         id.clear();
         ref.addValueEventListener(new ValueEventListener() {
@@ -123,6 +92,9 @@ public class overviewActivity extends AppCompatActivity {
                         id.add(data.getKey());
                     }
                 }
+                getPoints(ref.child("points"));
+                getParentName(ref.child("name"));
+                getNames(id);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -147,6 +119,12 @@ public class overviewActivity extends AppCompatActivity {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
+
+                        adapter = new adapter(getApplicationContext() , id , name);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        adapter.notifyDataSetChanged();
+                        progressDialog.dismiss();
                     }
 
                     @Override
@@ -159,7 +137,7 @@ public class overviewActivity extends AppCompatActivity {
 
     }
 
-    private void getPoints(DatabaseReference reff)
+    private void getPoints(final DatabaseReference reff)
     {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -180,6 +158,7 @@ public class overviewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 parentName = dataSnapshot.getValue(String.class);
+                setParent();
             }
 
             @Override
@@ -191,20 +170,10 @@ public class overviewActivity extends AppCompatActivity {
 
     private void setParent()
     {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                name_parent.setText(parentName);
-            }
-        },1000);
 
+        name_parent.setText(parentName);
         parent_id.setText(parentID);
+        parent_points.setText(String.valueOf(points));
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                parent_points.setText(String.valueOf(points));
-            }
-        },1000);
     }
 }
