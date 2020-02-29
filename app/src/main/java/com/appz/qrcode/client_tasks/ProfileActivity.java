@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         delete();
         overview();
         restoreQR();
+
     }
 
     private void init()

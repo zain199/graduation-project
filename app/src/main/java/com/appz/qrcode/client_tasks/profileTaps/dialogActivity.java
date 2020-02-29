@@ -1,12 +1,6 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,11 +8,10 @@ import android.widget.Toast;
 
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class dialogActivity extends AppCompatActivity {
 
@@ -39,11 +32,16 @@ public class dialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
 
-       findbyid();
-       init();
-       showDialog();
-       yesBtn();
-       noBtn();
+        findbyid();
+
+        init();
+
+        showDialog();
+
+        yesBtn();
+
+        noBtn();
+
 
     }
 
@@ -64,10 +62,7 @@ public class dialogActivity extends AppCompatActivity {
         name = getIntent().getStringExtra("name");
         id = getIntent().getStringExtra("childid");
         parentID = getIntent().getStringExtra("parentID");
-
         points = getIntent().getIntExtra("parentPoints",0);
-
-
         ref2 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child("points");
         ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child(id);
     }
