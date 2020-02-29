@@ -1,12 +1,10 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
+import com.appz.qrcode.helperUi.NoInternet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class addActivity extends AppCompatActivity {
 
@@ -43,17 +45,18 @@ public class addActivity extends AppCompatActivity {
 
     //vars
     int points ;
-    SharedPreferences sharedPreferences ;
+    String Name ;
     String parent , ParentID;
     List ids = new ArrayList();
     List correctIds = new ArrayList();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-
+        checkInternetConnection();
         init();
         findByID();
         addChild();
@@ -80,7 +83,6 @@ public class addActivity extends AppCompatActivity {
     {
         add = findViewById(R.id.btn_add);
         id = findViewById(R.id.ed_id);
-        name = findViewById(R.id.ed_name);
     }
 
 
@@ -105,35 +107,55 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String ID = id.getText().toString().trim();
-                String Name = name.getText().toString().trim();
-
-                if(CurrentUser.getUid().equals(ParentID))
+                if(checkInternetConnection())
                 {
 
-                    if (isCorrect(ID))
+                    if(CurrentUser.getUid().equals(ParentID))
                     {
-                        if(isAlreadyExist(ID))
+
+                        if (isCorrect(ID))
                         {
-                            Toast.makeText(getBaseContext(),"This ID is Already Exist",Toast.LENGTH_LONG).show();
+                            if(isAlreadyExist(ID))
+                            {
+                                Toast.makeText(getBaseContext(),"This ID is Already Exist",Toast.LENGTH_LONG).show();
+                            }else
+                            {
+                                points+=50;
+                                getAndSetNameAndID(fakeTable,rationTable,ID);
+                                ref.child(parent).child("points").setValue(points);
+                                Toast.makeText(getBaseContext(),"Added Successfully",Toast.LENGTH_LONG).show();
+                            }
                         }else
                         {
-                            points+=50;
-                            ref.child(parent).child(ID);
-                            ref.child(parent).child(ID).child("Name").setValue(Name);
-                            ref.child(parent).child("points").setValue(points);
-                            Toast.makeText(getBaseContext(),"Added Successfully",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
                         }
-
                     }else
                     {
-                        Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Operation Failed",Toast.LENGTH_LONG).show();
                     }
                 }else
-                {
-                        Toast.makeText(getApplicationContext(),"Operation Failed",Toast.LENGTH_LONG).show();
-                }
+                    startActivity(new Intent(addActivity.this, NoInternet.class));
             }
         });
+    }
+
+    private void getAndSetNameAndID(DatabaseReference ref, final DatabaseReference ref1, final String id) {
+        Name="";
+        ref = ref.child(parent).child(AllFinal.CHILDS).child(id).child("name");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               ref1.child(parent).child(id).child("Name").setValue(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
     private void getOnwerUid(DatabaseReference ref) {
@@ -218,5 +240,24 @@ public class addActivity extends AppCompatActivity {
                 return true;
         }
         return false ;
+    }
+
+    private  Boolean checkInternetConnection()
+    {
+        Boolean internetConnection = false ;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+
+        if(connection!=null)
+        {
+            if(connection.getType()==ConnectivityManager.TYPE_WIFI)
+                return internetConnection = true;
+            else if (connection.getType()==ConnectivityManager.TYPE_MOBILE)
+                return  internetConnection= true;
+            else
+                return  internetConnection= false;
+        }
+
+        return internetConnection;
     }
 }

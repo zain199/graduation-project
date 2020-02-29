@@ -128,33 +128,13 @@
                             android:layout_marginTop="4dp"
                             />
 
-                        <TextView
-                            android:id="@+id/txt_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v9"
-                            android:layout_marginTop="16dp"
-                            android:text="Name: "
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textSize="20sp" />
 
-                        <EditText
-                            android:id="@+id/ed_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/v9"
-                            android:layout_marginLeft="15dp"
-                            android:layout_toRightOf="@+id/txt_name"
-                            android:singleLine="true"
-
-
-                            />
 
                         <View
                             android:id="@+id/v10"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:layout_below="@id/ed_name"
+                            android:layout_below="@id/ed_id"
                             android:layout_marginTop="4dp"
                             />
 
