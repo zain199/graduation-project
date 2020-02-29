@@ -1,6 +1,20 @@
 package com.appz.qrcode.seller_tasks.models;
 
-public class ItemModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ItemModel implements Parcelable {
+    public static final Parcelable.Creator<ItemModel> CREATOR = new Parcelable.Creator<ItemModel>() {
+        @Override
+        public ItemModel createFromParcel(Parcel source) {
+            return new ItemModel(source);
+        }
+
+        @Override
+        public ItemModel[] newArray(int size) {
+            return new ItemModel[size];
+        }
+    };
     private String id;
     private String name;
     private String img_url;
@@ -23,6 +37,14 @@ public class ItemModel {
     }
 
     public ItemModel() {
+    }
+
+    protected ItemModel(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.img_url = in.readString();
+        this.point = in.readDouble();
+        this.number_units = in.readInt();
     }
 
     public String getId() {
@@ -63,5 +85,19 @@ public class ItemModel {
 
     public void setNumber_units(int number_units) {
         this.number_units = number_units;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.img_url);
+        dest.writeDouble(this.point);
+        dest.writeInt(this.number_units);
     }
 }

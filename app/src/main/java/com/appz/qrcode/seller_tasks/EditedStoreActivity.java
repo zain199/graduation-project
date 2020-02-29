@@ -18,7 +18,9 @@ public class EditedStoreActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        startActivity(new Intent(getApplicationContext(), AddItemActivity.class));
+        Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
+        intent.putExtra("bundle1", "");
+        startActivity(intent);
     }
 
     public void showStore(View view) {

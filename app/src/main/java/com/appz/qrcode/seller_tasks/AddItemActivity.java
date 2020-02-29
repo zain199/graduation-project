@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddItemActivity extends AppCompatActivity {
     private static final int CAMERA_CODE = 200;
@@ -48,6 +51,8 @@ public class AddItemActivity extends AppCompatActivity {
     // ui
     private EditText ed_name, ed_point, ed_num_item;
     private ProgressDialog progressDialog;
+    private Button btnAdd;
+    private ImageView img;
     // var
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -55,11 +60,12 @@ public class AddItemActivity extends AppCompatActivity {
     private FirebaseStorage mStorageRef = FirebaseStorage.getInstance();
     private StorageReference imagesRef;
     private int num_item;
-
     private double points;
     private String[] CAMERA_PERMISSION;
     private String[] STORAGE_PERMISSSION;
-    private ImageView img;
+    private boolean is_ubdate = false;
+
+    private ItemModel itemModel2;
 
 
     @Override
@@ -67,12 +73,41 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+
         buildUi();
+    }
+
+    private void checkIsUpdate(Bundle intent) {
+        Log.d("wwwwwwww", intent.getBoolean(AllFinal.UPDATE) + "");
+        if (intent.getBoolean(AllFinal.UPDATE)) {
+            is_ubdate = intent.getBoolean(AllFinal.UPDATE);
+        }
+
+        if (is_ubdate) {
+            btnAdd.setText("Update");
+            itemModel2 = intent.getParcelable("item");
+
+            ed_name.setText(itemModel2.getName());
+            ed_num_item.setText(itemModel2.getNumber_units() + "");
+            ed_point.setText(itemModel2.getPoint() + "");
+
+            if (itemModel2.getImg_url().equals("")) {
+                Glide.with(getApplicationContext())
+                        .load(getResources().getDrawable(R.drawable.img_no))
+                        .into(img);
+            } else {
+                Glide.with(getApplicationContext())
+                        .load(itemModel2.getImg_url())
+                        .into(img);
+            }
+
+        }
     }
 
     private void buildUi() {
         StorageReference storageRef = mStorageRef.getReference();
         imagesRef = storageRef;
+        btnAdd = findViewById(R.id.btn_add);
 
         progressDialog = new ProgressDialog(AddItemActivity.this);
         progressDialog.setMessage("Wait Please");
@@ -81,6 +116,11 @@ public class AddItemActivity extends AppCompatActivity {
         ed_num_item = findViewById(R.id.ed_all_unit_store);
         ed_point = findViewById(R.id.ed_point_unit_store);
         img = findViewById(R.id.img_unit_store);
+
+        if (!getIntent().getStringExtra("bundle1").equals("")) {
+            checkIsUpdate(getIntent().getExtras().getBundle("bundle"));
+        }
+
 
         SetPermisssions();
     }
@@ -116,23 +156,60 @@ public class AddItemActivity extends AppCompatActivity {
 
         ItemModel model = new ItemModel(name, img_url, points
                 , num_item);
-        reference.child(mAuth.getCurrentUser().getUid())
-                .child(AllFinal.ITEMS)
-                .push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(AddItemActivity.this, "success added", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-                showProgress(false);
+        if (!is_ubdate) {
+            reference.child(mAuth.getCurrentUser().getUid())
+                    .child(AllFinal.ITEMS)
+                    .push().setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(AddItemActivity.this, "success added", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                    showProgress(false);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("wwwwwwwwfire", e.getMessage());
+                    Toast.makeText(AddItemActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
+                }
+            });
+        } else {
+
+            if (img_url.equals("")) {
+                model.setImg_url(itemModel2.getImg_url());
+
+            } else {
+                model.setImg_url(img_url);
+
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("wwwwwwwwfire", e.getMessage());
-                Toast.makeText(AddItemActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
-                showProgress(false);
-            }
-        });
+
+            Map<String, Object> modelMap = new HashMap<>();
+            modelMap.put(itemModel2.getId(), model);
+
+
+            reference.child(mAuth.getCurrentUser().getUid())
+                    .child(AllFinal.ITEMS)
+                    .updateChildren(modelMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(AddItemActivity.this, "success updated", Toast.LENGTH_SHORT).show();
+
+                    showProgress(false);
+                    onBackPressed();
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddItemActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
+
+                }
+            });
+
+        }
 
 
     }

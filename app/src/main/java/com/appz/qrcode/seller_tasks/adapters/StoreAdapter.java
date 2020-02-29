@@ -1,12 +1,14 @@
 package com.appz.qrcode.seller_tasks.adapters;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,9 +29,12 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implemen
 
 
     public void setModel(List<ItemModel> itemModels) {
+
         StoreAdapter.itemModels = itemModels;
         this.itemModels2 = itemModels;
         this.listClincFilter = new ArrayList<>();
+
+
         notifyDataSetChanged();
     }
 
@@ -102,13 +107,47 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implemen
         private ImageView img_store_item;
         private TextView name_store, all_num_units, point_store, num;
         private ImageButton btn_minis, btn_plus;
+        private PopupMenu popupMenu;
         private View view;
 
 
-        public VH(@NonNull View itemView) {
+        public VH(@NonNull final View itemView) {
             super(itemView);
             this.view = itemView;
             buildView(itemView);
+            popupMenu = new PopupMenu(itemView.getContext(), view);
+            popupMenu.inflate(R.menu.store_menu);
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                    switch (menuItem.getItemId()) {
+                        case R.id.update:
+                            clickItem.onUpdate(getAdapterPosition());
+                            return true;
+
+                        case R.id.delete:
+                            clickItem.ondelete(getAdapterPosition());
+                            itemModels.remove(getAdapterPosition());
+
+                            notifyDataSetChanged();
+                            return true;
+
+                        default:
+                            return false;
+                    }
+
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    popupMenu.show();
+
+                    return false;
+                }
+            });
         }
 
         void fillData(ItemModel model) {

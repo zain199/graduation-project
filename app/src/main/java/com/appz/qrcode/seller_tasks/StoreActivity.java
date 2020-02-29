@@ -3,6 +3,7 @@ package com.appz.qrcode.seller_tasks;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.appz.qrcode.seller_tasks.adapters.StoreAdapter;
 import com.appz.qrcode.seller_tasks.adapters.StoreOnClickItem;
 import com.appz.qrcode.seller_tasks.models.ChartItem;
 import com.appz.qrcode.seller_tasks.models.ItemModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,11 +72,16 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
                     Toast.makeText(StoreActivity.this, "no item in a store try again later", Toast.LENGTH_LONG).show();
                     onBackPressed();
                 }
+                itemModelList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     ItemModel itemModel = snapshot.getValue(ItemModel.class);
+
                     itemModel.setId(snapshot.getKey());
+
                     itemModelList.add(itemModel);
                 }
+
                 adapter.setModel(itemModelList);
                 recyclerView_store.setAdapter(adapter);
 
@@ -105,9 +112,15 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
         chartItemList = new HashMap<>();
 
-        getDataOfRecycle();
 
+        getDataOfRecycle();
         //searchViewListerers();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     private void searchViewListerers() {
@@ -222,6 +235,37 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         ChartItem chartItem = new ChartItem(StoreAdapter.itemModels.get(pos).getImg_url(),
                 StoreAdapter.itemModels.get(pos).getId(), StoreAdapter.itemModels.get(pos).getName(), a, d);
         chartItemList.put(chartItem.getId(), chartItem);
+
+    }
+
+    @Override
+    public void onUpdate(int pos) {
+        Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("item", itemModelList.get(pos));
+        bundle.putBoolean(AllFinal.UPDATE, true);
+        intent.putExtra("bundle1", "dssd");
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+
+
+    }
+
+    @Override
+    public void ondelete(int pos) {
+        Log.d("wwwwwww", StoreAdapter.itemModels.get(pos).getId());
+
+
+        reference.child(mAuth.getCurrentUser().getUid())
+                .child(AllFinal.ITEMS).child(itemModelList.get(pos).getId())
+                .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(StoreActivity.this, "item deleted", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 }

@@ -13,6 +13,7 @@ import com.appz.qrcode.R;
 import com.appz.qrcode.seller_tasks.models.ChartItem;
 import com.bumptech.glide.Glide;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ConfirmAdpter extends RecyclerView.Adapter<ConfirmAdpter.VH> {
@@ -84,7 +85,7 @@ public class ConfirmAdpter extends RecyclerView.Adapter<ConfirmAdpter.VH> {
 
 
             res = chartItem.getNum_selected() * chartItem.getPoint();
-            txt_points.setText(res + " point");
+            txt_points.setText(new DecimalFormat("##.##").format(res) + " point");
 
             img_close.setOnClickListener(new View.OnClickListener() {
                 @Override
