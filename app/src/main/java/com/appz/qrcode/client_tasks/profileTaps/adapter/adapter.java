@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class adapter extends RecyclerView.Adapter<adapter.dataViewHolder> {
 
     private Context context;
-    private ArrayList<Map<String , String>> data;
+    private List<Map<String , String>> data;
     LayoutInflater inflater ;
 
     public adapter(Context context, ArrayList data) {

@@ -1,14 +1,14 @@
 package com.appz.qrcode.seller_tasks;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appz.qrcode.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,15 +22,15 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import com.appz.qrcode.R;
 
 public class SellActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView scannerView;
     private TextView txtResult;
     private String id;
-    private Integer points;
+    private int points;
     private Button goButton;
     private TextView Pointtext;
     // TODO
@@ -42,14 +42,6 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         txtResult=(TextView)findViewById(R.id.txt_result);
         goButton=(Button)findViewById(R.id.goButton);
         Pointtext=(TextView)findViewById(R.id.pointtext);
-        goButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getpoints();
-
-            }
-        });
-
         //Requsting permission
         Dexter.withActivity(this).
                 withPermission(Manifest.permission.CAMERA)
@@ -72,6 +64,13 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
                 })
                 .check();
 
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getpoints();
+            }
+        });
+
     }
     @Override
     protected void onDestroy() {
@@ -82,17 +81,20 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
-        id= txtResult.toString();
+        id = rawResult.getText();
     }
 
     private void getpoints(){
+
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Ration_Data")
-                .child("id").child("points");
+                .child(id).child("points");
+
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              points = dataSnapshot.getValue(Integer.class);
-              Pointtext.setText(points);
+                points = dataSnapshot.getValue(Integer.class);
+                Pointtext.setText(String.valueOf(points));
             }
 
             @Override
