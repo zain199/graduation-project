@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent"
     tools:context=".seller_tasks.StoreActivity">
 
@@ -11,21 +12,38 @@
         android:id="@+id/rel5"
         android:layout_width="match_parent"
         android:layout_height="202dp"
-        android:layout_marginTop="-100dp"
+        android:layout_marginTop="-120dp"
         android:background="@drawable/search_shape">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
-            android:layout_width="match_parent"
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/search_store"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="30dp"-->
+<!--            android:layout_marginTop="120dp"-->
+<!--            android:layout_marginRight="30dp" />-->
+
+        <TextView
+            android:id="@+id/txt_cart_test"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginRight="16dp" />
+            android:textSize="42sp"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="@color/colorAccent"
+           android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:text="S t o r e"
+            android:textStyle="bold"
+            android:fontFamily="cursive"
+            />
+
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_store"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rel5"
@@ -49,6 +67,7 @@
             android:background="@drawable/oval_shape"
             android:paddingTop="7dp"
             android:text="0"
+            android:paddingLeft="20dp"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -64,6 +83,7 @@
             android:background="@drawable/oval_shape"
             android:paddingTop="7dp"
             android:text="0.0 point"
+            android:paddingLeft="16dp"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />

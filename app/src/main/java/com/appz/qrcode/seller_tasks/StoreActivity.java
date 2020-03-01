@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.appz.qrcode.seller_tasks.adapters.StoreAdapter;
 import com.appz.qrcode.seller_tasks.adapters.StoreOnClickItem;
 import com.appz.qrcode.seller_tasks.models.ChartItem;
 import com.appz.qrcode.seller_tasks.models.ItemModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,23 +28,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StoreActivity extends AppCompatActivity implements StoreOnClickItem {
+    // var
+    public static List<ItemModel> itemModelList;
+    public static Map<String, ChartItem> chartItemList;
     // ui
     private RecyclerView recyclerView_store;
     private TextView txt_num_item, txt_all_points;
     private ProgressDialog progressDialog;
-
-
-    // var
-    public static List<ItemModel> itemModelList;
+    private SearchView searchView;
     private StoreAdapter adapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference reference;
-    public static List<ChartItem> chartItemList;
     private double point = 0;
     private int item = 0;
 
@@ -63,14 +67,24 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
                 .child(AllFinal.ITEMS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChildren()) {
+                    showProgress(false);
+                    Toast.makeText(StoreActivity.this, "no item in a store try again later", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+                }
+                itemModelList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     ItemModel itemModel = snapshot.getValue(ItemModel.class);
+
                     itemModel.setId(snapshot.getKey());
+
                     itemModelList.add(itemModel);
                 }
+
                 adapter.setModel(itemModelList);
                 recyclerView_store.setAdapter(adapter);
-                chartItemList = new ArrayList<>(itemModelList.size());
+
                 showProgress(false);
 
             }
@@ -88,23 +102,67 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
         txt_all_points = findViewById(R.id.txt_item_price);
         txt_num_item = findViewById(R.id.txt_item_num);
-
-
+//        searchView = findViewById(R.id.search_store);
         recyclerView_store = findViewById(R.id.rec_store);
-
         recyclerView_store.setHasFixedSize(true);
         recyclerView_store.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         itemModelList = new ArrayList<>();
         adapter = new StoreAdapter();
         adapter.onClickItem(this);
 
+        chartItemList = new HashMap<>();
+
+
         getDataOfRecycle();
+        //searchViewListerers();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    private void searchViewListerers() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.getFilter().filter("#");
+
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adapter.getFilter().filter("#");
+                return false;
+            }
+        });
     }
 
     public void gotoChart(View view) {
-        Intent intent=new Intent(getApplicationContext(),ConfirmActivity.class);
-        intent.putExtra("all_point",AllFinal.ALL_POINT);
+        if (point <= 0) {
+            Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
+        intent.putExtra(AllFinal.ALL_POINT, point);
         startActivity(intent);
+        finish();
+
 
     }
 
@@ -115,11 +173,12 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             progressDialog.dismiss();
         }
     }
+
     @Override
     public void onClickPlus(final int pos, TextView view, TextView v2) {
         int it = Integer.parseInt(v2.getText().toString());
         if (it <= 0) {
-            Toast.makeText(this, "sorry " + itemModelList.get(pos).getName() + " not avaliable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "sorry " + StoreAdapter.itemModels.get(pos).getName() + " not avaliable", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -129,67 +188,84 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         view.setText(a + "");
         item++;
         txt_num_item.setText(item + "");
-        double d = itemModelList.get(pos).getPoint();
+        double d = StoreAdapter.itemModels.get(pos).getPoint();
         point += d;
-        txt_all_points.setText(point + " point");
+        txt_all_points.setText(new DecimalFormat("##.##").format(point) + " point");
         it--;
         v2.setText(it + "");
-        ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
-                itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
-        Log.d("wwwwww",pos+"");
-        if (chartItemList.isEmpty()||pos>=chartItemList.size())
-        {
-            chartItemList.add(pos,chartItem);
-        }
-        else
-        {
-            Log.e("wwwww",pos+" "+chartItemList.size());
-           chartItemList.remove(pos);
-            chartItemList.add(pos,chartItem);
+        ChartItem chartItem = new ChartItem(StoreAdapter.itemModels.get(pos).getImg_url(),
+                StoreAdapter.itemModels.get(pos).getId(), StoreAdapter.itemModels.get(pos).getName(), a, d);
 
-        }
-        Toast.makeText(this, chartItem.getPoint() + "  "+itemModelList.size(), Toast.LENGTH_SHORT).show();
+
+        chartItemList.put(chartItem.getId(), chartItem);
 
 
     }
 
     @Override
     public void onClickMinus(final int pos, TextView view, TextView v2) {
-        final int y = itemModelList.get(pos).getNumber_units();
+        final int y = StoreAdapter.itemModels.get(pos).getNumber_units();
         int it = Integer.parseInt(v2.getText().toString());
         int a = Integer.parseInt(view.getText().toString());
         a--;
-        if (a < 0)
+        if (a < 0) {
             a = 0;
+            chartItemList.remove(StoreAdapter.itemModels.get(pos).getId());
+            return;
+
+        }
+
 
         view.setText(a + "");
         item--;
         if (item < 0)
             item = 0;
         txt_num_item.setText(item + "");
-        double d = itemModelList.get(pos).getPoint();
+        double d = StoreAdapter.itemModels.get(pos).getPoint();
         point -= d;
         if (point < 0)
             point = 0.0;
-        txt_all_points.setText(point + " point");
+        txt_all_points.setText(new DecimalFormat("##.##").format(point) + " point");
         it++;
         if (it > y) {
             it = y;
         }
         v2.setText(it + "");
-        Log.d("wwwwww",pos+"");
-        ChartItem chartItem = new ChartItem(itemModelList.get(pos).getImg_url(),
-                itemModelList.get(pos).getId(), itemModelList.get(pos).getName(), a, (a * d));
-        if (chartItemList.isEmpty()||pos>=chartItemList.size())
-        {
-            chartItemList.add(pos,chartItem);
-        }
-        else
-        {Log.e("wwwww",pos+" "+chartItemList.size());
-            chartItemList.remove(pos);
-            chartItemList.add(pos,chartItem);
 
-        }
-        Toast.makeText(this, chartItem.getPoint()+ "  "+itemModelList.size(), Toast.LENGTH_SHORT).show();
+        ChartItem chartItem = new ChartItem(StoreAdapter.itemModels.get(pos).getImg_url(),
+                StoreAdapter.itemModels.get(pos).getId(), StoreAdapter.itemModels.get(pos).getName(), a, d);
+        chartItemList.put(chartItem.getId(), chartItem);
+
+    }
+
+    @Override
+    public void onUpdate(int pos) {
+        Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("item", itemModelList.get(pos));
+        bundle.putBoolean(AllFinal.UPDATE, true);
+        intent.putExtra("bundle1", "dssd");
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+
+
+    }
+
+    @Override
+    public void ondelete(int pos) {
+        Log.d("wwwwwww", StoreAdapter.itemModels.get(pos).getId());
+
+
+        reference.child(mAuth.getCurrentUser().getUid())
+                .child(AllFinal.ITEMS).child(itemModelList.get(pos).getId())
+                .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(StoreActivity.this, "item deleted", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 }
