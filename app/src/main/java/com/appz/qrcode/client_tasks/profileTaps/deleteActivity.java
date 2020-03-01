@@ -1,32 +1,20 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appz.qrcode.R;
-
-import com.appz.qrcode.client_tasks.models.childName;
 import com.appz.qrcode.helperUi.AllFinal;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
+import com.appz.qrcode.helperUi.NoInternet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,11 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 
 public class deleteActivity extends AppCompatActivity {
 
     //ui
-    ListView listView ;
+    ListView  listView ;
     ProgressDialog progressDialog ;
     TextView textView;
 
@@ -61,58 +52,27 @@ public class deleteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
-
         textView=findViewById(R.id.txt);
         init();
+        //refresh();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     private void init()
     {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait ...");
         progressDialog.show();
-
-
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
-
-
         parentID = getIntent().getStringExtra("id");
-
         getIDs(rationTable.child(parentID));
         getdata(ref.child(parentID).child("points"));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getNames(ids);
-            }
-        },1000);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("omar","done");
-                progressDialog.dismiss();
-                listView = findViewById(R.id.listView);
-                if(ids.size()>0)
-                {
-                    textView.setVisibility(View.VISIBLE);
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
-                    listView.setAdapter(arrayAdapter);
-                    arrayAdapter.notifyDataSetChanged();
-                    onitemclick();
-                }
-                else
-                {
-                    textView.setText("There Are No Children To Delete");
-                    textView.setVisibility(View.VISIBLE);
-                }
-
-            }
-        },1000);
-
-
     }
 
 
@@ -133,9 +93,7 @@ public class deleteActivity extends AppCompatActivity {
                         }
                 }
 
-
-
-
+                getNames(ids);
             }
 
             @Override
@@ -146,7 +104,7 @@ public class deleteActivity extends AppCompatActivity {
 
     }
 
-    private void getNames(List ids)
+    private void getNames(final List ids)
     {
         if(ids.size()>0)
         {
@@ -162,6 +120,17 @@ public class deleteActivity extends AppCompatActivity {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
+
+                        progressDialog.dismiss();
+                        listView = findViewById(R.id.listView);
+
+                            textView.setVisibility(View.VISIBLE);
+                            ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
+                            listView.setAdapter(arrayAdapter);
+                            arrayAdapter.notifyDataSetChanged();
+                            onitemclick();
+
+
                     }
 
                     @Override
@@ -170,9 +139,15 @@ public class deleteActivity extends AppCompatActivity {
                     }
                 });
             }
+        } else
+        {
+            progressDialog.dismiss();
+            textView.setText("There Are No Children To Delete");
+            textView.setVisibility(View.VISIBLE);
         }
 
     }
+
     private void getdata(DatabaseReference reff)
     {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -193,13 +168,37 @@ public class deleteActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),dialogActivity.class);
-                intent.putExtra("name",String.valueOf(name.get(position)));
-                intent.putExtra("childid",String.valueOf(ids.get(position)));
-                intent.putExtra("parentID",parentID);
-                intent.putExtra("parentPoints",points);
-                startActivity(intent);
+
+                if(checkInternetConnection())
+                {
+                    Intent intent = new Intent(getApplicationContext(),dialogActivity.class);
+                    intent.putExtra("name",String.valueOf(name.get(position)));
+                    intent.putExtra("childid",String.valueOf(ids.get(position)));
+                    intent.putExtra("parentID",parentID);
+                    intent.putExtra("parentPoints",points);
+                    startActivity(intent);
+                }else
+                    startActivity(new Intent(deleteActivity.this, NoInternet.class));
             }
         });
+    }
+
+    private  Boolean checkInternetConnection()
+    {
+        Boolean internetConnection = false ;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+
+        if(connection!=null)
+        {
+            if(connection.getType()==ConnectivityManager.TYPE_WIFI)
+                return internetConnection = true;
+            else if (connection.getType()==ConnectivityManager.TYPE_MOBILE)
+                return  internetConnection= true;
+            else
+                return  internetConnection= false;
+        }
+
+        return internetConnection;
     }
 }

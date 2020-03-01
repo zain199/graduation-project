@@ -5,28 +5,45 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.appz.qrcode.R;
 import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SellerActivity extends AppCompatActivity {
-    private Button button;
+import androidx.appcompat.app.AppCompatActivity;
 
+public class SellerActivity extends AppCompatActivity {
+private Button editStore,sell,logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-        button = findViewById(R.id.btn_show_qr);
-        button.setOnClickListener(new View.OnClickListener() {
+        logout=findViewById(R.id.button);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout(v);
+               // Intent intent=new Intent(this,SellActivity.class);
+            }
+        });
+
+
+        editStore=findViewById(R.id.button2);
+        editStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoEditedStore(v);
+                // Intent intent=new Intent(this,SellActivity.class);
+            }
+        });
+
+        sell=findViewById(R.id.button3);
+        sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gotoSell(v);
                 // Intent intent=new Intent(this,SellActivity.class);
             }
         });
-
     }
 
     public void logout(View view) {
