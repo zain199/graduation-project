@@ -60,7 +60,7 @@ public class ConfirmActivity extends AppCompatActivity {
             chartItemList.add(StoreActivity.chartItemList.get(k));
         }
         txt_all_points = findViewById(R.id.txt_confirm_item_price);
-        txt_all_points.setText(new DecimalFormat("##.##").format(all_points));
+        txt_all_points.setText(new DecimalFormat("##.##").format(all_points) + " point");
 
         buildRec();
     }
@@ -82,7 +82,7 @@ public class ConfirmActivity extends AppCompatActivity {
                     all_points = 0;
                 }
                 txt_all_points.setText(new DecimalFormat("##.##").format(all_points) + " point");
-                Toast.makeText(ConfirmActivity.this, points + "order canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConfirmActivity.this, points + " order canceled", Toast.LENGTH_SHORT).show();
             }
         });
     }

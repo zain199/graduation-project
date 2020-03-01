@@ -87,9 +87,9 @@
                 android:layout_below="@id/txt_point_unit_store"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="30dp"
-                android:textSize="18sp"
+                android:text="number of items : "
                 android:textColor="@color/colorPrimaryDark"
-                android:text="number os items : " />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/ed_all_unit_store"
