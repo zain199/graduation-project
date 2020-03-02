@@ -27,7 +27,7 @@ public class overviewActivity extends AppCompatActivity {
 
     List id = new ArrayList();
     List name = new ArrayList();
-    TextView name_parent ;
+    TextView name_parent , child ;
     EditText parent_id , parent_points;
     RecyclerView recyclerView;
     adapter adapter ;
@@ -63,15 +63,12 @@ public class overviewActivity extends AppCompatActivity {
         parentID = getIntent().getStringExtra("id");
         getIDs(rationTable.child(parentID));
 
-
-
     }
 
     private void findbyid()
     {
         recyclerView=findViewById(R.id.recyclerView);
-        //childid = findViewById(R.id.listID);
-        //childname = findViewById(R.id.listName);
+        child=findViewById(R.id.children);
         name_parent = findViewById(R.id.parentName);
         parent_id = findViewById(R.id.parentIDet);
         parent_points = findViewById(R.id.parentPointset);
@@ -94,7 +91,14 @@ public class overviewActivity extends AppCompatActivity {
                 }
                 getPoints(ref.child("points"));
                 getParentName(ref.child("name"));
-                getNames(id);
+                if (id.size()>0)
+                    getNames(id);
+                else
+                {
+                    child.setText("There Are No Children In This Ration Card");
+                    child.setTextSize(18);
+                    progressDialog.dismiss();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
