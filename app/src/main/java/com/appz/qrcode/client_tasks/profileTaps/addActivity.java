@@ -154,9 +154,6 @@ public class addActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     private void getOnwerUid(DatabaseReference ref) {
@@ -191,7 +188,6 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
             }
         });
     }

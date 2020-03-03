@@ -17,11 +17,13 @@ private Button editStore,sell,logout;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-        logout=findViewById(R.id.button);
+        logout=findViewById(R.id.btn_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout(v);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
                // Intent intent=new Intent(this,SellActivity.class);
             }
         });
@@ -46,12 +48,6 @@ private Button editStore,sell,logout;
         });
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        finish();
-
-    }
 
     public void gotoEditedStore(View view) {
         startActivity(new Intent(getApplicationContext(), EditedStoreActivity.class));
