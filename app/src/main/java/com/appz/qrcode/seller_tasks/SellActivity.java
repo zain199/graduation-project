@@ -1,6 +1,7 @@
 package com.appz.qrcode.seller_tasks;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,11 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     private int points;
     private Button goButton;
     private TextView Pointtext;
+    private Button IntentButton;
+
+   // public static final String Client_Id = "Client_Id";
+    //public static final String Client_Points = "Client_Points";
+
     // TODO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,19 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         txtResult=(TextView)findViewById(R.id.txt_result);
         goButton=(Button)findViewById(R.id.goButton);
         Pointtext=(TextView)findViewById(R.id.pointtext);
+        IntentButton=(Button)findViewById(R.id.Button);
+
+        IntentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),StoreActivity.class);
+                String clientpoints= Pointtext.getText().toString();
+                intent.putExtra("Client_Points",clientpoints);
+               // intent.putExtra(Client_Id,id);
+                startActivity(intent);
+            }
+        });
+
         //Requsting permission
         Dexter.withActivity(this).
                 withPermission(Manifest.permission.CAMERA)

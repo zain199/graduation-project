@@ -37,7 +37,7 @@
                 android:id="@+id/goButton"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginRight="50dp"
+                android:layout_gravity="left"
                 android:text="get" />
 
             <TextView
@@ -49,6 +49,13 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:text="go" />
         </LinearLayout>
     </LinearLayout>
 

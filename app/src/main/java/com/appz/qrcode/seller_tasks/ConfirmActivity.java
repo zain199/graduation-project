@@ -1,6 +1,7 @@
 package com.appz.qrcode.seller_tasks;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,6 +95,15 @@ public class ConfirmActivity extends AppCompatActivity {
         }
         Toast.makeText(this, "Confirm successed ", Toast.LENGTH_SHORT).show();
 
+for (int i=0;i<=chartItemList.size();i++){
+    Log.d("omar",chartItemList.get(i).getId());
+    Log.d("omar",chartItemList.get(i).getName());
+    Log.d("omar",String.valueOf(chartItemList.get(i).getPoint()));
+
+}
+
         onBackPressed();
     }
+
+
 }

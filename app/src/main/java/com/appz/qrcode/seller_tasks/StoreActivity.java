@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,13 +50,22 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     private DatabaseReference reference;
     private double point = 0;
     private int item = 0;
+    //omar sameh
+    public String  num_of_clint_points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
-
         reference = database.getReference(AllFinal.STORE_ITEMS);
+
+/////////////////////////////////////////////////
+        Intent intent =getIntent();
+        num_of_clint_points=intent.getStringExtra("Client_Points");
+
+
+//////////////////////////////////////////////////
+
         buildUI();
 
     }
@@ -109,7 +119,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         itemModelList = new ArrayList<>();
         adapter = new StoreAdapter();
         adapter.onClickItem(this);
-
         chartItemList = new HashMap<>();
 
 
@@ -152,18 +161,28 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             }
         });
     }
-
+/////////////////////////////////////////////////////////////////////////
     public void gotoChart(View view) {
+
         if (point <= 0) {
             Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
-        intent.putExtra(AllFinal.ALL_POINT, point);
-        startActivity(intent);
-        finish();
 
 
+
+
+      int client_poiiint = Integer.parseInt(num_of_clint_points);
+
+        if (client_poiiint < point) {
+            Toast.makeText(this, "your points is not enough ", Toast.LENGTH_SHORT).show();
+
+        }else {
+            Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
+            intent.putExtra(AllFinal.ALL_POINT, point);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void showProgress(boolean s) {
@@ -247,8 +266,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         intent.putExtra("bundle1", "dssd");
         intent.putExtra("bundle", bundle);
         startActivity(intent);
-
-
     }
 
     @Override
@@ -266,6 +283,5 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
             }
         });
-
     }
 }
