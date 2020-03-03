@@ -30,11 +30,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class SellActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView scannerView;
     private TextView txtResult;
-    private String id;
-    private int points;
+    public String id;
+    private double points;
     private Button goButton;
     private TextView Pointtext;
     private Button IntentButton;
+
 
    // public static final String Client_Id = "Client_Id";
     //public static final String Client_Points = "Client_Points";
@@ -54,10 +55,14 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),StoreActivity.class);
-                String clientpoints= Pointtext.getText().toString();
-                intent.putExtra("Client_Points",clientpoints);
-               // intent.putExtra(Client_Id,id);
+
+                //String clientpoints= Pointtext.getText().toString();
+                String cliiintId=txtResult.getText().toString();
+
+                intent.putExtra("Client_Points",points);
+                intent.putExtra("Client_Id",cliiintId);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -101,6 +106,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
         id = rawResult.getText();
+
     }
 
     private void getpoints(){
@@ -112,7 +118,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                points = dataSnapshot.getValue(Integer.class);
+                points = dataSnapshot.getValue(Double.class);
                 Pointtext.setText(String.valueOf(points));
             }
 

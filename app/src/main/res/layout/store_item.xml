@@ -133,7 +133,7 @@
 
         <ImageButton
             android:id="@+id/btn_plus"
-            android:layout_width="9dp"
+            android:layout_width="25dp"
             android:layout_height="22dp"
             android:layout_below="@id/txt_name_store"
             android:layout_marginLeft="18dp"

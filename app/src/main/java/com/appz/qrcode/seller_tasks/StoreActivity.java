@@ -51,7 +51,9 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     private double point = 0;
     private int item = 0;
     //omar sameh
-    public String  num_of_clint_points;
+    public double  num_of_clint_points;
+    public String  clientiddd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +63,11 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
 /////////////////////////////////////////////////
         Intent intent =getIntent();
-        num_of_clint_points=intent.getStringExtra("Client_Points");
-
-
-//////////////////////////////////////////////////
+        num_of_clint_points=intent.getDoubleExtra("Client_Points",0);
+        clientiddd=intent.getStringExtra("Client_Id");
+/////////////////////////////////////////////////
 
         buildUI();
-
     }
 
 
@@ -165,21 +165,19 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     public void gotoChart(View view) {
 
         if (point <= 0) {
-            Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "select items first and try again  ", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-
-
-      int client_poiiint = Integer.parseInt(num_of_clint_points);
-
-        if (client_poiiint < point) {
+        if (num_of_clint_points < point) {
             Toast.makeText(this, "your points is not enough ", Toast.LENGTH_SHORT).show();
 
         }else {
             Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
             intent.putExtra(AllFinal.ALL_POINT, point);
+            intent.putExtra("clientt_id",clientiddd);
+            intent.putExtra("client_points_before_sell",num_of_clint_points);
             startActivity(intent);
             finish();
         }
