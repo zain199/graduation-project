@@ -1,6 +1,7 @@
 package com.appz.qrcode.seller_tasks;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +30,16 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class SellActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView scannerView;
     private TextView txtResult;
-    private String id;
-    private int points;
+    public String id;
+    private double points;
     private Button goButton;
     private TextView Pointtext;
+    private Button IntentButton;
+
+
+   // public static final String Client_Id = "Client_Id";
+    //public static final String Client_Points = "Client_Points";
+
     // TODO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,23 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         txtResult=(TextView)findViewById(R.id.txt_result);
         goButton=(Button)findViewById(R.id.goButton);
         Pointtext=(TextView)findViewById(R.id.pointtext);
+        IntentButton=(Button)findViewById(R.id.Button);
+
+        IntentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),StoreActivity.class);
+
+                //String clientpoints= Pointtext.getText().toString();
+                String cliiintId=txtResult.getText().toString();
+
+                intent.putExtra("Client_Points",points);
+                intent.putExtra("Client_Id",cliiintId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         //Requsting permission
         Dexter.withActivity(this).
                 withPermission(Manifest.permission.CAMERA)
@@ -82,6 +106,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
         id = rawResult.getText();
+
     }
 
     private void getpoints(){
@@ -93,7 +118,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                points = dataSnapshot.getValue(Integer.class);
+                points = dataSnapshot.getValue(Double.class);
                 Pointtext.setText(String.valueOf(points));
             }
 

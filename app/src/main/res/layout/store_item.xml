@@ -117,7 +117,6 @@
             android:scaleType="fitXY"
             android:layout_below="@id/txt_name_store"
             android:layout_marginTop="8dp"
-
             android:background="@drawable/buy"
             android:layout_height="50dp"/>
 
@@ -131,17 +130,18 @@
             android:layout_below="@id/txt_name_store"
             android:layout_width="25dp"
             android:layout_height="25dp"/>
+
         <ImageButton
             android:id="@+id/btn_plus"
-            android:layout_marginLeft="8dp"
+            android:layout_width="25dp"
+            android:layout_height="22dp"
+            android:layout_below="@id/txt_name_store"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="22dp"
             android:layout_toRightOf="@id/img_test"
             android:background="@drawable/plus"
-            android:layout_marginTop="22dp"
             android:foreground="?attr/selectableItemBackground"
-            android:scaleType="fitXY"
-            android:layout_below="@id/txt_name_store"
-            android:layout_width="22sp"
-            android:layout_height="22sp"/>
+            android:scaleType="fitXY" />
 
 
     </RelativeLayout>

@@ -4,9 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
@@ -28,12 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class StoreActivity extends AppCompatActivity implements StoreOnClickItem {
     // var
     public static List<ItemModel> itemModelList;
@@ -49,15 +50,24 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     private DatabaseReference reference;
     private double point = 0;
     private int item = 0;
+    //omar sameh
+    public double  num_of_clint_points;
+    public String  clientiddd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
-
         reference = database.getReference(AllFinal.STORE_ITEMS);
-        buildUI();
 
+/////////////////////////////////////////////////
+        Intent intent =getIntent();
+        num_of_clint_points=intent.getDoubleExtra("Client_Points",0);
+        clientiddd=intent.getStringExtra("Client_Id");
+/////////////////////////////////////////////////
+
+        buildUI();
     }
 
 
@@ -109,7 +119,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         itemModelList = new ArrayList<>();
         adapter = new StoreAdapter();
         adapter.onClickItem(this);
-
         chartItemList = new HashMap<>();
 
 
@@ -152,21 +161,26 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             }
         });
     }
-
+/////////////////////////////////////////////////////////////////////////
     public void gotoChart(View view) {
+
         if (point <= 0) {
-            Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
-            return ;
+            Toast.makeText(this, "select items first and try again  ", Toast.LENGTH_SHORT).show();
+            return;
         }
 
 
+        if (num_of_clint_points < point) {
+            Toast.makeText(this, "your points is not enough ", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
-        intent.putExtra(AllFinal.ALL_POINT, point);
-        startActivity(intent);
-        finish();
-
-
+        }else {
+            Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
+            intent.putExtra(AllFinal.ALL_POINT, point);
+            intent.putExtra("clientt_id",clientiddd);
+            intent.putExtra("client_points_before_sell",num_of_clint_points);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void showProgress(boolean s) {
@@ -250,8 +264,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         intent.putExtra("bundle1", "dssd");
         intent.putExtra("bundle", bundle);
         startActivity(intent);
-
-
     }
 
     @Override
@@ -269,6 +281,5 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
             }
         });
-
     }
 }
