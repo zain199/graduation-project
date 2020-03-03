@@ -8,12 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.seller_tasks.adapters.StoreAdapter;
@@ -33,6 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class StoreActivity extends AppCompatActivity implements StoreOnClickItem {
     // var
@@ -156,8 +156,11 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     public void gotoChart(View view) {
         if (point <= 0) {
             Toast.makeText(this, "select items first and try again ", Toast.LENGTH_SHORT).show();
-            return;
+            return ;
         }
+
+
+
         Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
         intent.putExtra(AllFinal.ALL_POINT, point);
         startActivity(intent);

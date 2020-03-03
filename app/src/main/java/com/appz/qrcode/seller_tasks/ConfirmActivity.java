@@ -5,10 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.seller_tasks.adapters.ConfirmAdpter;
@@ -18,6 +14,10 @@ import com.appz.qrcode.seller_tasks.models.ChartItem;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ConfirmActivity extends AppCompatActivity {
 
@@ -52,11 +52,8 @@ public class ConfirmActivity extends AppCompatActivity {
                 onBackPressed();
                 return;
             }
-
-
         }
         for (String k : StoreActivity.chartItemList.keySet()) {
-
             chartItemList.add(StoreActivity.chartItemList.get(k));
         }
         txt_all_points = findViewById(R.id.txt_confirm_item_price);
@@ -75,6 +72,7 @@ public class ConfirmActivity extends AppCompatActivity {
         adpter.addList(chartItemList);
         rec_orders.setAdapter(adpter);
         adpter.onClosrListerner(new ConfirmOnCloseListener() {
+
             @Override
             public void onClose(double points) {
                 all_points -= points;
@@ -93,7 +91,6 @@ public class ConfirmActivity extends AppCompatActivity {
             return;
         }
         Toast.makeText(this, "Confirm successed ", Toast.LENGTH_SHORT).show();
-
         onBackPressed();
     }
 }
