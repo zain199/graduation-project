@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent"
     tools:context=".seller_tasks.StoreActivity">
 
@@ -15,28 +14,27 @@
         android:layout_marginTop="-120dp"
         android:background="@drawable/search_shape">
 
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:id="@+id/search_store"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="30dp"-->
-<!--            android:layout_marginTop="120dp"-->
-<!--            android:layout_marginRight="30dp" />-->
+        <!--        <androidx.appcompat.widget.SearchView-->
+        <!--            android:id="@+id/search_store"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginLeft="30dp"-->
+        <!--            android:layout_marginTop="120dp"-->
+        <!--            android:layout_marginRight="30dp" />-->
 
         <TextView
             android:id="@+id/txt_cart_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="42sp"
-            android:foreground="?attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
-           android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
-            android:text="S t o r e"
-            android:textStyle="bold"
             android:fontFamily="cursive"
-            />
+            android:foreground="?attr/selectableItemBackground"
+            android:text="S t o r e"
+            android:textColor="@color/colorAccent"
+            android:textSize="42sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
@@ -65,9 +63,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:background="@drawable/oval_shape"
+            android:paddingLeft="19dp"
             android:paddingTop="7dp"
             android:text="0"
-            android:paddingLeft="19dp"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -81,9 +79,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:background="@drawable/oval_shape"
+            android:paddingLeft="16dp"
             android:paddingTop="7dp"
             android:text="0.0 point"
-            android:paddingLeft="16dp"
             android:textAlignment="center"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -92,15 +90,15 @@
             android:id="@+id/txt_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:onClick="gotoChart"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:textColor="@color/colorAccent"
             android:layout_centerInParent="true"
-            android:text="Show Cart" />
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="gotoChart"
+            android:paddingLeft="50dp"
+            android:paddingTop="5dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="5dp"
+            android:text="Show Cart"
+            android:textColor="@color/colorAccent"
+            android:textSize="23sp" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".helperUi.NoInternet"
-    android:orientation="vertical"
     android:background="@color/cardview_light_background"
-    >
+    android:orientation="vertical"
+    tools:context=".helperUi.NoInternet">
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="320dp"
         android:layout_height="312dp"
-        android:background="@drawable/nointernet"
-        android:text=""
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
-        />
+        android:background="@drawable/nointernet"
+        android:text="" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="319dp"
         android:layout_height="45dp"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:text="No Internet Connection"
         android:textColor="@color/text_color"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
         android:text="Please Check Your Internet Connection"
         android:textColor="@color/text_colorlight"
-        android:textSize="20sp"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"/>
-
-
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

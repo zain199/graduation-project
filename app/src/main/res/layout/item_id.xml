@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    >
+    android:orientation="vertical"
+    android:padding="16dp">
 
 
     <androidx.cardview.widget.CardView
@@ -15,21 +15,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/childID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="child ID"
                 android:layout_below="@+id/parentName"
-                android:textSize="18sp"
                 android:layout_marginLeft="8dp"
-                android:textStyle="bold|italic"
-                android:fontFamily="monospace"
                 android:layout_marginTop="20dp"
-                >
+                android:fontFamily="monospace"
+                android:text="child ID"
+                android:textSize="18sp"
+                android:textStyle="bold|italic">
 
             </TextView>
 
@@ -38,14 +36,13 @@
                 android:id="@+id/childName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="child name "
                 android:layout_below="@+id/childID"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                android:fontFamily="monospace"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="50dp"
-                >
+                android:layout_marginTop="20dp"
+                android:fontFamily="monospace"
+                android:text="child name "
+                android:textSize="18sp"
+                android:textStyle="bold|italic">
 
             </TextView>
 

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +38,9 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     // var
     public static List<ItemModel> itemModelList;
     public static Map<String, ChartItem> chartItemList;
+    //omar sameh
+    public double num_of_clint_points;
+    public String clientiddd;
     // ui
     private RecyclerView recyclerView_store;
     private TextView txt_num_item, txt_all_points;
@@ -50,10 +52,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     private DatabaseReference reference;
     private double point = 0;
     private int item = 0;
-    //omar sameh
-    public double  num_of_clint_points;
-    public String  clientiddd;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +60,9 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         reference = database.getReference(AllFinal.STORE_ITEMS);
 
 /////////////////////////////////////////////////
-        Intent intent =getIntent();
-        num_of_clint_points=intent.getDoubleExtra("Client_Points",0);
-        clientiddd=intent.getStringExtra("Client_Id");
+        Intent intent = getIntent();
+        num_of_clint_points = intent.getDoubleExtra("Client_Points", 0);
+        clientiddd = intent.getStringExtra("Client_Id");
 /////////////////////////////////////////////////
 
         buildUI();
@@ -126,11 +124,6 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         //searchViewListerers();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
 
     private void searchViewListerers() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -161,7 +154,8 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
             }
         });
     }
-/////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////
     public void gotoChart(View view) {
 
         if (point <= 0) {
@@ -173,11 +167,11 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
         if (num_of_clint_points < point) {
             Toast.makeText(this, "your points is not enough ", Toast.LENGTH_SHORT).show();
 
-        }else {
+        } else {
             Intent intent = new Intent(getApplicationContext(), ConfirmActivity.class);
             intent.putExtra(AllFinal.ALL_POINT, point);
-            intent.putExtra("clientt_id",clientiddd);
-            intent.putExtra("client_points_before_sell",num_of_clint_points);
+            intent.putExtra("clientt_id", clientiddd);
+            intent.putExtra("client_points_before_sell", num_of_clint_points);
             startActivity(intent);
             finish();
         }

@@ -5,6 +5,15 @@ public class MemberModel {
     private String name;
     private double point;
 
+    public MemberModel() {
+    }
+
+    public MemberModel(String id, String name) {
+        this.id = id;
+        this.name = name;
+        point = 50.0;
+    }
+
     public String getId() {
         return id;
     }
@@ -27,14 +36,5 @@ public class MemberModel {
 
     public void setPoint(int point) {
         this.point = point;
-    }
-
-    public MemberModel() {
-    }
-
-    public MemberModel(String id, String name) {
-        this.id = id;
-        this.name = name;
-        point=50.0;
     }
 }

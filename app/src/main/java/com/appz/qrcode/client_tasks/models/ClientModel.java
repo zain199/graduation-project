@@ -5,8 +5,8 @@ import java.util.List;
 public class ClientModel {
     private String id;
     private String name;
-    private  double point;
-    private List<MemberModel>memberModels;
+    private double point;
+    private List<MemberModel> memberModels;
 
     public ClientModel() {
     }
@@ -15,6 +15,12 @@ public class ClientModel {
         this.id = id;
         this.name = name;
         this.memberModels = memberModels;
+    }
+
+    public ClientModel(String id, String name) {
+        this.id = id;
+        this.name = name;
+        point = 50.0;
     }
 
     public String getId() {
@@ -47,11 +53,5 @@ public class ClientModel {
 
     public void setMemberModels(List<MemberModel> memberModels) {
         this.memberModels = memberModels;
-    }
-
-    public ClientModel(String id, String name) {
-        this.id = id;
-        this.name = name;
-        point=50.0;
     }
 }

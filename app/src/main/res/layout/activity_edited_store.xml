@@ -9,9 +9,9 @@
     <Button
         android:id="@+id/btn_add_item"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:onClick="addItem"
-        android:layout_height="wrap_content"
         android:text="add new item" />
 
     <Button

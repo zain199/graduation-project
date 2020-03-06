@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.helperUi.NoInternet;
@@ -24,35 +27,28 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 
 public class deleteActivity extends AppCompatActivity {
 
-    //ui
-    ListView  listView ;
-    ProgressDialog progressDialog ;
-    TextView textView;
-
-    //var
-    List ids = new ArrayList() ;
-    List name = new ArrayList();
-    String parentID ;
-    int points  ;
-
-
-    //database
-    private FirebaseDatabase database ;
-    private DatabaseReference ref ;
-
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
+    //ui
+    ListView listView;
+    ProgressDialog progressDialog;
+    TextView textView;
+    //var
+    List ids = new ArrayList();
+    List name = new ArrayList();
+    String parentID;
+    int points;
+    //database
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
-        textView=findViewById(R.id.txt);
+        textView = findViewById(R.id.txt);
         init();
         //refresh();
     }
@@ -63,8 +59,7 @@ public class deleteActivity extends AppCompatActivity {
 
     }
 
-    private void init()
-    {
+    private void init() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait ...");
         progressDialog.show();
@@ -76,21 +71,18 @@ public class deleteActivity extends AppCompatActivity {
     }
 
 
-    private void getIDs (final DatabaseReference ref)
-    {
+    private void getIDs(final DatabaseReference ref) {
 
         ids.clear();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(final DataSnapshot data : dataSnapshot.getChildren())
-                {
-                        if(Character.isDigit(data.getKey().charAt(0)))
-                        {
-                            ids.add(data.getKey());
+                for (final DataSnapshot data : dataSnapshot.getChildren()) {
+                    if (Character.isDigit(data.getKey().charAt(0))) {
+                        ids.add(data.getKey());
 
-                        }
+                    }
                 }
 
                 getNames(ids);
@@ -104,19 +96,15 @@ public class deleteActivity extends AppCompatActivity {
 
     }
 
-    private void getNames(final List ids)
-    {
-        if(ids.size()>0)
-        {
-            for (int i=0 ; i<ids.size();i++)
-            {
+    private void getNames(final List ids) {
+        if (ids.size() > 0) {
+            for (int i = 0; i < ids.size(); i++) {
 
                 final DatabaseReference reference = rationTable.child(parentID).child(String.valueOf(ids.get(i)));
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren())
-                        {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
@@ -124,11 +112,11 @@ public class deleteActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         listView = findViewById(R.id.listView);
 
-                            textView.setVisibility(View.VISIBLE);
-                            ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this ,android.R.layout.simple_list_item_1 ,name);
-                            listView.setAdapter(arrayAdapter);
-                            arrayAdapter.notifyDataSetChanged();
-                            onitemclick();
+                        textView.setVisibility(View.VISIBLE);
+                        ArrayAdapter arrayAdapter = new ArrayAdapter(deleteActivity.this, android.R.layout.simple_list_item_1, name);
+                        listView.setAdapter(arrayAdapter);
+                        arrayAdapter.notifyDataSetChanged();
+                        onitemclick();
 
 
                     }
@@ -139,8 +127,7 @@ public class deleteActivity extends AppCompatActivity {
                     }
                 });
             }
-        } else
-        {
+        } else {
             progressDialog.dismiss();
             textView.setText("There Are No Children To Delete");
             textView.setVisibility(View.VISIBLE);
@@ -148,8 +135,7 @@ public class deleteActivity extends AppCompatActivity {
 
     }
 
-    private void getdata(DatabaseReference reff)
-    {
+    private void getdata(DatabaseReference reff) {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -163,40 +149,36 @@ public class deleteActivity extends AppCompatActivity {
         });
     }
 
-    private void onitemclick()
-    {
+    private void onitemclick() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(checkInternetConnection())
-                {
-                    Intent intent = new Intent(getApplicationContext(),dialogActivity.class);
-                    intent.putExtra("name",String.valueOf(name.get(position)));
-                    intent.putExtra("childid",String.valueOf(ids.get(position)));
-                    intent.putExtra("parentID",parentID);
-                    intent.putExtra("parentPoints",points);
+                if (checkInternetConnection()) {
+                    Intent intent = new Intent(getApplicationContext(), dialogActivity.class);
+                    intent.putExtra("name", String.valueOf(name.get(position)));
+                    intent.putExtra("childid", String.valueOf(ids.get(position)));
+                    intent.putExtra("parentID", parentID);
+                    intent.putExtra("parentPoints", points);
                     startActivity(intent);
-                }else
+                } else
                     startActivity(new Intent(deleteActivity.this, NoInternet.class));
             }
         });
     }
 
-    private  Boolean checkInternetConnection()
-    {
-        Boolean internetConnection = false ;
+    private Boolean checkInternetConnection() {
+        Boolean internetConnection = false;
         ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo connection = manager.getActiveNetworkInfo();
 
-        if(connection!=null)
-        {
-            if(connection.getType()==ConnectivityManager.TYPE_WIFI)
+        if (connection != null) {
+            if (connection.getType() == ConnectivityManager.TYPE_WIFI)
                 return internetConnection = true;
-            else if (connection.getType()==ConnectivityManager.TYPE_MOBILE)
-                return  internetConnection= true;
+            else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                return internetConnection = true;
             else
-                return  internetConnection= false;
+                return internetConnection = false;
         }
 
         return internetConnection;

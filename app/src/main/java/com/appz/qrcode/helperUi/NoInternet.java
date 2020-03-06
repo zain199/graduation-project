@@ -1,8 +1,10 @@
 package com.appz.qrcode.helperUi;
 
 import android.os.Bundle;
-import com.appz.qrcode.R;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.appz.qrcode.R;
 
 public class NoInternet extends AppCompatActivity {
 

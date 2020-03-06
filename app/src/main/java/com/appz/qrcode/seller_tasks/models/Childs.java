@@ -2,7 +2,7 @@ package com.appz.qrcode.seller_tasks.models;
 
 public class Childs {
 
-    private String id ;
+    private String id;
     private String name;
 
     public Childs() {

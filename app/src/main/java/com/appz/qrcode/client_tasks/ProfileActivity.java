@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.appz.qrcode.R;
 import com.appz.qrcode.client_tasks.profileTaps.addActivity;
 import com.appz.qrcode.client_tasks.profileTaps.deleteActivity;
@@ -28,18 +31,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class ProfileActivity extends AppCompatActivity {
 
-    Button add , delete , overview , restore ;
-    FirebaseUser CurrentUser= FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
+    Button add, delete, overview, restore;
+    FirebaseUser CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
     boolean ok = false;
     List ids = new ArrayList();
-    String id ;
-    ProgressDialog progressDialog ;
+    String id;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         findByID();
     }
 
-    private void init()
-    {
+    private void init() {
         progressDialog = new ProgressDialog(ProfileActivity.this);
         progressDialog.setMessage("Please Wait ...");
         progressDialog.show();
@@ -60,20 +59,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void isGenerated(List ids) {
 
-        for(int i = 0 ; i < ids.size();++i)
-        {
-            if(ids.get(i).equals(CurrentUser.getUid()))
-            {
-                ok= true;
+        for (int i = 0; i < ids.size(); ++i) {
+            if (ids.get(i).equals(CurrentUser.getUid())) {
+                ok = true;
                 getParentId(reference.child(CurrentUser.getUid()));
                 break;
             }
         }
 
-        if (!ok)
-        {
+        if (!ok) {
             progressDialog.dismiss();
-            add();delete();overview();restoreQR();
+            add();
+            delete();
+            overview();
+            restoreQR();
         }
     }
 
@@ -82,8 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren())
-                {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     ids.add(data.getKey());
                 }
                 isGenerated(ids);
@@ -97,8 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void findByID()
-    {
+    private void findByID() {
         add = findViewById(R.id.addchild);
         delete = findViewById(R.id.delete);
         overview = findViewById(R.id.view);
@@ -106,24 +103,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void add()
-    {
+    private void add() {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(checkInternetConnection())
-                {
-                    if(ok)
-                    {
-                                Intent intent =  new Intent(ProfileActivity.this , addActivity.class);
-                                intent.putExtra("id",id);
-                                startActivity(intent);
+                if (checkInternetConnection()) {
+                    if (ok) {
+                        Intent intent = new Intent(ProfileActivity.this, addActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
 
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
-                }else
+                    } else
+                        Toast.makeText(getApplicationContext(), "You Don't Have A QR Code", Toast.LENGTH_LONG).show();
+                } else
                     startActivity(new Intent(ProfileActivity.this, NoInternet.class));
 
 
@@ -151,27 +144,23 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void delete()
-    {
+    private void delete() {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(checkInternetConnection())
-                {
-                    if(ok)
-                    {
+                if (checkInternetConnection()) {
+                    if (ok) {
 
 
-                                Intent intent =  new Intent(ProfileActivity.this , deleteActivity.class);
-                                intent.putExtra("id",id);
+                        Intent intent = new Intent(ProfileActivity.this, deleteActivity.class);
+                        intent.putExtra("id", id);
 
-                                startActivity(intent);
+                        startActivity(intent);
 
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
-                }else
+                    } else
+                        Toast.makeText(getApplicationContext(), "You Don't Have A QR Code", Toast.LENGTH_LONG).show();
+                } else
                     startActivity(new Intent(ProfileActivity.this, NoInternet.class));
 
 
@@ -180,26 +169,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void overview()
-    {
+    private void overview() {
         overview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(checkInternetConnection())
-                {
-                    if(ok)
-                    {
+                if (checkInternetConnection()) {
+                    if (ok) {
 
-                                Intent intent =  new Intent(ProfileActivity.this , overviewActivity.class);
-                                intent.putExtra("id",id);
+                        Intent intent = new Intent(ProfileActivity.this, overviewActivity.class);
+                        intent.putExtra("id", id);
 
-                                startActivity(intent);
+                        startActivity(intent);
 
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
-                }else
+                    } else
+                        Toast.makeText(getApplicationContext(), "You Don't Have A QR Code", Toast.LENGTH_LONG).show();
+                } else
                     startActivity(new Intent(ProfileActivity.this, NoInternet.class));
 
 
@@ -208,26 +193,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void restoreQR()
-    {
+    private void restoreQR() {
         restore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(checkInternetConnection())
-                {
-                    if(ok)
-                    {
+                if (checkInternetConnection()) {
+                    if (ok) {
 
-                                Intent intent =  new Intent(ProfileActivity.this , QrActivity.class);
-                                intent.putExtra("idCard",id);
+                        Intent intent = new Intent(ProfileActivity.this, QrActivity.class);
+                        intent.putExtra("idCard", id);
 
-                                startActivity(intent);
+                        startActivity(intent);
 
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(),"You Don't Have A QR Code",Toast.LENGTH_LONG).show();
-                }else
+                    } else
+                        Toast.makeText(getApplicationContext(), "You Don't Have A QR Code", Toast.LENGTH_LONG).show();
+                } else
                     startActivity(new Intent(ProfileActivity.this, NoInternet.class));
 
 
@@ -235,20 +216,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private  Boolean checkInternetConnection()
-    {
-         Boolean internetConnection = false ;
+    private Boolean checkInternetConnection() {
+        Boolean internetConnection = false;
         ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo connection = manager.getActiveNetworkInfo();
 
-        if(connection!=null)
-        {
-            if(connection.getType()==ConnectivityManager.TYPE_WIFI)
+        if (connection != null) {
+            if (connection.getType() == ConnectivityManager.TYPE_WIFI)
                 return internetConnection = true;
-            else if (connection.getType()==ConnectivityManager.TYPE_MOBILE)
-                return  internetConnection= true;
+            else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                return internetConnection = true;
             else
-                return  internetConnection= false;
+                return internetConnection = false;
         }
 
         return internetConnection;

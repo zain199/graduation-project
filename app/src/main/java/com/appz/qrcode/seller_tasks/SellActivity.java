@@ -3,11 +3,13 @@ package com.appz.qrcode.seller_tasks;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.appz.qrcode.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,21 +25,19 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class SellActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+    public String id;
     private ZXingScannerView scannerView;
     private TextView txtResult;
-    public String id;
     private double points;
     private Button goButton;
     private TextView Pointtext;
     private Button IntentButton;
 
 
-   // public static final String Client_Id = "Client_Id";
+    // public static final String Client_Id = "Client_Id";
     //public static final String Client_Points = "Client_Points";
 
     // TODO
@@ -45,22 +45,22 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
-        scannerView=(ZXingScannerView)findViewById(R.id.zxscan);
-        txtResult=(TextView)findViewById(R.id.txt_result);
-        goButton=(Button)findViewById(R.id.goButton);
-        Pointtext=(TextView)findViewById(R.id.pointtext);
-        IntentButton=(Button)findViewById(R.id.Button);
+        scannerView = findViewById(R.id.zxscan);
+        txtResult = findViewById(R.id.txt_result);
+        goButton = findViewById(R.id.goButton);
+        Pointtext = findViewById(R.id.pointtext);
+        IntentButton = findViewById(R.id.Button);
 
         IntentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),StoreActivity.class);
+                Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
 
                 //String clientpoints= Pointtext.getText().toString();
-                String cliiintId=txtResult.getText().toString();
+                String cliiintId = txtResult.getText().toString();
 
-                intent.putExtra("Client_Points",points);
-                intent.putExtra("Client_Id",cliiintId);
+                intent.putExtra("Client_Points", points);
+                intent.putExtra("Client_Id", cliiintId);
                 startActivity(intent);
                 finish();
             }
@@ -78,7 +78,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(SellActivity.this,"you must accept this permission",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SellActivity.this, "you must accept this permission", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -96,6 +96,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         });
 
     }
+
     @Override
     protected void onDestroy() {
         scannerView.stopCamera();
@@ -109,9 +110,9 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
 
     }
 
-    private void getpoints(){
+    private void getpoints() {
 
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Ration_Data")
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Ration_Data")
                 .child(id).child("points");
 
 

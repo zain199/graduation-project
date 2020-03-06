@@ -1,34 +1,39 @@
 package com.appz.qrcode.helperUi;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.SparseArray;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Snapshot;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.exifinterface.media.ExifInterface;
+
 import com.appz.qrcode.R;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.text.TextBlock;
-import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,46 +41,97 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class detect_text extends AppCompatActivity {
 
-    //UI
-    ImageButton imageButton;
-    ImageView imageView;
-    EditText ed_id,ed_name ;
-    Button add;
-    ProgressDialog progressDialog ;
-
-
     // variables
-    private static final int CAMERA_CODE=200;
-    private static final int STORAGE_CODE=400;
-    private static final int PICK_CAMERA_CODE=1001;
-    private static final int PICK_STORAGE_CODE=1000;
-    private Uri image_uri;
-    boolean generated = false;
-    private String id ,name ;
-    List ids = new ArrayList();
-    List correctIds = new ArrayList();
-
-    // arrays
-    String [] CAMERA_PERMISSION;
-    String [] STORAGE_PERMISSSION;
-
+    private static final int CAMERA_CODE = 200;
+    private static final int STORAGE_CODE = 400;
+    private static final int PICK_CAMERA_CODE = 1001;
+    private static final int PICK_STORAGE_CODE = 1000;
     //database var
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     private final DatabaseReference generatedTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
+    ImageView imageView;
+    EditText ed_id, ed_name;
+    Button add;
+    ProgressDialog progressDialog;
+    boolean generated = false;
+    List ids = new ArrayList();
+    List correctIds = new ArrayList();
 
+    // arrays
+    String[] CAMERA_PERMISSION;
+    String[] STORAGE_PERMISSSION;
+    //UI
+    private ImageButton btn_create_qrcode;
+    private Uri image_uri;
+    private String id, name;
     private FirebaseUser CurrentUser;
     private boolean Correct;
     private Boolean AlreadyExist;
 
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +142,7 @@ public class detect_text extends AppCompatActivity {
 
         findByid();
         SetPermisssions();
-        uploadAction();
+
         generateQR();
 
 
@@ -96,31 +152,27 @@ public class detect_text extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-         isGenerated(generatedTable);
+        isGenerated(generatedTable);
     }
 
-
-
-    private void SetPermisssions()
-    {
-        CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA , Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private void SetPermisssions() {
+        CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         STORAGE_PERMISSSION = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
-    private void findByid()
-    {
-        imageButton = findViewById(R.id.selectImg);
+    private void findByid() {
+        btn_create_qrcode = findViewById(R.id.btn_selectImg_qrcode);
         imageView = findViewById(R.id.OutImg);
-        add= findViewById(R.id.btn_add_all);
+        add = findViewById(R.id.btn_add_all);
         ed_id = findViewById(R.id.ed_id);
         ed_name = findViewById(R.id.ed_name);
         progressDialog = new ProgressDialog(detect_text.this);
+        selectAndDetectImgForeQrCode();
     }
 
-    private void showDialog()
-    {
-        String [] options = {"CAMERA" , "GALLERY"};
-        AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
+    private void showDialog() {
+        String[] options = {"CAMERA", "GALLERY"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(detect_text.this);
 
 
         builder.setTitle("upload image")
@@ -128,17 +180,15 @@ public class detect_text extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        if(i==0)
-                        {
-                            if(!checkCameraPermission())
+                        if (i == 0) {
+                            if (!checkCameraPermission())
                                 requestCameraPermission();
-                            else
-                                pickCamera();
+                            else {
 
-                        }
-                        else if(i==1)
-                        {
-                            if(!checkStoragePermission())
+                            }
+
+                        } else if (i == 1) {
+                            if (!checkStoragePermission())
                                 requestStoragePermission();
                             else
                                 pickGallery();
@@ -149,83 +199,61 @@ public class detect_text extends AppCompatActivity {
                 .create().show();
     }
 
-    private void msgDialog(String s)
-    {
-        AlertDialog.Builder  builder = new AlertDialog.Builder(detect_text.this);
+    private void msgDialog(String s) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(detect_text.this);
         builder.setMessage(s);
         builder.create();
     }
 
-    private void pickGallery()
-    {
+    private void pickGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent,PICK_STORAGE_CODE);
+        startActivityForResult(intent, PICK_STORAGE_CODE);
     }
 
-    private void pickCamera()
-    {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE , "new Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION , "image to text");
-
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI , values);
-
-        Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cam.putExtra(MediaStore.EXTRA_OUTPUT , image_uri);
-        startActivityForResult(cam ,PICK_CAMERA_CODE);
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(detect_text.this, CAMERA_PERMISSION, CAMERA_CODE);
     }
 
-    private void requestCameraPermission()
-    {
-        ActivityCompat.requestPermissions(detect_text.this ,CAMERA_PERMISSION ,CAMERA_CODE);
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(detect_text.this, STORAGE_PERMISSSION, STORAGE_CODE);
     }
 
-    private void requestStoragePermission()
-    {
-        ActivityCompat.requestPermissions(detect_text.this ,STORAGE_PERMISSSION ,STORAGE_CODE);
+    private boolean checkCameraPermission() {
+        boolean r1 = ContextCompat.checkSelfPermission(detect_text.this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean r2 = ContextCompat.checkSelfPermission(detect_text.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return r1 && r2;
     }
 
-    private boolean checkCameraPermission()
-    {
-        boolean r1 = ContextCompat.checkSelfPermission(detect_text.this , Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
-        boolean r2 = ContextCompat.checkSelfPermission(detect_text.this , Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        return  r1&&r2;
-    }
-
-    private boolean checkStoragePermission()
-    {
-        boolean r = ContextCompat.checkSelfPermission(detect_text.this , Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        return  r;
+    private boolean checkStoragePermission() {
+        boolean r = ContextCompat.checkSelfPermission(detect_text.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return r;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case CAMERA_CODE:
-                if(grantResults.length>0)
-                {
-                    boolean cam = grantResults[0]== PackageManager.PERMISSION_GRANTED;
-                    boolean storage = grantResults[0]== PackageManager.PERMISSION_GRANTED;
+                if (grantResults.length > 0) {
+                    boolean cam = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
-                    if(cam && storage)
-                        pickCamera();
-                    else
-                        Toast.makeText(detect_text.this , "Permission Denied" ,Toast.LENGTH_SHORT ).show();
+                    if (cam && storage) {
+
+                    } else
+                        Toast.makeText(detect_text.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
 
             case STORAGE_CODE:
-                if(grantResults.length>0)
-                {
-                    boolean storage = grantResults[0]== PackageManager.PERMISSION_GRANTED;
+                if (grantResults.length > 0) {
+                    boolean storage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
-                    if(storage)
+                    if (storage)
                         pickGallery();
                     else
-                        Toast.makeText(detect_text.this , "Permission Denied" ,Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(detect_text.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -235,114 +263,224 @@ public class detect_text extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == PICK_STORAGE_CODE) {
-                CropImage.activity(data.getData())
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(detect_text.this);
-            } else if (requestCode == PICK_CAMERA_CODE) {
-                CropImage.activity(image_uri)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(detect_text.this);
+        if (resultCode == RESULT_OK && requestCode == 40) {
+            Uri chosenImageUri = data.getData();
+
+
+            Bitmap mBitmap = null;
+            try {
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface(getContentResolver().openInputStream(chosenImageUri));
+                } catch (IOException e) {
+                    Toast.makeText(this, e.getCause() + "", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+                mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
+                Bitmap bmRotated = rotateBitmap(mBitmap, orientation);
+
+
+                recognizeText(bmRotated);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
 
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = activityResult.getUri();
 
-                imageView.setImageURI(resultUri);
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                Uri resultUri = activityResult.getUri();
+//
+//                imageView.setImageURI(resultUri);
+//
+//
+//                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+//                Bitmap bitmap =  bitmapDrawable.getBitmap();
+//
+//                TextRecognizer textRecognizer = new TextRecognizer.Builder(
+//                        getApplicationContext()).build();
+//
+//                if (!textRecognizer.isOperational())
+//                    Toast.makeText(detect_text.this, "Error", Toast.LENGTH_SHORT).show();
+//                else {
+//                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+//                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
+//
+//
+//
+//                    StringBuilder sb = new StringBuilder();
+//
+//
+//                    if(items.size()==0)
+//                        Toast.makeText(detect_text.this , "no text found" , Toast.LENGTH_SHORT).show();
+//                    else
+//                    {
+//                        for (int i = 0; i < items.size(); i++) {
+//                            TextBlock textBlock = items.valueAt(i);
+//                            sb.append(textBlock.getValue());
+//                            //sb.append("\n");
+//                        }
+//
+//                        String text = sb.toString().trim();
+//                        String temp ="";
+//
+//                        // id text
+//                        for(int i = 0 ; i < text.length()-2;++i)
+//                        {
+//
+//                            if(text.charAt(i)=='I'&&text.charAt(i+1)=='D'&&text.charAt(i+2)==' ')
+//                            {
+//                                int x = i+3;
+//                                for (int b = i+3;b-x<17;b++) {
+//                                    temp+=text.charAt(b);
+//                                }
+//
+//                                break;
+//                            }
+//                        }
+//                        ed_id.setText(temp);
+//
+//
+//
+//                        // name text
+//                        temp ="";
+//                        for(int i = 0 ; i < text.length()-3;++i)
+//                        {
+//
+//                            if(text.charAt(i)=='N'&&text.charAt(i+1)=='a'&&text.charAt(i+2)=='m'&&text.charAt(i+3)=='e')
+//                            {
+//
+//                                for (int b = i+4;;b++) {
+//
+//                                    if(text.charAt(b)=='A'&&text.charAt(b+1)=='d'&&text.charAt(b+2)=='d'&&
+//                                            text.charAt(b+3)=='r'&&text.charAt(b+4)=='e'&&text.charAt(b+5)=='s'&& text.charAt(b+6)=='s')
+//                                        break;
+//                                    temp+=text.charAt(b);
+//                                }
+//
+//                                break;
+//                            }
+//                        }
+//                        ed_name.setText(temp);
+//
+//
+//                    }
+//
+//                }
+//            }
+//            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//
+//                Exception exception = activityResult.getError();
+//                Toast.makeText(detect_text.this , ""+exception , Toast.LENGTH_SHORT).show();
+//            }
+//        }
+    }
+
+    private void recognizeText(Bitmap bitmap) {
+        //تحويل بيتماب الى بيتماب قابل للتعديل
+        final Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        final Canvas canvas = new Canvas(mBitmap);
+        //الحصول على الكود
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
+        FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+        detector.processImage(image)
+                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                    @Override
+                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                        // انتهى بنجاح
+//                        Paint redPaint = getPaint(Color.RED, .5f);
+//                        Paint blackPaint = getPaint(Color.BLACK, .5f);
+//                        Paint bluePaint = getPaint(Color.CYAN, .5f);
+                        String text = "";
+
+                        //تجلب البلوكس
+                        for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
+                            //احدثيات النص
+                            Rect boundingBox = block.getBoundingBox();
+                            //Padding
 
 
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-                Bitmap bitmap =  bitmapDrawable.getBitmap();
-
-                TextRecognizer textRecognizer = new TextRecognizer.Builder(
-                        getApplicationContext()).build();
-
-                if (!textRecognizer.isOperational())
-                    Toast.makeText(detect_text.this, "Error", Toast.LENGTH_SHORT).show();
-                else {
-                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
-
-
-
-                    StringBuilder sb = new StringBuilder();
-
-
-                    if(items.size()==0)
-                        Toast.makeText(detect_text.this , "no text found" , Toast.LENGTH_SHORT).show();
-                    else
-                    {
-                        for (int i = 0; i < items.size(); i++) {
-                            TextBlock textBlock = items.valueAt(i);
-                            sb.append(textBlock.getValue());
-                            //sb.append("\n");
-                        }
-
-                        String text = sb.toString().trim();
-                        String temp ="";
-
-                        // id text
-                        for(int i = 0 ; i < text.length()-2;++i)
-                        {
-
-                            if(text.charAt(i)=='I'&&text.charAt(i+1)=='D'&&text.charAt(i+2)==' ')
-                            {
-                                int x = i+3;
-                                for (int b = i+3;b-x<17;b++) {
-                                    temp+=text.charAt(b);
+                            boundingBox.top = boundingBox.top - 5;
+                            boundingBox.bottom = boundingBox.bottom + 5;
+                            //رسم مستطيل احمر حول النص
+                            //canvas.drawRect(boundingBox,redPaint);
+                            //تجلب الاسطر داخل كل بلوك
+                            for (FirebaseVisionText.Line line : block.getLines()) {
+                                //اخد كل سطر و الانتقال للسطر التالي
+                                text += line.getText() + "\n";
+                                //Padding
+                                line.getBoundingBox().top = line.getBoundingBox().top - 2;
+                                line.getBoundingBox().bottom = line.getBoundingBox().bottom + 2;
+                                line.getBoundingBox().right = line.getBoundingBox().right + 2;
+                                //رسم مستطيل اسود حول كل سطر
+                                // canvas.drawRect(line.getBoundingBox(), blackPaint);
+                                //تجلب العناصر او الكلمات داخل كل سطر
+                                for (FirebaseVisionText.Element element : line.getElements()) {
+                                    //رسم مستطيل ازرق حول كل كلمة
+                                    // canvas.drawRect(element.getBoundingBox(), bluePaint);
                                 }
-
-                                break;
                             }
                         }
-                        ed_id.setText(temp);
+                        //اضافة النص للعنصر
+                        String[] split1 = text.split("\n");
 
-
-
-                        // name text
-                        temp ="";
-                        for(int i = 0 ; i < text.length()-3;++i)
-                        {
-
-                            if(text.charAt(i)=='N'&&text.charAt(i+1)=='a'&&text.charAt(i+2)=='m'&&text.charAt(i+3)=='e')
-                            {
-
-                                for (int b = i+4;;b++) {
-
-                                    if(text.charAt(b)=='A'&&text.charAt(b+1)=='d'&&text.charAt(b+2)=='d'&&
-                                            text.charAt(b+3)=='r'&&text.charAt(b+4)=='e'&&text.charAt(b+5)=='s'&& text.charAt(b+6)=='s')
-                                        break;
-                                    temp+=text.charAt(b);
-                                }
-
-                                break;
-                            }
+                        for (String s : split1) {
+                            Log.d("wwwwwwww111", s);
                         }
-                        ed_name.setText(temp);
+                        if (split1.length <= 0 || split1.length < 3) {
+                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        String textwithid = split1[1];
+                        String[] split2 = textwithid.split(" ");
+                        if (split2.length <= 0 || split2.length < 2) {
+                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        for (String s : split1) {
+                            Log.d("wwwwwwww1", s);
+                        }
+                        for (String s : split2) {
+                            Log.d("wwwwwwww2", s);
+                        }
+                        Log.d("wwwwwwwwllllllll", split2[1].length() + " ");
+                        if (!isNumeric(split2[1]) || split2[1].length() != 17) {
+                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        ed_name.setText(split1[3]);
+                        ed_id.setText(split2[1]);
+                        //وضع الصورة على العنصر
+                        // imageView.setImageBitmap(mBitmap);
 
 
                     }
-
-                }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // خطا ما وقع
+                Toast.makeText(getApplicationContext(), "Sorry, something went wrong!", Toast.LENGTH_SHORT).show();
             }
-            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+        });
 
-                Exception exception = activityResult.getError();
-                Toast.makeText(detect_text.this , ""+exception , Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 
-    private void generateQR()
-    {
+    private void generateQR() {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(ed_id.getText().toString().trim()) || TextUtils.isEmpty(ed_name.getText().toString().trim())) {
+                    Toast.makeText(detect_text.this, "select image first and try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 id = ed_id.getText().toString().trim();
                 name = ed_name.getText().toString().trim();
                 Correct = false;
@@ -352,61 +490,51 @@ public class detect_text extends AppCompatActivity {
                 progressDialog.show();
 
 
-                if(generated)
-                {
+                if (generated) {
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"You Can Generate one Qr Code",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "You Can Generate one Qr Code", Toast.LENGTH_LONG).show();
 
-                }else
-                {
+                } else {
 
                     isCorrect(fakeTable);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
 
-                            if(Correct)
-                            {
+                            if (Correct) {
                                 isAlreadyExist(rationTable);
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
 
-                                        if(AlreadyExist)
-                                        {
+                                        if (AlreadyExist) {
                                             progressDialog.dismiss();
-                                            Toast.makeText(getBaseContext(),"This ID is Already Generated Before",Toast.LENGTH_LONG).show();
-                                        }else
-                                        {
+                                            Toast.makeText(getBaseContext(), "This ID is Already Generated Before", Toast.LENGTH_LONG).show();
+                                        } else {
                                             rationTable.child(id).child("name").setValue(name);
                                             rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
                                             rationTable.child(id).child("points").setValue(50);
                                             generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
 
 
-
-                                            Intent intent = new Intent(detect_text.this,QrActivity.class);
-                                            intent.putExtra("idCard",id);
+                                            Intent intent = new Intent(detect_text.this, QrActivity.class);
+                                            intent.putExtra("idCard", id);
                                             progressDialog.dismiss();
                                             startActivity(intent);
                                         }
 
 
                                     }
-                                },1000);
+                                }, 1000);
 
-                            }else
-                            {
+                            } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(),"Enter Correct ID",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), "your id card not exist in database", Toast.LENGTH_LONG).show();
                             }
 
                         }
-                    },1000);
-
-
-
+                    }, 1000);
 
 
                 }
@@ -415,20 +543,21 @@ public class detect_text extends AppCompatActivity {
         });
     }
 
-    private void uploadAction()
-    {
-        imageButton.setOnClickListener(new View.OnClickListener() {
+    private void selectAndDetectImgForeQrCode() {
+
+        btn_create_qrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                imageView.setImageURI(null);
-                showDialog();
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 40);
+
             }
         });
     }
 
-    private void isAlreadyExist(DatabaseReference ref)
-    {
+    private void isAlreadyExist(DatabaseReference ref) {
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -439,14 +568,13 @@ public class detect_text extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
     }
 
-    private void isGenerated (DatabaseReference ref)
-    {
+    private void isGenerated(DatabaseReference ref) {
 
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -459,28 +587,27 @@ public class detect_text extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
 
 
-
     }
 
-    private void isCorrect(DatabaseReference ref)
-    {
+    private void isCorrect(DatabaseReference ref) {
         ref.addValueEventListener(new ValueEventListener() {
 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 Correct = dataSnapshot.hasChild(id);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

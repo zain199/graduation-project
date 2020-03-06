@@ -4,7 +4,9 @@ package com.appz.qrcode.client_tasks;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.detect_text;
 import com.appz.qrcode.login_tasks.LoginActivity;
@@ -28,8 +30,7 @@ public class ClientActivity extends AppCompatActivity {
     }
 
 
-    public void logout(View view)
-    {
+    public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();

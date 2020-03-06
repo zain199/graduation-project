@@ -24,8 +24,6 @@
         android:text="logout" />
 
 
-
-
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"

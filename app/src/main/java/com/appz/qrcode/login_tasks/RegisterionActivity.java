@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 public class RegisterionActivity extends AppCompatActivity {
 
 
-
     // ui
     private EditText ed_name, ed_email, ed_phone, ed_password;
     private Spinner sp_gender;
@@ -213,11 +212,7 @@ public class RegisterionActivity extends AppCompatActivity {
             s4 = true;
         }
 
-        if (s1 && s2 && s3 && s4)
-
-            return true;
-        else
-            return false;
+        return s1 && s2 && s3 && s4;
 
 
     }

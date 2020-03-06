@@ -3,7 +3,7 @@ package com.appz.qrcode.client_tasks.models;
 
 public class childName {
 
-    String key , value  ;
+    String key, value;
 
     public childName() {
     }

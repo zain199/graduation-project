@@ -8,6 +8,17 @@ public class LoginModel {
     private String gender;
     private String phone;
 
+    public LoginModel(String id, String name, String email, String gender, String phone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.phone = phone;
+    }
+
+    public LoginModel() {
+    }
+
     public String getId() {
         return id;
     }
@@ -47,19 +58,6 @@ public class LoginModel {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public LoginModel(String id, String name, String email, String gender, String phone) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-        this.phone = phone;
-    }
-
-    public LoginModel() {
-    }
-
-
 
 
 }

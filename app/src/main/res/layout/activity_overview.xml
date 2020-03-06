@@ -8,123 +8,114 @@
     tools:context=".client_tasks.profileTaps.overviewActivity">
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-                >
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:title="Card Information"
-                    android:padding="8dp"
-                    >
-                </androidx.appcompat.widget.Toolbar>
+        >
 
-                <TextView
-                    android:id="@+id/parentName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    android:padding="8dp"
-                    android:layout_centerInParent="true"
-                    android:layout_below="@id/toolbar"
-                    >
-                </TextView>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:padding="8dp"
+            app:title="Card Information"></androidx.appcompat.widget.Toolbar>
 
-                <TextView
-                    android:id="@+id/parentIDtv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ID : "
-                    android:layout_below="@+id/parentName"
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="20dp"
-                    >
+        <TextView
+            android:id="@+id/parentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_centerInParent="true"
+            android:fontFamily="monospace"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:textStyle="bold|italic"></TextView>
 
-                </TextView>
+        <TextView
+            android:id="@+id/parentIDtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/parentName"
+            android:layout_marginTop="20dp"
+            android:fontFamily="monospace"
+            android:text="ID : "
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold|italic">
 
-                <EditText
-                    android:id="@+id/parentIDet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/parentName"
-                    android:layout_toRightOf="@id/parentIDtv"
-                    android:editable="false"
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    >
+        </TextView>
 
-                </EditText>
+        <EditText
+            android:id="@+id/parentIDet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parentName"
+            android:layout_toRightOf="@id/parentIDtv"
+            android:editable="false"
+            android:fontFamily="monospace"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold|italic">
 
-                <TextView
-                    android:id="@+id/parentPointstv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Points : "
-                    android:layout_below="@+id/parentIDtv"
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="20dp"
-                    >
+        </EditText>
 
-                </TextView>
+        <TextView
+            android:id="@+id/parentPointstv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/parentIDtv"
+            android:layout_marginTop="20dp"
+            android:fontFamily="monospace"
+            android:text="Points : "
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold|italic">
 
-                <EditText
-                    android:id="@+id/parentPointset"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/parentIDet"
-                    android:layout_toRightOf="@id/parentPointstv"
-                    android:editable="false"
-                    android:textSize="18sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    >
+        </TextView>
 
-                </EditText>
+        <EditText
+            android:id="@+id/parentPointset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parentIDet"
+            android:layout_toRightOf="@id/parentPointstv"
+            android:editable="false"
+            android:fontFamily="monospace"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold|italic">
 
-                <TextView
-                    android:id="@+id/children"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Children Information"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
-                    android:textStyle="bold|italic"
-                    android:fontFamily="monospace"
-                    android:padding="8dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/parentPointset"
+        </EditText>
 
-                    >
-                </TextView>
+        <TextView
+            android:id="@+id/children"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parentPointset"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="monospace"
+            android:padding="8dp"
+            android:text="Children Information"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:textStyle="bold|italic"
+
+            ></TextView>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/recyclerView"
-                    android:layout_below="@id/children"
-                    >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/children">
 
-                </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
-            </RelativeLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

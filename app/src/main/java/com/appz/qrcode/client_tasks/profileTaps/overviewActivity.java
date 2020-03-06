@@ -6,6 +6,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.appz.qrcode.R;
 import com.appz.qrcode.client_tasks.profileTaps.adapter.adapter;
 import com.appz.qrcode.helperUi.AllFinal;
@@ -18,30 +23,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class overviewActivity extends AppCompatActivity {
 
+    private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     List id = new ArrayList();
     List name = new ArrayList();
-    TextView name_parent , child ;
-    EditText parent_id , parent_points;
+    TextView name_parent, child;
+    EditText parent_id, parent_points;
     RecyclerView recyclerView;
-    adapter adapter ;
+    adapter adapter;
     ProgressDialog progressDialog;
-
-    //database
-    private FirebaseDatabase database ;
-    private DatabaseReference ref ;
-
-    private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
-
     //var
-    String parentID , parentName;
-    int points ;
+    String parentID, parentName;
+    int points;
+    //database
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +50,7 @@ public class overviewActivity extends AppCompatActivity {
 
     }
 
-    private void init()
-    {
+    private void init() {
         progressDialog = new ProgressDialog(overviewActivity.this);
         progressDialog.setMessage("Please Wait....");
         progressDialog.show();
@@ -65,66 +61,58 @@ public class overviewActivity extends AppCompatActivity {
 
     }
 
-    private void findbyid()
-    {
-        recyclerView=findViewById(R.id.recyclerView);
-        child=findViewById(R.id.children);
+    private void findbyid() {
+        recyclerView = findViewById(R.id.recyclerView);
+        child = findViewById(R.id.children);
         name_parent = findViewById(R.id.parentName);
         parent_id = findViewById(R.id.parentIDet);
         parent_points = findViewById(R.id.parentPointset);
 
     }
 
-    private void getIDs (final DatabaseReference ref)
-    {
+    private void getIDs(final DatabaseReference ref) {
         id.clear();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot data : dataSnapshot.getChildren())
-                {
-                    if(Character.isDigit(data.getKey().charAt(0)))
-                    {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    if (Character.isDigit(data.getKey().charAt(0))) {
                         id.add(data.getKey());
                     }
                 }
                 getPoints(ref.child("points"));
                 getParentName(ref.child("name"));
-                if (id.size()>0)
+                if (id.size() > 0)
                     getNames(id);
-                else
-                {
+                else {
                     child.setText("There Are No Children In This Ration Card");
                     child.setTextSize(18);
                     progressDialog.dismiss();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getBaseContext(),databaseError.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void getNames(List ids)
-    {
-        if(ids.size()>0)
-        {
-            for (int i=0 ; i<ids.size();i++)
-            {
+    private void getNames(List ids) {
+        if (ids.size() > 0) {
+            for (int i = 0; i < ids.size(); i++) {
 
                 final DatabaseReference reference = rationTable.child(parentID).child(String.valueOf(ids.get(i)));
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren())
-                        {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             String name2 = dataSnapshot1.getValue(String.class);
                             name.add(name2);
                         }
 
-                        adapter = new adapter(getApplicationContext() , id , name);
+                        adapter = new adapter(getApplicationContext(), id, name);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         adapter.notifyDataSetChanged();
@@ -141,8 +129,7 @@ public class overviewActivity extends AppCompatActivity {
 
     }
 
-    private void getPoints(final DatabaseReference reff)
-    {
+    private void getPoints(final DatabaseReference reff) {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -156,8 +143,7 @@ public class overviewActivity extends AppCompatActivity {
         });
     }
 
-    private void getParentName(DatabaseReference reff)
-    {
+    private void getParentName(DatabaseReference reff) {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -172,8 +158,7 @@ public class overviewActivity extends AppCompatActivity {
         });
     }
 
-    private void setParent()
-    {
+    private void setParent() {
 
         name_parent.setText(parentName);
         parent_id.setText(parentID);
