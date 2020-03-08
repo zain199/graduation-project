@@ -1,6 +1,9 @@
 package com.appz.qrcode.seller_tasks;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -96,8 +99,30 @@ public class ConfirmActivity extends AppCompatActivity {
         });
     }
 
+    private Boolean checkInternetConnection() {
+        Boolean internetConnection = false;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+
+        if (connection != null) {
+            if (connection.getType() == ConnectivityManager.TYPE_WIFI)
+                return internetConnection = true;
+            else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                return internetConnection = true;
+            else
+                return internetConnection = false;
+        }
+
+        return internetConnection;
+    }
 
     public void confirm(View view) {
+        if (!checkInternetConnection()) {
+            Toast.makeText(this, "check internet connection ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
         if (all_points <= 0) {
             Toast.makeText(this, "no item founded select item and try again", Toast.LENGTH_SHORT).show();
             return;

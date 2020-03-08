@@ -1,7 +1,10 @@
 package com.appz.qrcode.seller_tasks;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -156,7 +159,30 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     }
 
     /////////////////////////////////////////////////////////////////////////
+    private Boolean checkInternetConnection() {
+        Boolean internetConnection = false;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+
+        if (connection != null) {
+            if (connection.getType() == ConnectivityManager.TYPE_WIFI)
+                return internetConnection = true;
+            else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                return internetConnection = true;
+            else
+                return internetConnection = false;
+        }
+
+        return internetConnection;
+    }
+
     public void gotoChart(View view) {
+        if (!checkInternetConnection()) {
+            Toast.makeText(this, "check internet connection ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
 
         if (point <= 0) {
             Toast.makeText(this, "select items first and try again  ", Toast.LENGTH_SHORT).show();
@@ -262,6 +288,11 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
 
     @Override
     public void ondelete(int pos) {
+        if (!checkInternetConnection()) {
+            Toast.makeText(this, "check internet connection ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
         Log.d("wwwwwww", StoreAdapter.itemModels.get(pos).getId());
 
 

@@ -2,9 +2,12 @@ package com.appz.qrcode.seller_tasks;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -104,6 +107,23 @@ public class AddItemActivity extends AppCompatActivity {
         }
     }
 
+    private Boolean checkInternetConnection() {
+        Boolean internetConnection = false;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+
+        if (connection != null) {
+            if (connection.getType() == ConnectivityManager.TYPE_WIFI)
+                return internetConnection = true;
+            else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                return internetConnection = true;
+            else
+                return internetConnection = false;
+        }
+
+        return internetConnection;
+    }
+
     private void buildUi() {
         StorageReference storageRef = mStorageRef.getReference();
         imagesRef = storageRef;
@@ -143,6 +163,12 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void addNewItem(View view) {
+
+        if (!checkInternetConnection()) {
+            Toast.makeText(this, "check internet connection ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
 
         if (TextUtils.isEmpty(ed_name.getText()) || TextUtils.isEmpty(ed_num_item.getText()) || TextUtils.isEmpty(ed_point.getText())) {
             Toast.makeText(this, "fill all fields first please !", Toast.LENGTH_SHORT).show();
@@ -220,6 +246,11 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void select(View view) {
+        if (!checkInternetConnection()) {
+            Toast.makeText(this, "check internet connection ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
         if (!checkStoragePermission())
             requestStoragePermission();
         else

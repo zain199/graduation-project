@@ -1,5 +1,8 @@
 package com.appz.qrcode.seller_tasks.adapters;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -110,7 +114,6 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implemen
         private PopupMenu popupMenu;
         private View view;
 
-
         public VH(@NonNull final View itemView) {
             super(itemView);
             this.view = itemView;
@@ -127,6 +130,11 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implemen
                             return true;
 
                         case R.id.delete:
+                            if (!checkInternetConnection()) {
+                                Toast.makeText(view.getContext(), "check internet connection ", Toast.LENGTH_SHORT).show();
+                                return true;
+
+                            }
                             clickItem.ondelete(getAdapterPosition());
                             itemModels.remove(getAdapterPosition());
 
@@ -148,6 +156,23 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.VH> implemen
                     return false;
                 }
             });
+        }
+
+        private Boolean checkInternetConnection() {
+            Boolean internetConnection = false;
+            ConnectivityManager manager = (ConnectivityManager) view.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo connection = manager.getActiveNetworkInfo();
+
+            if (connection != null) {
+                if (connection.getType() == ConnectivityManager.TYPE_WIFI)
+                    return internetConnection = true;
+                else if (connection.getType() == ConnectivityManager.TYPE_MOBILE)
+                    return internetConnection = true;
+                else
+                    return internetConnection = false;
+            }
+
+            return internetConnection;
         }
 
         void fillData(ItemModel model) {
