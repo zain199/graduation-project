@@ -136,6 +136,7 @@ public class AddItemActivity extends AppCompatActivity {
         ed_num_item = findViewById(R.id.ed_all_unit_store);
         ed_point = findViewById(R.id.ed_point_unit_store);
         img = findViewById(R.id.img_unit_store);
+        img.setClipToOutline(true);
 
         if (!getIntent().getStringExtra("bundle1").equals("")) {
             checkIsUpdate(getIntent().getExtras().getBundle("bundle"));

@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -18,20 +19,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import com.appz.qrcode.R;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,7 +75,7 @@ public class detect_text extends AppCompatActivity {
     String[] CAMERA_PERMISSION;
     String[] STORAGE_PERMISSSION;
     //UI
-    private ImageButton btn_create_qrcode;
+    private Button btn_create_qrcode;
     private Uri image_uri;
     private String id, name;
     private FirebaseUser CurrentUser;
@@ -160,9 +161,11 @@ public class detect_text extends AppCompatActivity {
         STORAGE_PERMISSSION = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void findByid() {
-        btn_create_qrcode = findViewById(R.id.btn_selectImg_qrcode);
-        imageView = findViewById(R.id.OutImg);
+        btn_create_qrcode = findViewById(R.id.btn_selectImg_qrcode2);
+        imageView = findViewById(R.id.img_unit_qr);
+        imageView.setClipToOutline(true);
         add = findViewById(R.id.btn_add_all);
         ed_id = findViewById(R.id.ed_id);
         ed_name = findViewById(R.id.ed_name);
@@ -265,7 +268,10 @@ public class detect_text extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 40) {
             Uri chosenImageUri = data.getData();
-
+            Glide.with(getApplicationContext())
+                    .load(chosenImageUri.toString())
+                    .placeholder(R.drawable.img_no)
+                    .into(imageView);
 
             Bitmap mBitmap = null;
             try {

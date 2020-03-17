@@ -1,155 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".seller_tasks.AddItemActivity">
+    android:background="@drawable/custom_background">
 
-    <ScrollView
+
+    <ImageView
+        android:id="@+id/img_unit_store"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffff">
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/custom_img"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffff">
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Choose photo of item"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/img_unit_store"
+        app:layout_constraintStart_toStartOf="@+id/img_unit_store"
+        app:layout_constraintTop_toBottomOf="@+id/img_unit_store" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_add"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimaryDark"
-                android:paddingLeft="42dp"
-                android:scrollbars="none"
-                app:title="Add Item Store"
-                app:titleTextColor="@color/colorAccent" />
+    <Button
+        android:id="@+id/btn_select_img_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/choose_item_shape"
+        android:onClick="select"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
 
-            <TextView
-                android:id="@+id/txt_name_unit_store"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar_add"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:text="name : "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp" />
+        android:text="Select Photo"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#ffff"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-            <EditText
-                android:id="@+id/ed_name_unit_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar_add"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toRightOf="@id/txt_name_unit_store"
-                android:ems="10"
-                android:hint="Item name"
-                android:inputType="textPersonName"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorAccent" />
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_select_img_unit" />
 
-            <TextView
-                android:id="@+id/txt_point_unit_store"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_name_unit_store"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="22dp"
-                android:text="Points : "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp" />
+    <EditText
+        android:id="@+id/ed_name_unit_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/oval_shape2"
+        android:drawableLeft="@android:drawable/ic_dialog_map"
+        android:drawablePadding="4dp"
+        android:elevation="8dp"
+        android:ems="10"
+        android:hint="Item name"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-            <EditText
-                android:id="@+id/ed_point_unit_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ed_name_unit_store"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toRightOf="@id/txt_point_unit_store"
-                android:ems="10"
+    <EditText
+        android:id="@+id/ed_point_unit_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ed_name_unit_store"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/oval_shape2"
+        android:drawableLeft="@android:drawable/ic_input_get"
+        android:drawablePadding="4dp"
+        android:elevation="8dp"
+        android:ems="10"
+        android:hint="points"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_name_unit_store" />
 
-                android:hint="points"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorAccent" />
+    <EditText
+        android:id="@+id/ed_all_unit_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ed_point_unit_store"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/oval_shape2"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:drawablePadding="4dp"
+        android:elevation="8dp"
+        android:ems="10"
+        android:hint="number "
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_point_unit_store" />
 
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_unit_store"
 
-            <TextView
-                android:id="@+id/txt_all_unit_store"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_point_unit_store"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="30dp"
-                android:text="number of items : "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18sp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/choose_item_shape"
+        android:onClick="addNewItem"
+        android:text="Add Item"
 
-            <EditText
-                android:id="@+id/ed_all_unit_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ed_point_unit_store"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toRightOf="@id/txt_all_unit_store"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#ffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                android:ems="10"
-                android:hint="number "
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorAccent" />
-
-            <View
-                android:id="@+id/v1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/ed_all_unit_store"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorPrimaryDark" />
-
-            <Button
-                android:id="@+id/btn_select_img_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                android:onClick="select"
-                android:text="select photo of item " />
-
-            <ImageView
-                android:id="@+id/img_unit_store"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_below="@id/btn_select_img_unit"
-                android:layout_marginTop="22dp"
-                android:src="@drawable/img_no" />
-
-
-            <Button
-                android:id="@+id/btn_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img_unit_store"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:onClick="addNewItem"
-                android:text="add item" />
-
-        </RelativeLayout>
-    </ScrollView>
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

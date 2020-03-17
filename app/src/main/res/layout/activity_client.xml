@@ -4,25 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:background="@drawable/custom_background_botom"
     tools:context=".client_tasks.ClientActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_signup"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:padding="8dp"
-        app:title="Operations"></androidx.appcompat.widget.Toolbar>
+        android:background="@color/colorPrimaryDark"
+        android:paddingLeft="42dp"
+        app:title="Client"
+        app:titleTextColor="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/tt"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/toolbar_signup"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/custom_img"
+        android:scaleType="fitXY"
+        android:src="@drawable/edd" />
+
+
+    <TextView
+        android:id="@+id/txt_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:fontFamily="cursive"
+        android:text="Client"
+        android:textColor="@color/colorAccent"
+        android:textSize="40sp" />
 
     <Button
         android:id="@+id/generateQR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/txt_test"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/choose_item_shape"
         android:onClick="generateQrCode"
-        android:text="generate qr code"
-        android:textSize="20dp" />
+        android:text="Generate Qr Code"
+        android:textAllCaps="false"
+        android:textColor="#ffff"
+
+        />
 
     <Button
         android:id="@+id/gotoprofile"
@@ -31,9 +65,14 @@
         android:layout_below="@id/generateQR"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/choose_item_shape"
         android:onClick="gotoProfile"
         android:text="Profile"
-        android:textSize="20dp" />
+        android:textAllCaps="false"
+        android:textColor="#ffff" />
 
     <Button
         android:id="@+id/logout"
@@ -42,9 +81,14 @@
         android:layout_below="@id/gotoprofile"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/choose_item_shape"
         android:onClick="logout"
         android:text="logout"
-        android:textSize="20dp">
+        android:textAllCaps="false"
+        android:textColor="#ffff">
 
     </Button>
 

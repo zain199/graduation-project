@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffff"
+    android:background="@drawable/custom_background_botom"
     tools:context=".seller_tasks.EditedStoreActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_signup2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:paddingLeft="42dp"
+        app:title="Seller Services"
+        app:titleTextColor="@color/colorAccent" />
+
+    <ImageView
+        android:id="@+id/tt"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/toolbar_signup2"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/custom_img"
+        android:scaleType="fitXY"
+        android:src="@drawable/ed_store" />
 
     <Button
         android:id="@+id/btn_add_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tt"
         android:layout_centerInParent="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginRight="22dp"
+        android:background="@drawable/choose_item_shape"
         android:onClick="addItem"
-        android:text="add new item" />
+        android:text="Add New Item"
+        android:textAllCaps="false"
+        android:textColor="#ffff" />
 
     <Button
         android:id="@+id/btn_ubdate_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_add_item"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="22dp"
+        android:background="@drawable/choose_item_shape"
         android:onClick="showStore"
-        android:text="show Store" />
+        android:text="Show Store"
+        android:textAllCaps="false"
+        android:textColor="#ffff" />
 
 
 </RelativeLayout>
