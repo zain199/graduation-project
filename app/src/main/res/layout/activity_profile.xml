@@ -14,7 +14,7 @@
         android:background="@color/colorPrimaryDark"
         android:paddingLeft="42dp"
         app:title="Profile"
-        app:titleTextColor="@color/colorAccent" />
+        app:titleTextColor="#ffff" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/login_ic"

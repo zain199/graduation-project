@@ -16,7 +16,7 @@
         android:background="@color/colorPrimaryDark"
         android:paddingLeft="42dp"
         app:title="Inforamtion of Parent"
-        app:titleTextColor="@color/colorAccent" />
+        app:titleTextColor="#ffff" />
 
     <ImageView
         android:id="@+id/img_unit_qr"
@@ -139,8 +139,6 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#ffff"
-
-
         android:textStyle="bold" />
 
 </RelativeLayout>

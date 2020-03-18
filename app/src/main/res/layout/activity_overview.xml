@@ -4,118 +4,156 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+
+    android:background="@drawable/custom_background_botom"
     tools:context=".client_tasks.profileTaps.overviewActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_signup2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:paddingLeft="42dp"
+        app:title="Card Information"
+        app:titleTextColor="#ffff" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/parentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_signup2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:elevation="8dp"
+        android:fontFamily="cursive"
+        android:text="Parent Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <View
+        android:id="@+id/v8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/parentName"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/test_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/v8"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:elevation="8dp"
+        android:fontFamily="cursive"
+        android:text="Id O Card"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+
+    <EditText
+        android:id="@+id/parentIDet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test_id"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="24dp"
+        android:layout_toRightOf="@+id/txt_id"
+        android:background="@drawable/oval_shape2"
+        android:drawableLeft="@android:drawable/ic_dialog_map"
+        android:drawablePadding="4dp"
+        android:elevation="8dp"
+        android:enabled="false"
+        android:hint="id card" />
+
+    <View
+        android:id="@+id/v9"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/parentIDet"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/test_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/v9"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:elevation="8dp"
+        android:fontFamily="cursive"
+        android:text="Points"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+
+    <EditText
+        android:id="@+id/parentPointset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test_points"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/oval_shape2"
+        android:drawableLeft="@android:drawable/ic_menu_compass"
+        android:drawablePadding="4dp"
+        android:elevation="8dp"
+        android:enabled="false"
+        android:hint="points"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/test_login22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/parentPointset"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:elevation="8dp"
+        android:fontFamily="cursive"
+        android:text="Children Information"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/test_login22"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
+        android:visibility="visible" />
 
-        >
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:padding="8dp"
-            app:title="Card Information"></androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/parentName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
-            android:layout_centerInParent="true"
-            android:fontFamily="monospace"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            android:textStyle="bold|italic"></TextView>
-
-        <TextView
-            android:id="@+id/parentIDtv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/parentName"
-            android:layout_marginTop="20dp"
-            android:fontFamily="monospace"
-            android:text="ID : "
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold|italic">
-
-        </TextView>
-
-        <EditText
-            android:id="@+id/parentIDet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/parentName"
-            android:layout_toRightOf="@id/parentIDtv"
-            android:editable="false"
-            android:fontFamily="monospace"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold|italic">
-
-        </EditText>
-
-        <TextView
-            android:id="@+id/parentPointstv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/parentIDtv"
-            android:layout_marginTop="20dp"
-            android:fontFamily="monospace"
-            android:text="Points : "
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold|italic">
-
-        </TextView>
-
-        <EditText
-            android:id="@+id/parentPointset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/parentIDet"
-            android:layout_toRightOf="@id/parentPointstv"
-            android:editable="false"
-            android:fontFamily="monospace"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold|italic">
-
-        </EditText>
-
-        <TextView
-            android:id="@+id/children"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/parentPointset"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="monospace"
-            android:padding="8dp"
-            android:text="Children Information"
-            android:textAlignment="center"
-            android:textSize="25dp"
-            android:textStyle="bold|italic"
-
-            ></TextView>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/children">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/children"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test_login22"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="50dp"
+        android:elevation="8dp"
+        android:fontFamily="cursive"
+        android:text="No Childerns"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#ffff"
+        android:textSize="32sp"
+        android:textStyle="bold|italic"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

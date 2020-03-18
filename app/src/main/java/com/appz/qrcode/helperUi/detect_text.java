@@ -134,6 +134,7 @@ public class detect_text extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

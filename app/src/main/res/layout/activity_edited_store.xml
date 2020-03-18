@@ -15,7 +15,7 @@
         android:background="@color/colorPrimaryDark"
         android:paddingLeft="42dp"
         app:title="Seller Services"
-        app:titleTextColor="@color/colorAccent" />
+        app:titleTextColor="#ffff" />
 
     <ImageView
         android:id="@+id/tt"

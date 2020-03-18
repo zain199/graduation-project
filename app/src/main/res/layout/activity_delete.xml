@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_background_botom"
     tools:context=".client_tasks.profileTaps.deleteActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -18,12 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        android:background="@drawable/custom_background"
         android:orientation="vertical"
         android:padding="8dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_background"
             android:padding="8dp">
 
             <TextView
@@ -45,12 +48,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/custom_background"
             android:padding="8dp">
 
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_background">
 
             </ListView>
 

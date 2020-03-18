@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/custom_background"
     tools:context=".helperUi.QrActivity">
 
     <ImageView
@@ -19,8 +20,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgview"
-        android:layout_marginTop="20dp"
-        android:text="save"></Button>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/choose_item_shape"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="Save QrCode"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#ffff" />
 
 
 </RelativeLayout>

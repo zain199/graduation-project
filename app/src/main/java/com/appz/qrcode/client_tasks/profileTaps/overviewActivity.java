@@ -2,6 +2,7 @@ package com.appz.qrcode.client_tasks.profileTaps;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,17 +85,25 @@ public class overviewActivity extends AppCompatActivity {
                 getPoints(ref.child("points"));
                 getParentName(ref.child("name"));
                 if (id.size() > 0)
+                {
                     getNames(id);
-                else {
-                    child.setText("There Are No Children In This Ration Card");
-                    child.setTextSize(18);
-                    progressDialog.dismiss();
+                    child.setVisibility(View.GONE);
+
                 }
+                else {
+
+                    child.setVisibility(View.VISIBLE);
+                    child.setText("There Are No Children In This Ration Card");
+
+
+                }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
             }
         });
     }

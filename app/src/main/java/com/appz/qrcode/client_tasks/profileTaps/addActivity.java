@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -16,10 +17,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -49,8 +52,9 @@ public class addActivity extends AppCompatActivity {
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
     // ui
-    Button add;
+    Button add,btn_choose_cert;
     EditText id, name;
+    ImageView img_certificate;
     //firebase
     FirebaseDatabase database;
     DatabaseReference ref;
@@ -62,7 +66,7 @@ public class addActivity extends AppCompatActivity {
     String parent, ParentID;
     List ids = new ArrayList();
     List correctIds = new ArrayList();
-    private ImageButton btn_create_qrcode;
+    private Button btn_create_qrcode;
     private DatabaseReference ownerId;
 
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
@@ -117,6 +121,7 @@ public class addActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,12 +147,20 @@ public class addActivity extends AppCompatActivity {
         getOnwerUid(ownerId);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void findByID() {
         add = findViewById(R.id.btn_add);
+        btn_choose_cert=findViewById(R.id.btn_selectImg_cert);
+        img_certificate=findViewById(R.id.img_cert);
+        img_certificate.setClipToOutline(true);
         id = findViewById(R.id.ed_id);
-        btn_create_qrcode = findViewById(R.id.btn_selectImg_qrcode_member);
+
 
         selectAndDetectImgForeQrCode();
+
+
+
+
     }
 
     private void selectAndDetectImgForeQrCode() {

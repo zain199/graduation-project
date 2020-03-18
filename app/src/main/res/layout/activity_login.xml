@@ -76,7 +76,7 @@
         android:elevation="8dp"
         android:hint="Password"
         android:inputType="textPassword"
-        android:paddingLeft="8dp"
+        android:padding="12dp"
         android:singleLine="true"
         android:textColor="@color/colorPrimaryDark" />
 
