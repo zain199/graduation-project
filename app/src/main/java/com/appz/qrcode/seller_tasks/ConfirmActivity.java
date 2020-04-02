@@ -30,6 +30,7 @@ public class ConfirmActivity extends AppCompatActivity {
 
     public String cllient;
     public double clientPoints_before;
+
     // ui
     private RecyclerView rec_orders;
     private TextView txt_all_points;

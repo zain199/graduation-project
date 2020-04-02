@@ -67,7 +67,7 @@ public class QrActivity extends AppCompatActivity {
 
     private void SetPermisssions() {
 
-        STORAGE_PERMISSSION = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        STORAGE_PERMISSSION = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
     }
 
     private void findview() {
@@ -108,9 +108,17 @@ public class QrActivity extends AppCompatActivity {
     }
 
     private void savebtn() {
+
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkStoragePermission()) {
+                    requestStoragePermission();
+
+                    return;
+
+                }
+
 
                 if (ok) {
 //                    bitmapDrawable = (BitmapDrawable) imgqr.getDrawable();
@@ -133,13 +141,7 @@ public class QrActivity extends AppCompatActivity {
 //                    }
 //                    //img.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
-                    if (checkStoragePermission()) {
-                        requestStoragePermission();
-
-                    } else {
-                        saveImage(img, FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    }
-
+                    saveImage(img, FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 } else {
                     edtTxt.setError("Required");

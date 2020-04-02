@@ -66,7 +66,7 @@ public class deleteActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
         parentID = getIntent().getStringExtra("id");
-        getIDs(rationTable.child(parentID));
+        getIDs(rationTable.child(parentID).child(AllFinal.CHILDS));
         getdata(ref.child(parentID).child("points"));
     }
 
@@ -100,7 +100,7 @@ public class deleteActivity extends AppCompatActivity {
         if (ids.size() > 0) {
             for (int i = 0; i < ids.size(); i++) {
 
-                final DatabaseReference reference = rationTable.child(parentID).child(String.valueOf(ids.get(i)));
+                final DatabaseReference reference = rationTable.child(parentID).child(AllFinal.CHILDS).child(String.valueOf(ids.get(i)));
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

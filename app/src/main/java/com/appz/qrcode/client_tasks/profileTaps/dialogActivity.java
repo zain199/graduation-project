@@ -66,7 +66,7 @@ public class dialogActivity extends AppCompatActivity {
         points = getIntent().getIntExtra("parentPoints", 0);
         viewIndex = getIntent().getIntExtra("viewIndex", -1);
         ref2 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child("points");
-        ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child(id);
+        ref = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parentID).child(AllFinal.CHILDS).child(id);
     }
 
 

@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -52,7 +51,7 @@ public class addActivity extends AppCompatActivity {
     private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
     // ui
-    Button add,btn_choose_cert;
+    Button add, btn_choose_cert;
     EditText id, name;
     ImageView img_certificate;
     //firebase
@@ -150,15 +149,13 @@ public class addActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void findByID() {
         add = findViewById(R.id.btn_add);
-        btn_choose_cert=findViewById(R.id.btn_selectImg_cert);
-        img_certificate=findViewById(R.id.img_cert);
+        btn_choose_cert = findViewById(R.id.btn_selectImg_cert);
+        img_certificate = findViewById(R.id.img_cert);
         img_certificate.setClipToOutline(true);
         id = findViewById(R.id.ed_id);
 
 
         selectAndDetectImgForeQrCode();
-
-
 
 
     }
@@ -341,7 +338,7 @@ public class addActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ref1.child(parent).child(id).child("Name").setValue(dataSnapshot.getValue().toString());
+                ref1.child(parent).child(AllFinal.CHILDS).child(id).child("Name").setValue(dataSnapshot.getValue().toString());
             }
 
             @Override

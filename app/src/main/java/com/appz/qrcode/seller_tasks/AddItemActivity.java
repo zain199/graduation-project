@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -71,6 +73,7 @@ public class AddItemActivity extends AppCompatActivity {
     private ItemModel itemModel2;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         buildUi();
     }
+
 
     private void checkIsUpdate(Bundle intent) {
         Log.d("wwwwwwww", intent.getBoolean(AllFinal.UPDATE) + "");
@@ -124,6 +128,7 @@ public class AddItemActivity extends AppCompatActivity {
         return internetConnection;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void buildUi() {
         StorageReference storageRef = mStorageRef.getReference();
         imagesRef = storageRef;

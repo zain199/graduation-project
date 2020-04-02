@@ -58,7 +58,7 @@ public class overviewActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
         parentID = getIntent().getStringExtra("id");
-        getIDs(rationTable.child(parentID));
+        getIDs(rationTable.child(parentID).child(AllFinal.CHILDS));
 
     }
 
@@ -82,15 +82,13 @@ public class overviewActivity extends AppCompatActivity {
                         id.add(data.getKey());
                     }
                 }
-                getPoints(ref.child("points"));
-                getParentName(ref.child("name"));
-                if (id.size() > 0)
-                {
+                getPoints(rationTable.child(parentID).child("points"));
+                getParentName(rationTable.child(parentID).child("name"));
+                if (id.size() > 0) {
                     getNames(id);
                     child.setVisibility(View.GONE);
 
-                }
-                else {
+                } else {
 
                     child.setVisibility(View.VISIBLE);
                     child.setText("There Are No Children In This Ration Card");
@@ -112,7 +110,7 @@ public class overviewActivity extends AppCompatActivity {
         if (ids.size() > 0) {
             for (int i = 0; i < ids.size(); i++) {
 
-                final DatabaseReference reference = rationTable.child(parentID).child(String.valueOf(ids.get(i)));
+                final DatabaseReference reference = rationTable.child(parentID).child(AllFinal.CHILDS).child(String.valueOf(ids.get(i)));
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -12,12 +12,17 @@ import com.appz.qrcode.login_tasks.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SellerActivity extends AppCompatActivity {
+
+    // ui
     private Button editStore, sell, logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
+
+
         logout = findViewById(R.id.btn_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

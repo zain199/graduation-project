@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -30,6 +31,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.appz.qrcode.R;
 import com.bumptech.glide.Glide;
@@ -50,6 +56,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class detect_text extends AppCompatActivity {
@@ -59,8 +66,7 @@ public class detect_text extends AppCompatActivity {
     private static final int STORAGE_CODE = 400;
     private static final int PICK_CAMERA_CODE = 1001;
     private static final int PICK_STORAGE_CODE = 1000;
-    //database var
-    private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
+    public static String id, name;
     private final DatabaseReference generatedTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Generated);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
     ImageView imageView;
@@ -74,10 +80,11 @@ public class detect_text extends AppCompatActivity {
     // arrays
     String[] CAMERA_PERMISSION;
     String[] STORAGE_PERMISSSION;
+    //database var
+    private DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     //UI
     private Button btn_create_qrcode;
     private Uri image_uri;
-    private String id, name;
     private FirebaseUser CurrentUser;
     private boolean Correct;
     private Boolean AlreadyExist;
@@ -481,6 +488,16 @@ public class detect_text extends AppCompatActivity {
     }
 
     private void generateQR() {
+
+        add.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                WorkManager.getInstance().cancelAllWork();
+                Toast.makeText(detect_text.this, "Rest points is canceled", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -521,7 +538,13 @@ public class detect_text extends AppCompatActivity {
                                         } else {
                                             rationTable.child(id).child("name").setValue(name);
                                             rationTable.child(id).child("uid").setValue(CurrentUser.getUid());
-                                            rationTable.child(id).child("points").setValue(50);
+                                            SharedPreferences preferences = getSharedPreferences("id", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.putString("id", id);
+                                            editor.commit();
+
+                                            setAndRestPoints();
+                                            // rationTable.child(id).child("points").setValue(50.0);
                                             generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
 
 
@@ -548,6 +571,15 @@ public class detect_text extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setAndRestPoints() {
+        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+        // OneTimeWorkRequest request=new OneTimeWorkRequest.Builder(WorkerRestPoints.class).
+        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(WorkerRestPoints.class, 43200, TimeUnit.MINUTES)
+                .addTag("task")
+                .setConstraints(constraints).build();
+        WorkManager.getInstance().enqueueUniquePeriodicWork("task1", ExistingPeriodicWorkPolicy.KEEP, request);
     }
 
     private void selectAndDetectImgForeQrCode() {
