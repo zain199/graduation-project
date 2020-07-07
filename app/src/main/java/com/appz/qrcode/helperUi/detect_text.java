@@ -88,7 +88,6 @@ public class detect_text extends AppCompatActivity {
     private FirebaseUser CurrentUser;
     private boolean Correct;
     private Boolean AlreadyExist;
-
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
         Matrix matrix = new Matrix();
