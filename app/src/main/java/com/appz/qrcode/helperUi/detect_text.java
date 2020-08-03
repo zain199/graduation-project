@@ -177,6 +177,7 @@ public class detect_text extends AppCompatActivity {
         ed_id = findViewById(R.id.ed_id);
         ed_name = findViewById(R.id.ed_name);
         progressDialog = new ProgressDialog(detect_text.this);
+        progressDialog.setMessage("Please Wait ...");
         selectAndDetectImgForeQrCode();
     }
 
@@ -395,6 +396,7 @@ public class detect_text extends AppCompatActivity {
     }
 
     private void recognizeText(Bitmap bitmap) {
+        progressDialog.show();
         //تحويل بيتماب الى بيتماب قابل للتعديل
         final Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         final Canvas canvas = new Canvas(mBitmap);
@@ -446,6 +448,7 @@ public class detect_text extends AppCompatActivity {
                             Log.d("wwwwwwww111", s);
                         }
                         if (split1.length <= 0 || split1.length < 3) {
+                            progressDialog.dismiss();
                             Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -453,6 +456,7 @@ public class detect_text extends AppCompatActivity {
                         String textwithid = split1[1];
                         String[] split2 = textwithid.split(" ");
                         if (split2.length <= 0 || split2.length < 2) {
+                            progressDialog.dismiss();
                             Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -464,12 +468,14 @@ public class detect_text extends AppCompatActivity {
                         }
                         Log.d("wwwwwwwwllllllll", split2[1].length() + " ");
                         if (!isNumeric(split2[1]) || split2[1].length() != 17) {
+                            progressDialog.dismiss();
                             Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         ed_name.setText(split1[3]);
                         ed_id.setText(split2[1]);
+                        progressDialog.dismiss();
                         //وضع الصورة على العنصر
                         // imageView.setImageBitmap(mBitmap);
 
@@ -480,6 +486,7 @@ public class detect_text extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 // خطا ما وقع
                 Toast.makeText(getApplicationContext(), "Sorry, something went wrong!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
 
@@ -509,7 +516,7 @@ public class detect_text extends AppCompatActivity {
                 Correct = false;
                 AlreadyExist = false;
 
-                progressDialog.setMessage("Please Wait ...");
+
                 progressDialog.show();
 
 
