@@ -1,5 +1,6 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,7 @@ import androidx.exifinterface.media.ExifInterface;
 import com.appz.qrcode.R;
 import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.helperUi.NoInternet;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +54,8 @@ public class addActivity extends AppCompatActivity {
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
     // ui
     Button add, btn_choose_cert;
-    EditText id, name;
+    EditText id;
+    ProgressDialog progressDialog;
     ImageView img_certificate;
     //firebase
     FirebaseDatabase database;
@@ -137,7 +140,8 @@ public class addActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
         auth = FirebaseAuth.getInstance();
-
+        progressDialog = new ProgressDialog(addActivity.this);
+        progressDialog.setMessage("Please Wait ...");
         CurrentUser = auth.getCurrentUser();
         ownerId = rationTable.child(parent).child("uid");
         getdata(ref.child(parent).child("points"));
@@ -154,38 +158,38 @@ public class addActivity extends AppCompatActivity {
         img_certificate.setClipToOutline(true);
         id = findViewById(R.id.ed_id);
 
-
         selectAndDetectImgForeQrCode();
 
 
     }
 
-    private void selectAndDetectImgForeQrCode() {
-
-//        btn_create_qrcode.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//                photoPickerIntent.setType("image/*");
-//                startActivityForResult(photoPickerIntent, 30);
-//
-//            }
-//        });
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK && requestCode == 30) {
             Uri chosenImageUri = data.getData();
-
+            Glide.with(getApplicationContext())
+                    .load(chosenImageUri.toString())
+                    .placeholder(R.drawable.img_no)
+                    .into(img_certificate);
 
             Bitmap mBitmap = null;
             try {
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface(getContentResolver().openInputStream(chosenImageUri));
+                } catch (IOException e) {
+                    Toast.makeText(this, e.getCause() + "", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
                 mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), chosenImageUri);
-                recognizeText(mBitmap);
+                Bitmap bmRotated = rotateBitmap(mBitmap, orientation);
+
+
+                recognizeText(bmRotated);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -193,9 +197,114 @@ public class addActivity extends AppCompatActivity {
 
         }
 
+
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
+//            if (resultCode == RESULT_OK) {
+//                Uri resultUri = activityResult.getUri();
+//
+//                imageView.setImageURI(resultUri);
+//
+//
+//                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+//                Bitmap bitmap =  bitmapDrawable.getBitmap();
+//
+//                TextRecognizer textRecognizer = new TextRecognizer.Builder(
+//                        getApplicationContext()).build();
+//
+//                if (!textRecognizer.isOperational())
+//                    Toast.makeText(detect_text.this, "Error", Toast.LENGTH_SHORT).show();
+//                else {
+//                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+//                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
+//
+//
+//
+//                    StringBuilder sb = new StringBuilder();
+//
+//
+//                    if(items.size()==0)
+//                        Toast.makeText(detect_text.this , "no text found" , Toast.LENGTH_SHORT).show();
+//                    else
+//                    {
+//                        for (int i = 0; i < items.size(); i++) {
+//                            TextBlock textBlock = items.valueAt(i);
+//                            sb.append(textBlock.getValue());
+//                            //sb.append("\n");
+//                        }
+//
+//                        String text = sb.toString().trim();
+//                        String temp ="";
+//
+//                        // id text
+//                        for(int i = 0 ; i < text.length()-2;++i)
+//                        {
+//
+//                            if(text.charAt(i)=='I'&&text.charAt(i+1)=='D'&&text.charAt(i+2)==' ')
+//                            {
+//                                int x = i+3;
+//                                for (int b = i+3;b-x<17;b++) {
+//                                    temp+=text.charAt(b);
+//                                }
+//
+//                                break;
+//                            }
+//                        }
+//                        ed_id.setText(temp);
+//
+//
+//
+//                        // name text
+//                        temp ="";
+//                        for(int i = 0 ; i < text.length()-3;++i)
+//                        {
+//
+//                            if(text.charAt(i)=='N'&&text.charAt(i+1)=='a'&&text.charAt(i+2)=='m'&&text.charAt(i+3)=='e')
+//                            {
+//
+//                                for (int b = i+4;;b++) {
+//
+//                                    if(text.charAt(b)=='A'&&text.charAt(b+1)=='d'&&text.charAt(b+2)=='d'&&
+//                                            text.charAt(b+3)=='r'&&text.charAt(b+4)=='e'&&text.charAt(b+5)=='s'&& text.charAt(b+6)=='s')
+//                                        break;
+//                                    temp+=text.charAt(b);
+//                                }
+//
+//                                break;
+//                            }
+//                        }
+//                        ed_name.setText(temp);
+//
+//
+//                    }
+//
+//                }
+//            }
+//            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//
+//                Exception exception = activityResult.getError();
+//                Toast.makeText(detect_text.this , ""+exception , Toast.LENGTH_SHORT).show();
+//            }
+//        }
+    }
+
+
+    private void selectAndDetectImgForeQrCode() {
+
+        btn_choose_cert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 30);
+
+            }
+        });
     }
 
     private void recognizeText(Bitmap bitmap) {
+        progressDialog.show();
         //تحويل بيتماب الى بيتماب قابل للتعديل
         final Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         final Canvas canvas = new Canvas(mBitmap);
@@ -247,30 +356,30 @@ public class addActivity extends AppCompatActivity {
                             Log.d("wwwwwwww111", s);
                         }
                         if (split1.length <= 0 || split1.length < 3) {
-                            Toast.makeText(getApplicationContext(), "failed image change image and try again", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(addActivity.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        String textwithid = split1[1];
-                        String[] split2 = textwithid.split(" ");
-                        if (split2.length <= 0 || split2.length < 2) {
-                            Toast.makeText(getApplicationContext(), "failed image change image and try again", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        for (String s : split1) {
-                            Log.d("wwwwwwww1", s);
-                        }
-                        for (String s : split2) {
-                            Log.d("wwwwwwww2", s);
-                        }
-                        Log.d("wwwwwwwwllllllll", split2[1].length() + " ");
-                        if (!isNumeric(split2[1]) || split2[1].length() != 17) {
-                            Toast.makeText(getApplicationContext(), "failed image change image and try again", Toast.LENGTH_SHORT).show();
+                        String textwithid = split1[2];
+
+//                        if (split2.length <= 0 || split2.length < 2) {
+//                            progressDialog.dismiss();
+//                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+
+
+                        Log.d("wwwwwwwwllllllll", textwithid.length() + " ");
+                        if (!isNumeric(textwithid) || textwithid.length() != 14) {
+                            progressDialog.dismiss();
+                            Toast.makeText(addActivity.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        name.setText(split1[3]);
-                        id.setText(split2[1]);
+
+                        id.setText(textwithid);
+                        progressDialog.dismiss();
                         //وضع الصورة على العنصر
                         // imageView.setImageBitmap(mBitmap);
 
@@ -281,6 +390,7 @@ public class addActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 // خطا ما وقع
                 Toast.makeText(getApplicationContext(), "Sorry, something went wrong!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
 

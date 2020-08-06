@@ -79,7 +79,7 @@ public class dialogActivity extends AppCompatActivity {
                 ref2.setValue(points - 50);
                 ref.removeValue();
                 Toast.makeText(getApplicationContext(), "Deleted Successfully", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(getApplicationContext(), ProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

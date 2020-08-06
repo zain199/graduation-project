@@ -131,6 +131,7 @@ public class ConfirmActivity extends AppCompatActivity {
         points_after_sell = clientPoints_before - all_points;
         Toast.makeText(this, "Confirm successed your points is : " + points_after_sell, Toast.LENGTH_SHORT).show();
         ReduceClientPoints();
+        onBackPressed();
     }
 
 

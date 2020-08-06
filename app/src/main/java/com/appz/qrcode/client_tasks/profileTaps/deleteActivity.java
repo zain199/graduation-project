@@ -1,6 +1,5 @@
 package com.appz.qrcode.client_tasks.profileTaps;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -149,7 +148,6 @@ public class deleteActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void onitemclick() {

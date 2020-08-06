@@ -3,6 +3,7 @@ package com.appz.qrcode.seller_tasks;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     private ZXingScannerView scannerView;
     private TextView txtResult;
     private double points;
-    private Button goButton;
+
     private TextView Pointtext;
     private Button IntentButton;
 
@@ -47,7 +48,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
         setContentView(R.layout.activity_sell);
         scannerView = findViewById(R.id.zxscan);
         txtResult = findViewById(R.id.txt_result);
-        goButton = findViewById(R.id.goButton);
+
         Pointtext = findViewById(R.id.pointtext);
         IntentButton = findViewById(R.id.Button);
 
@@ -88,12 +89,6 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
                 })
                 .check();
 
-        goButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getpoints();
-            }
-        });
 
     }
 
@@ -107,6 +102,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
         id = rawResult.getText();
+        getpoints();
 
     }
 
@@ -120,6 +116,7 @@ public class SellActivity extends AppCompatActivity implements ZXingScannerView.
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 points = dataSnapshot.getValue(Double.class);
+                Log.d("eeeeeeeeeeee", points + "");
                 Pointtext.setText(String.valueOf(points));
             }
 

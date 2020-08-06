@@ -88,6 +88,7 @@ public class detect_text extends AppCompatActivity {
     private FirebaseUser CurrentUser;
     private boolean Correct;
     private Boolean AlreadyExist;
+
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
         Matrix matrix = new Matrix();
@@ -453,28 +454,24 @@ public class detect_text extends AppCompatActivity {
                             return;
                         }
 
-                        String textwithid = split1[1];
-                        String[] split2 = textwithid.split(" ");
-                        if (split2.length <= 0 || split2.length < 2) {
-                            progressDialog.dismiss();
-                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        for (String s : split1) {
-                            Log.d("wwwwwwww1", s);
-                        }
-                        for (String s : split2) {
-                            Log.d("wwwwwwww2", s);
-                        }
-                        Log.d("wwwwwwwwllllllll", split2[1].length() + " ");
-                        if (!isNumeric(split2[1]) || split2[1].length() != 17) {
+                        String textwithid = split1[2];
+
+//                        if (split2.length <= 0 || split2.length < 2) {
+//                            progressDialog.dismiss();
+//                            Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+
+
+                        Log.d("wwwwwwwwllllllll", textwithid.length() + " ");
+                        if (!isNumeric(textwithid) || textwithid.length() != 14) {
                             progressDialog.dismiss();
                             Toast.makeText(detect_text.this, "failed image change image and try again", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        ed_name.setText(split1[3]);
-                        ed_id.setText(split2[1]);
+                        ed_name.setText(split1[4]);
+                        ed_id.setText(textwithid);
                         progressDialog.dismiss();
                         //وضع الصورة على العنصر
                         // imageView.setImageBitmap(mBitmap);
