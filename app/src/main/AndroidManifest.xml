@@ -101,7 +101,7 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".client_tasks.profileTaps.dialogActivity"
-            android:screenOrientation="portrait"
+
             android:theme="@style/Theme.AppCompat.Dialog.Alert"
             tools:ignore="LockedOrientationActivity"></activity>
     </application>
