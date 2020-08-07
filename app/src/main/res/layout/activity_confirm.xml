@@ -21,7 +21,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
-            android:fontFamily="cursive"
+
             android:foreground="?attr/selectableItemBackground"
             android:text="Orders"
             android:textColor="@color/colorAccent"

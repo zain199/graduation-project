@@ -17,111 +17,122 @@
         app:title="Add Members"
         app:titleTextColor="#ffff" />
 
-    <ImageView
-        android:id="@+id/img_cert"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="280dp"
         android:layout_below="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_img"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_no" />
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/custom_background_botom"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/img_cert"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img_cert"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Select Member certificate"
-        android:textColor="#ffff"
-        android:textSize="18sp" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_img"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_no" />
 
-    <Button
-        android:id="@+id/btn_selectImg_cert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/choose_item_shape"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Select Photo"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#ffff" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_cert"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="Select Member certificate"
+                android:textColor="#ffff"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/test_login222"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_selectImg_cert"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:elevation="8dp"
-        android:fontFamily="cursive"
-        android:text="Upload Child ID Card : "
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="#ffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+            <Button
+                android:id="@+id/btn_selectImg_cert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/choose_item_shape"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="Select Photo"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#ffff" />
 
-
-    <EditText
-        android:id="@+id/ed_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/test_login222"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_toRightOf="@+id/txt_id"
-        android:background="@drawable/oval_shape2"
-        android:drawableLeft="@android:drawable/ic_dialog_map"
-        android:drawablePadding="4dp"
-        android:elevation="8dp"
-        android:hint="id card"
-        android:singleLine="true" />
+            <TextView
+                android:id="@+id/test_login222"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_selectImg_cert"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:elevation="8dp"
+                android:text="Upload Child ID Card : "
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#ffff"
+                android:textSize="24sp"
+                android:textStyle="bold|italic" />
 
 
-    <View
-        android:id="@+id/v9"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ed_id"
-        android:layout_marginTop="4dp" />
+            <EditText
+                android:id="@+id/ed_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/test_login222"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_toRightOf="@+id/txt_id"
+                android:background="@drawable/oval_shape2"
+                android:drawableLeft="@android:drawable/ic_dialog_map"
+                android:drawablePadding="4dp"
+                android:elevation="8dp"
+                android:hint="id card"
+                android:singleLine="true" />
 
 
-    <View
-        android:id="@+id/v10"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ed_id"
-        android:layout_marginTop="4dp" />
+            <View
+                android:id="@+id/v9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ed_id"
+                android:layout_marginTop="4dp" />
 
 
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ed_id"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/choose_item_shape"
-        android:text="Add This Child"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#ffff"
-        android:textStyle="bold" />
+            <View
+                android:id="@+id/v10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ed_id"
+                android:layout_marginTop="4dp" />
+
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ed_id"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/choose_item_shape"
+                android:text="Add This Child"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#ffff"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </ScrollView>
+
 
 
 </RelativeLayout>
