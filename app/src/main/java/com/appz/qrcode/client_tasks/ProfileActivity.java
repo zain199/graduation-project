@@ -154,9 +154,17 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                         Intent intent = new Intent(ProfileActivity.this, deleteActivity.class);
-                        intent.putExtra("id", id);
+                        if (id!=null || !id.equals(""))
+                        {
+                            intent.putExtra("id", id);
 
-                        startActivity(intent);
+                            startActivity(intent);
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"no child add child first and try again !",Toast.LENGTH_LONG).show();
+                        }
 
                     } else
                         Toast.makeText(getApplicationContext(), "You Don't Have A QR Code", Toast.LENGTH_LONG).show();

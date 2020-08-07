@@ -8,25 +8,28 @@
     tools:context=".client_tasks.profileTaps.addActivity">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
-        android:paddingLeft="42dp"
-        app:title="Add Members"
-        app:titleTextColor="#ffff" />
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
+
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:background="@drawable/custom_background_botom"
             android:layout_height="match_parent">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:paddingLeft="42dp"
+                app:title="Add Members"
+                app:titleTextColor="#ffff" />
+
             <ImageView
                 android:id="@+id/img_cert"
+                android:layout_below="@id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
 
