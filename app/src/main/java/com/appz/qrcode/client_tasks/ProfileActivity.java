@@ -154,16 +154,13 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                         Intent intent = new Intent(ProfileActivity.this, deleteActivity.class);
-                        if (id!=null || !id.equals(""))
-                        {
+                        if (id != null || !id.equals("")) {
                             intent.putExtra("id", id);
 
                             startActivity(intent);
 
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"no child add child first and try again !",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "no child add child first and try again !", Toast.LENGTH_LONG).show();
                         }
 
                     } else
