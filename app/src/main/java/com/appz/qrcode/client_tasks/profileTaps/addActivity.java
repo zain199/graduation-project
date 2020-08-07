@@ -63,7 +63,7 @@ public class addActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser CurrentUser;
     //vars
-    int points;
+    int points=0;
     String Name;
     String parent, ParentID;
     List ids = new ArrayList();
@@ -401,6 +401,7 @@ public class addActivity extends AppCompatActivity {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
                 points = dataSnapshot.getValue(Integer.class);
             }
 
@@ -426,6 +427,7 @@ public class addActivity extends AppCompatActivity {
                             } else {
                                 points += 50;
                                 getAndSetNameAndID(fakeTable, rationTable, ID);
+                                Log.d("eeeeeeeeeee",points+" dfg ");
                                 ref.child(parent).child("points").setValue(points);
                                 Toast.makeText(getBaseContext(), "Added Successfully", Toast.LENGTH_LONG).show();
                                 id.setText("");
@@ -449,6 +451,7 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ref1.child(parent).child(AllFinal.CHILDS).child(id).child("Name").setValue(dataSnapshot.getValue().toString());
+                Log.d("eeeeeeeeeee",points+" dfg ");
             }
 
             @Override

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -139,7 +140,13 @@ public class deleteActivity extends AppCompatActivity {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                points = dataSnapshot.getValue(Integer.class);
+                if (dataSnapshot.exists()) {
+                    points = dataSnapshot.getValue(Integer.class);
+                } else {
+                    Toast.makeText(getApplicationContext(), "no child add child first and try again !", Toast.LENGTH_LONG).show();
+                    onBackPressed();
+                }
+
             }
 
             @Override

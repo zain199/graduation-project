@@ -140,6 +140,7 @@ public class overviewActivity extends AppCompatActivity {
         reff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
                 points = dataSnapshot.getValue(Integer.class);
             }
 

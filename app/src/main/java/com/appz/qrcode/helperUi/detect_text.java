@@ -547,7 +547,7 @@ public class detect_text extends AppCompatActivity {
                                             editor.commit();
 
                                             setAndRestPoints();
-                                            // rationTable.child(id).child("points").setValue(50.0);
+                                            rationTable.child(id).child("points").setValue(50.0);
                                             generatedTable.child(CurrentUser.getUid()).child("id").setValue(id);
 
 
