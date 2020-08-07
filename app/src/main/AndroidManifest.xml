@@ -39,7 +39,7 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".client_tasks.profileTaps.deleteActivity"
-            android:screenOrientation="portrait"
+
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".client_tasks.profileTaps.addActivity"
