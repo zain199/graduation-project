@@ -141,7 +141,7 @@ public class overviewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
-                points = dataSnapshot.getValue(Integer.class);
+                    points = dataSnapshot.getValue(Integer.class);
             }
 
             @Override

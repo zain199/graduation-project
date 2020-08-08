@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.seller_tasks.adapters.ConfirmAdpter;
 import com.appz.qrcode.seller_tasks.adapters.ConfirmOnCloseListener;
 import com.appz.qrcode.seller_tasks.models.ChartItem;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +35,7 @@ public class ConfirmActivity extends AppCompatActivity {
 
     public String cllient;
     public double clientPoints_before;
-
+    int ii = 0;
     // ui
     private RecyclerView rec_orders;
     private TextView txt_all_points;
@@ -46,8 +45,9 @@ public class ConfirmActivity extends AppCompatActivity {
     private ConfirmAdpter adpter;
     private double points_after_sell;
     private int num_of_items_selected;
-    private int total_units_num;
-    private int num_of_items_after_selected;
+    private double total_units_num;
+    private double num_of_items_after_selected;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +141,7 @@ public class ConfirmActivity extends AppCompatActivity {
         ReduceClientPoints();
         ReduceItemNum();
 
-        onBackPressed();
+
     }
 
 
@@ -151,36 +151,43 @@ public class ConfirmActivity extends AppCompatActivity {
         reference.setValue(points_after_sell);
     }
 
-  public void ReduceItemNum() {
-      for (int i = 0; i < chartItemList.size(); i++) {
-          num_of_items_selected = chartItemList.get(i).getNum_selected();
+    public void ReduceItemNum() {
+        num_of_items_after_selected = 0;
 
-          DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("StoreItems")
-                  .child(chartItemList.get(i).getId()).child("number_units");
 
-          reference.addValueEventListener(new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                  total_units_num = dataSnapshot.getValue(Integer.class);
-              }
+        reference = FirebaseDatabase.getInstance().getReference().child("StoreItems")
+                .child(FirebaseAuth.getInstance().getUid()).child("items");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError databaseError) {
-              }
-          });
 
-          num_of_items_after_selected = total_units_num - num_of_items_selected;
-          reference.setValue(num_of_items_after_selected).addOnFailureListener(new OnFailureListener() {
-              @Override
-              public void onFailure(@NonNull Exception e) {
-                 Log.e("omar","on failure :",e);
-              }
-          });
-      }
+                for (int i = 0; i < chartItemList.size(); i++) {
+                    num_of_items_selected = chartItemList.get(i).getNum_selected();
+                    Log.e("rrrrrrrr22", num_of_items_selected + "");
+                    total_units_num = dataSnapshot.child(chartItemList.get(i).getId()).child("number_units").getValue(Double.class);
+                    Log.e("rrrrrrrr1", total_units_num + "");
+                    num_of_items_after_selected = total_units_num - num_of_items_selected;
+                    Log.e("rrrrrrr3", num_of_items_after_selected + "");
+                    reference.child(chartItemList.get(i).getId()).child("number_units").setValue(num_of_items_after_selected);
 
-  }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        onBackPressed();
+    }
+
 
 }
+
+
 
 
 

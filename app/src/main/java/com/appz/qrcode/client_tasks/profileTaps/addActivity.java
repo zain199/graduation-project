@@ -50,7 +50,6 @@ import java.util.List;
 
 public class addActivity extends AppCompatActivity {
 
-    private final DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
     private final DatabaseReference fakeTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.FAKE_DATA);
     // ui
     Button add, btn_choose_cert;
@@ -63,11 +62,14 @@ public class addActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser CurrentUser;
     //vars
-    int points=0;
+    int points = 0;
     String Name;
     String parent, ParentID;
     List ids = new ArrayList();
     List correctIds = new ArrayList();
+    private DatabaseReference rationTable = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data);
+    private DatabaseReference rationTable2;
+    private Boolean AlreadyExist;
     private Button btn_create_qrcode;
     private DatabaseReference ownerId;
 
@@ -136,7 +138,9 @@ public class addActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         parent = getIntent().getStringExtra("id");
+        rationTable2 = FirebaseDatabase.getInstance().getReference().child(AllFinal.Ration_Data).child(parent).child("childs");
         database = FirebaseDatabase.getInstance();
         ref = database.getReference().child(AllFinal.Ration_Data);
         auth = FirebaseAuth.getInstance();
@@ -197,95 +201,6 @@ public class addActivity extends AppCompatActivity {
 
         }
 
-
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
-//            if (resultCode == RESULT_OK) {
-//                Uri resultUri = activityResult.getUri();
-//
-//                imageView.setImageURI(resultUri);
-//
-//
-//                BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-//                Bitmap bitmap =  bitmapDrawable.getBitmap();
-//
-//                TextRecognizer textRecognizer = new TextRecognizer.Builder(
-//                        getApplicationContext()).build();
-//
-//                if (!textRecognizer.isOperational())
-//                    Toast.makeText(detect_text.this, "Error", Toast.LENGTH_SHORT).show();
-//                else {
-//                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-//                    SparseArray<TextBlock> items = textRecognizer.detect(frame);
-//
-//
-//
-//                    StringBuilder sb = new StringBuilder();
-//
-//
-//                    if(items.size()==0)
-//                        Toast.makeText(detect_text.this , "no text found" , Toast.LENGTH_SHORT).show();
-//                    else
-//                    {
-//                        for (int i = 0; i < items.size(); i++) {
-//                            TextBlock textBlock = items.valueAt(i);
-//                            sb.append(textBlock.getValue());
-//                            //sb.append("\n");
-//                        }
-//
-//                        String text = sb.toString().trim();
-//                        String temp ="";
-//
-//                        // id text
-//                        for(int i = 0 ; i < text.length()-2;++i)
-//                        {
-//
-//                            if(text.charAt(i)=='I'&&text.charAt(i+1)=='D'&&text.charAt(i+2)==' ')
-//                            {
-//                                int x = i+3;
-//                                for (int b = i+3;b-x<17;b++) {
-//                                    temp+=text.charAt(b);
-//                                }
-//
-//                                break;
-//                            }
-//                        }
-//                        ed_id.setText(temp);
-//
-//
-//
-//                        // name text
-//                        temp ="";
-//                        for(int i = 0 ; i < text.length()-3;++i)
-//                        {
-//
-//                            if(text.charAt(i)=='N'&&text.charAt(i+1)=='a'&&text.charAt(i+2)=='m'&&text.charAt(i+3)=='e')
-//                            {
-//
-//                                for (int b = i+4;;b++) {
-//
-//                                    if(text.charAt(b)=='A'&&text.charAt(b+1)=='d'&&text.charAt(b+2)=='d'&&
-//                                            text.charAt(b+3)=='r'&&text.charAt(b+4)=='e'&&text.charAt(b+5)=='s'&& text.charAt(b+6)=='s')
-//                                        break;
-//                                    temp+=text.charAt(b);
-//                                }
-//
-//                                break;
-//                            }
-//                        }
-//                        ed_name.setText(temp);
-//
-//
-//                    }
-//
-//                }
-//            }
-//            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//
-//                Exception exception = activityResult.getError();
-//                Toast.makeText(detect_text.this , ""+exception , Toast.LENGTH_SHORT).show();
-//            }
-//        }
     }
 
 
@@ -402,7 +317,7 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
-                points = dataSnapshot.getValue(Integer.class);
+                    points = dataSnapshot.getValue(Integer.class);
             }
 
             @Override
@@ -416,22 +331,41 @@ public class addActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ID = id.getText().toString().trim();
+                AlreadyExist = false;
+                final String ID = id.getText().toString().trim();
                 if (checkInternetConnection()) {
 
                     if (CurrentUser.getUid().equals(ParentID)) {
 
                         if (isCorrect(ID)) {
-                            if (isAlreadyExist(ID)) {
-                                Toast.makeText(getBaseContext(), "This ID is Already Exist", Toast.LENGTH_LONG).show();
-                            } else {
-                                points += 50;
-                                getAndSetNameAndID(fakeTable, rationTable, ID);
-                                Log.d("eeeeeeeeeee",points+" dfg ");
-                                ref.child(parent).child("points").setValue(points);
-                                Toast.makeText(getBaseContext(), "Added Successfully", Toast.LENGTH_LONG).show();
-                                id.setText("");
-                            }
+
+                            rationTable2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    AlreadyExist = dataSnapshot.hasChild(id.getText().toString());
+                                    Log.d("aaaaaaaaa", AlreadyExist + "  " + parent);
+                                    if (AlreadyExist) {
+                                        Toast.makeText(getBaseContext(), "This ID is Already Exist", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        points += 50;
+                                        getAndSetNameAndID(fakeTable, rationTable, ID);
+                                        Log.d("eeeeeeeeeee", points + " dfg ");
+                                        ref.child(parent).child("points").setValue(points);
+                                        Toast.makeText(getBaseContext(), "Added Successfully", Toast.LENGTH_LONG).show();
+                                        id.setText("");
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(getBaseContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+
+                                }
+                            });
+
                         } else {
                             Toast.makeText(getBaseContext(), "Enter Correct ID", Toast.LENGTH_LONG).show();
                         }
@@ -451,7 +385,7 @@ public class addActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ref1.child(parent).child(AllFinal.CHILDS).child(id).child("Name").setValue(dataSnapshot.getValue().toString());
-                Log.d("eeeeeeeeeee",points+" dfg ");
+                Log.d("eeeeeeeeeee", points + " dfg ");
             }
 
             @Override

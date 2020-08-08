@@ -8,16 +8,16 @@
     tools:context=".client_tasks.profileTaps.addActivity">
 
 
-
-
     <ScrollView
         android:layout_width="match_parent"
 
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@drawable/custom_background_botom"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_background_botom">
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -29,9 +29,9 @@
 
             <ImageView
                 android:id="@+id/img_cert"
-                android:layout_below="@id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
+                android:layout_below="@id/toolbar"
 
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
@@ -135,7 +135,6 @@
 
         </RelativeLayout>
     </ScrollView>
-
 
 
 </RelativeLayout>
