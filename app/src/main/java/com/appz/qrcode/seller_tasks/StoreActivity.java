@@ -41,7 +41,7 @@ public class StoreActivity extends AppCompatActivity implements StoreOnClickItem
     // var
     public static List<ItemModel> itemModelList;
     public static Map<String, ChartItem> chartItemList;
-    //omar sameh
+    //selling process
     public double num_of_clint_points;
     public String clientiddd;
     // ui

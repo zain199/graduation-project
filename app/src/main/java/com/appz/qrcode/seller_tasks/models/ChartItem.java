@@ -73,9 +73,7 @@ public class ChartItem implements Parcelable {
         this.name = name;
     }
 
-    public int getNum_selected() {
-        return num_selected;
-    }
+    public int getNum_selected() { return num_selected; }
 
     public void setNum_selected(int num_selected) {
         this.num_selected = num_selected;

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,8 +21,12 @@ import com.appz.qrcode.helperUi.AllFinal;
 import com.appz.qrcode.seller_tasks.adapters.ConfirmAdpter;
 import com.appz.qrcode.seller_tasks.adapters.ConfirmOnCloseListener;
 import com.appz.qrcode.seller_tasks.models.ChartItem;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,6 +45,9 @@ public class ConfirmActivity extends AppCompatActivity {
     private List<ChartItem> chartItemList;
     private ConfirmAdpter adpter;
     private double points_after_sell;
+    private int num_of_items_selected;
+    private int total_units_num;
+    private int num_of_items_after_selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,6 @@ public class ConfirmActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////
         buildConfirm();
-
     }
 
     private void buildConfirm() {
@@ -131,6 +139,8 @@ public class ConfirmActivity extends AppCompatActivity {
         points_after_sell = clientPoints_before - all_points;
         Toast.makeText(this, "Confirm successed your points is : " + points_after_sell, Toast.LENGTH_SHORT).show();
         ReduceClientPoints();
+        ReduceItemNum();
+
         onBackPressed();
     }
 
@@ -141,34 +151,51 @@ public class ConfirmActivity extends AppCompatActivity {
         reference.setValue(points_after_sell);
     }
 
-    public void ReduceItemNum() {
+  public void ReduceItemNum() {
+      for (int i = 0; i < chartItemList.size(); i++) {
+          num_of_items_selected = chartItemList.get(i).getNum_selected();
+
+          DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("StoreItems")
+                  .child(chartItemList.get(i).getId()).child("number_units");
+
+          reference.addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                  total_units_num = dataSnapshot.getValue(Integer.class);
+              }
+
+              @Override
+              public void onCancelled(@NonNull DatabaseError databaseError) {
+              }
+          });
+
+          num_of_items_after_selected = total_units_num - num_of_items_selected;
+          reference.setValue(num_of_items_after_selected).addOnFailureListener(new OnFailureListener() {
+              @Override
+              public void onFailure(@NonNull Exception e) {
+                 Log.e("omar","on failure :",e);
+              }
+          });
+      }
+
+  }
+
+}
+
+
+
+
+ /*  public void ReduceItemNum() {
         for (int i = 0; i < chartItemList.size(); i++) {
             Log.d("omar", chartItemList.get(i).getId());
             Log.d("omar", chartItemList.get(i).getName());
-            Log.d("omar", String.valueOf(chartItemList.get(i).getPoint()));
+            Log.d("omar", String.valueOf(chartItemList.get(i).getNum_selected()));
         }
 
     }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*for (int i=0;i<=chartItemList.size();i++){
-    Log.d("omar",chartItemList.get(i).getId());
-    Log.d("omar",chartItemList.get(i).getName());
-    Log.d("omar",String.valueOf(chartItemList.get(i).getPoint()));
-
-}
 */
+
+
+
+
+
