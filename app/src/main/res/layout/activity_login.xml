@@ -33,8 +33,9 @@
             android:layout_height="wrap_content"
 
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="55dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginBottom="28dp"
+            android:layout_marginRight="8dp"
             android:layout_toRightOf="@+id/login_ic"
             android:text="Login"
             android:textColor="@color/colorAccent"
