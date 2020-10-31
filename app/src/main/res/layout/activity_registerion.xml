@@ -113,7 +113,7 @@
     <Spinner
         android:id="@+id/gender_spinner"
         android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_below="@id/ed_pass_s"
         android:layout_marginLeft="@dimen/_32sdp"
         android:layout_marginTop="@dimen/_20sdp"
@@ -138,7 +138,7 @@
         android:onClick="signup"
         android:text="signup"
         android:textColor="@color/colorAccent"
-        android:textSize="16dp" />
+        android:textSize="14dp" />
 </RelativeLayout>
 
 

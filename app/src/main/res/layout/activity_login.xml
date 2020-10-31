@@ -43,8 +43,8 @@
 
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/_40sdp"
-                    android:layout_marginBottom="@dimen/_28sdp"
                     android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_28sdp"
                     android:layout_toRightOf="@+id/login_ic"
                     android:text="Login"
                     android:textColor="@color/colorAccent"
@@ -102,12 +102,12 @@
             <!--        android:textColor="@android:color/darker_gray" />-->
 
             <Button
+                android:id="@+id/btn_lohin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ed_pass"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/_32sdp"
-                android:layout_marginTop="@dimen/_80sdp"
+                android:layout_marginTop="77dp"
                 android:layout_marginRight="@dimen/_32sdp"
                 android:background="@drawable/btn_shape"
                 android:elevation="@dimen/_8sdp"
@@ -121,8 +121,10 @@
                 android:id="@+id/txt_acc_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/btn_lohin"
+
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_18sdp"
                 android:text="Don`t have account ? "
                 android:textColor="@android:color/darker_gray" />
@@ -131,8 +133,10 @@
                 android:id="@+id/txt_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/btn_lohin"
+
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_40sdp"
                 android:layout_marginBottom="@dimen/_18sdp"
                 android:layout_toRightOf="@+id/txt_acc_test"
@@ -142,7 +146,6 @@
 
         </RelativeLayout>
     </ScrollView>
-
 
 
 </RelativeLayout>
