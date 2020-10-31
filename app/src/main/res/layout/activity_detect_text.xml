@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimaryDark"
-                android:paddingLeft="42dp"
+                android:paddingLeft="@dimen/_42sdp"
 
                 app:title="Inforamtion of Parent"
                 app:titleTextColor="#ffff" />
@@ -31,12 +31,12 @@
             <ImageView
                 android:id="@+id/img_unit_qr"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="@dimen/_200sdp"
                 android:layout_below="@id/toolbar_signup2"
 
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
                 android:background="@drawable/custom_img"
                 android:scaleType="fitXY"
                 android:src="@drawable/img_no" />
@@ -48,7 +48,7 @@
                 android:layout_below="@id/img_unit_qr"
                 android:layout_centerHorizontal="true"
 
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:text="Select ID Card"
                 android:textColor="#ffff"
                 android:textSize="18sp" />
@@ -59,10 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView6"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/choose_item_shape"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:paddingLeft="@dimen/_16sdp"
+                android:paddingRight="@dimen/_16sdp"
                 android:text="Select Photo"
                 android:textAlignment="center"
                 android:textAllCaps="false"
@@ -74,9 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_selectImg_qrcode2"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:elevation="8dp"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:elevation="@dimen/_8sdp"
                 android:text="Inforamtion of Parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="#ffff"
@@ -86,9 +86,9 @@
             <View
                 android:id="@+id/v8"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/_1sdp"
                 android:layout_below="@id/test_login22"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/_4sdp" />
 
 
             <EditText
@@ -96,23 +96,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/v8"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_24sdp"
                 android:layout_toRightOf="@+id/txt_id"
                 android:background="@drawable/oval_shape2"
                 android:drawableLeft="@android:drawable/ic_dialog_map"
-                android:drawablePadding="4dp"
-                android:elevation="8dp"
+                android:drawablePadding="@dimen/_4sdp"
+                android:elevation="@dimen/_8sdp"
                 android:hint="id card" />
 
             <View
                 android:id="@+id/v9"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/_1sdp"
                 android:layout_below="@id/ed_id"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="@dimen/_4sdp" />
 
 
             <EditText
@@ -120,14 +120,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/v9"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_24sdp"
                 android:background="@drawable/oval_shape2"
                 android:drawableLeft="@android:drawable/ic_menu_compass"
-                android:drawablePadding="4dp"
-                android:elevation="8dp"
+                android:drawablePadding="@dimen/_4sdp"
+                android:elevation="@dimen/_8sdp"
                 android:hint="name"
                 android:singleLine="true" />
 
@@ -139,11 +139,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
 
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_24sdp"
 
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:background="@drawable/choose_item_shape"
                 android:text="Add Client"
                 android:textAlignment="center"

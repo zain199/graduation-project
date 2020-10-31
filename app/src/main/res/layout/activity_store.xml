@@ -10,8 +10,8 @@
     <RelativeLayout
         android:id="@+id/rel5"
         android:layout_width="match_parent"
-        android:layout_height="202dp"
-        android:layout_marginTop="-120dp"
+        android:layout_height="@dimen/_202sdp"
+        android:layout_marginTop="-140dp"
         android:background="@drawable/search_shape">
 
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/_12sdp"
 
             android:foreground="?attr/selectableItemBackground"
             android:text="S t o r e"
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rel5"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginBottom="?actionBarSize"
         android:background="@color/colorAccent" />
 
@@ -51,13 +51,13 @@
 
         <TextView
             android:id="@+id/txt_item_num"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="@dimen/_16sdp"
             android:background="@drawable/oval_shape"
-            android:paddingLeft="19dp"
-            android:paddingTop="7dp"
+            android:paddingLeft="@dimen/_19sdp"
+            android:paddingTop="@dimen/_5sdp"
             android:text="0"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -65,29 +65,29 @@
 
         <TextView
             android:id="@+id/txt_item_price"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentEnd="true"
 
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="@dimen/_16sdp"
             android:background="@drawable/oval_shape"
-            android:paddingLeft="16dp"
-            android:paddingTop="7dp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingTop="@dimen/_5sdp"
             android:text="0.0 point"
             android:textAlignment="center"
-            android:textSize="16dp"
+            android:textSize="@dimen/_16sdp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="@dimen/_120sdp"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="gotoChart"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
             android:text="Show Cart"
             android:textColor="@color/colorAccent"
             android:textSize="22sp" />

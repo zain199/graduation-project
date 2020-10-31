@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/_12sdp"
+    android:layout_marginRight="@dimen/_16sdp"
     android:background="#ffff"
-    android:elevation="7dp"
-    app:cardCornerRadius="12dp">
+    android:elevation="@dimen/_7sdp"
+    app:cardCornerRadius="@dimen/_12sdp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/img_confirm"
-            android:layout_width="100dp"
-            android:layout_height="125dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:scaleType="fitXY"
             android:src="@drawable/img_no" />
 
@@ -30,16 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
             android:background="@android:drawable/ic_menu_close_clear_cancel" />
 
         <TextView
             android:id="@+id/txt_confirm_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_toRightOf="@id/img_confirm"
             android:text="Item name"
             android:textColor="@color/colorPrimaryDark"
@@ -51,8 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_confirm_name"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_toRightOf="@id/img_confirm"
             android:text="0 item"
             android:textColor="@color/colorPrimaryDark"
@@ -63,8 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_confirm_num_item"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_4sdp"
             android:layout_toRightOf="@id/img_confirm"
             android:text="0.0 points"
             android:textColor="@color/colorPrimaryDark"

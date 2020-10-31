@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:padding="8dp"
+        android:padding="@dimen/_8sdp"
         app:title="Delete Children"></androidx.appcompat.widget.Toolbar>
 
 
@@ -21,13 +21,13 @@
         android:layout_below="@+id/toolbar"
         android:background="@drawable/custom_background"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/_8sdp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:padding="8dp">
+            android:padding="@dimen/_8sdp">
 
             <TextView
                 android:id="@+id/txt"
@@ -48,9 +48,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/_16sdp"
             android:background="@drawable/custom_background"
-            android:padding="8dp">
+            android:padding="@dimen/_8sdp">
 
             <ListView
                 android:id="@+id/listView"

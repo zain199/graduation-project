@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/custom_background_botom"
     tools:context=".client_tasks.ProfileActivity">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_signup"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
-        android:paddingLeft="42dp"
+        android:paddingLeft="@dimen/_42sdp"
         app:title="Profile"
         app:titleTextColor="#ffff" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/login_ic"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
         android:layout_below="@id/toolbar_signup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/_16sdp"
         android:src="@drawable/profile"
         app:civ_border_color="@color/colorAccent"
-        app:civ_border_width="4dp"
+        app:civ_border_width="@dimen/_4sdp"
         app:civ_shadow="true"
         app:civ_shadow_color="@color/colorAccent"
         app:civ_shadow_radius=".1" />
@@ -35,9 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_ic"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:background="@drawable/choose_item_shape"
         android:text="Add children"
         android:textAllCaps="false"
@@ -52,9 +54,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addchild"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:background="@drawable/choose_item_shape"
         android:text="delete children"
         android:textAllCaps="false"
@@ -69,9 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/delete"
 
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:background="@drawable/choose_item_shape"
         android:text="overview"
         android:textAllCaps="false"
@@ -85,9 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/view"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:background="@drawable/choose_item_shape"
         android:text="Your QR code"
         android:textAllCaps="false"
@@ -95,5 +97,7 @@
         android:textSize="20dp">
 
     </Button>
-
 </RelativeLayout>
+
+
+</ScrollView>

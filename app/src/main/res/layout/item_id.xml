@@ -5,14 +5,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/custom_background"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/_16sdp">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        app:cardCornerRadius="22dp"
+        app:cardCornerRadius="@dimen/_22sdp"
 
         >
 
@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            android:padding="8dp">
+            android:padding="@dimen/_8sdp">
 
             <TextView
                 android:id="@+id/childID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="monospace"
                 android:text="child ID"
                 android:textSize="18sp"
@@ -41,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/childID"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="monospace"
                 android:text="child name "
                 android:textSize="18sp"
