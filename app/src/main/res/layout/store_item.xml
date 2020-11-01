@@ -8,13 +8,14 @@
     android:layout_marginRight="@dimen/_8sdp"
     android:layout_marginBottom="@dimen/_8sdp"
     android:background="#ffff"
+
     android:elevation="@dimen/_16sdp"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
     app:cardCornerRadius="@dimen/_18sdp">
 
     <RelativeLayout
-
+        android:padding="@dimen/_8sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
